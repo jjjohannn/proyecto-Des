@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\UsuarioController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +25,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('index', [UsuarioController::class, 'index'])->name('index');
+Route::get('custom-registration', [App\Http\Controllers\HomeController::class, 'customRegistration'])->name('custom-registration');
+Route::post('register.custom', [UsuarioController::class, 'create'])->name('register.custom');
+Route::get('editList', [UsuarioController::class, 'editLista'])->name('editList');
+Route::get('info', [UsuarioController::class, 'info']);

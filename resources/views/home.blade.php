@@ -15,6 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <a class="text" href="{{ route('index') }}">{{ __('Acceder') }}</a>
                 </div>
             </div>
         </div>
