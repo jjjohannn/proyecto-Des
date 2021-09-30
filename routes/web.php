@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\LoginCustomController;
 
 
 
