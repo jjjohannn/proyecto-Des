@@ -33,7 +33,7 @@ class UsuarioController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            //'password' => ['required', 'string', 'min:8', 'confirmed'],
             'rut' => ['required', 'string', 'min:8', 'unique:users', new FormatoRut(), new ValidarRut()],
             'rol' => ['required', 'string'],
         ]);
@@ -52,12 +52,14 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         $checkbox = isset($request['status']) ? 1 : 0;
+        $password = substr(Rut::parse($request['rut'])->number(), 0, 6);
 
         if($checkbox === 1){
             return User::create([
                 'name' => $request['name'],
                 'email' => $request['email'],
-                'password' => Hash::make($request['password']),
+                //'password' => Hash::make($request['password']),
+                'password' => Hash::make($password),
                 'rut' => Rut::parse($request['rut'])->normalize(),
                 'status' => 1,
                 'rol' => $request['rol'],
@@ -67,7 +69,8 @@ class UsuarioController extends Controller
             return User::create([
                 'name' => $request['name'],
                 'email' => $request['email'],
-                'password' => Hash::make($request['password']),
+                //'password' => Hash::make($request['password']),
+                'password' => Hash::make($password),
                 'rut' => Rut::parse($request['rut'])->normalize(),
                 'status' => 0,
                 'rol' => $request['rol'],
