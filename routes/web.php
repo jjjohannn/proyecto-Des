@@ -26,8 +26,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-<<<<<<< HEAD
-=======
 
 Route::get('index', [UsuarioController::class, 'index'])->name('index');
 Route::get('custom-registration', [App\Http\Controllers\HomeController::class, 'customRegistration'])->name('custom-registration');
@@ -35,4 +33,3 @@ Route::post('register.custom', [UsuarioController::class, 'create'])->name('regi
 Route::get('usuario-editList', [UsuarioController::class, 'editLista'])->name('usuario-editList');
 Route::get('usuario-edit', [UsuarioController::class, 'edit'])->name('usuario-edit');
 Route::get('info', [UsuarioController::class, 'info']);
->>>>>>> e95563c711dc270faf150be3592dab67142219f9
