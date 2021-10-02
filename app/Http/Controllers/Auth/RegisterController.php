@@ -5,11 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
-<<<<<<< HEAD
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-=======
 use App\Rules\FormatoRut;
 use App\Rules\ValidarRut;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -17,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Freshwork\ChileanBundle\Rut;
 
->>>>>>> e95563c711dc270faf150be3592dab67142219f9
 
 class RegisterController extends Controller
 {
@@ -63,11 +57,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-<<<<<<< HEAD
-=======
             'rut' => ['required', 'string', 'min:8', 'unique:users', new FormatoRut(), new ValidarRut()],
             'rol' => ['required', 'string'],
->>>>>>> e95563c711dc270faf150be3592dab67142219f9
         ]);
     }
 
@@ -79,13 +70,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-<<<<<<< HEAD
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-=======
         $checkbox = isset($data['status']) ? 1 : 0;
 
         if($checkbox === 1){
@@ -107,6 +91,5 @@ class RegisterController extends Controller
                 'rol' => $data['rol'],
             ]);
         }
->>>>>>> e95563c711dc270faf150be3592dab67142219f9
     }
 }

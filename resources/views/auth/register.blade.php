@@ -40,8 +40,7 @@
                         </div>
 
                         <div class="form-group row">
-<<<<<<< HEAD
-=======
+
                             <label for="rut" class="col-md-4 col-form-label text-md-right">{{ __('Rut') }}</label>
 
                             <div class="col-md-6">
@@ -98,7 +97,6 @@
                         </div>
 
                         <div class="form-group row">
->>>>>>> e95563c711dc270faf150be3592dab67142219f9
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
