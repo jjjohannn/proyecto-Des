@@ -25,9 +25,6 @@ class HomeController extends Controller
     {
         return view('home');
     }
-<<<<<<< HEAD
-=======
-
     public function customRegistration(){
         return view('usuario.register');
     }
@@ -35,5 +32,4 @@ class HomeController extends Controller
     public function customLogin(){
         return view('usuario.login');
     }
->>>>>>> e95563c711dc270faf150be3592dab67142219f9
 }
