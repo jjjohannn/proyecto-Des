@@ -95,9 +95,10 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $users = $this->editor($request);
+        return view('usuario.edit')->with('users', $users);
     }
 
     /**
@@ -132,7 +133,7 @@ class UsuarioController extends Controller
     public function editor(Request $request){
 
         $users = User::where('rut', '=', $request->input('rut'))->first();
-        return view('usuario.edit')->with('users', $users);
+        return $users;
     }
 
 }

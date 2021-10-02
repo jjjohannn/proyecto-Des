@@ -30,5 +30,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('index', [UsuarioController::class, 'index'])->name('index');
 Route::get('custom-registration', [App\Http\Controllers\HomeController::class, 'customRegistration'])->name('custom-registration');
 Route::post('register.custom', [UsuarioController::class, 'create'])->name('register.custom');
-Route::get('editList', [UsuarioController::class, 'editLista'])->name('editList');
+Route::get('usuario-editList', [UsuarioController::class, 'editLista'])->name('usuario-editList');
+Route::get('usuario-edit', [UsuarioController::class, 'edit'])->name('usuario-edit');
 Route::get('info', [UsuarioController::class, 'info']);
