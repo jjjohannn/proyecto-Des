@@ -14,7 +14,6 @@ use Illuminate\Validation\ValidationException;
 
 
 
->>>>>>> e95563c711dc270faf150be3592dab67142219f9
 class LoginController extends Controller
 {
     /*
@@ -37,8 +36,6 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-<<<<<<< HEAD
-=======
     protected function authenticated(Request $request, $user)
     {
         if ($user->status === 0) {
@@ -47,7 +44,6 @@ class LoginController extends Controller
         }
     }
 
->>>>>>> e95563c711dc270faf150be3592dab67142219f9
     /**
      * Create a new controller instance.
      *
@@ -57,12 +53,9 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-<<<<<<< HEAD
-=======
 
     public function username()
     {
         return 'rut';
     }
->>>>>>> e95563c711dc270faf150be3592dab67142219f9
 }
