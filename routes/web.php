@@ -38,4 +38,5 @@ Route::get('info', [UsuarioController::class, 'info']);
 Route::get('carreras',[CarreraController::class,'index'])->name('gestionCarrera');
 Route::get('addCarrera',[CarreraController::class,'create'])->name('agregarCarrera');
 Route::Post('storeCarrera',[CarreraController::class,'store'])->name('guardarCarrera');
+Route::put('actualizarCarrera',[CarreraController::class, 'update'])->name('actualizarCarrera');
 Route::get('editCarrera',[CarreraController::class,'edit'])->name('editarCarrera');

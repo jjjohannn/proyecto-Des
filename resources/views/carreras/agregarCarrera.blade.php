@@ -16,9 +16,9 @@
                         <form id="formulario" method="POST" action="{{ route('guardarCarrera') }}">
                             @csrf
                             <div class="form-group">
-                                <label class="form-control-label">CÓDIGO</label>
-                                <input id="codigo" type="text" class="form-control @error('codigo') is-invalid @enderror"
-                                    name="codigo" value="{{ old('codigo') }}" required autocomplete="codigo" autofocus>
+                            <label class="form-control-label">CÓDIGO</label>
+                            <input value={{$carrera->codigo}} id="codigo" type="text" class="form-control @error('codigo') is-invalid @enderror"
+                                name="codigo" required>
 
                                 @error('codigo')
                                 <span class="invalid-feedback" role="alert">
@@ -40,7 +40,7 @@
 
                             <div class="col-lg-12 py-3">
                                 <div class="col-lg-12 text-center">
-                                    <button type="submit" id="boton" class="btn btn-outline-primary">{{ __('Agregar') }}</button>
+                                    <button type="submit" id="boton" class="btn btn-outline-primary">{{ __('Crear Carrera') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -49,8 +49,32 @@
                 <div class="col-lg-3 col-md-2"></div>
             </div>
         </div>
-
-
+        <script>
+        const button = document.getElementById('boton');
+        const form = document.getElementById('formulario')
+        button.addEventListener('click', function(e){
+            e.preventDefault();
+            Swal.fire({
+                title: 'Estas seguro que quieres crear la carrera?\n Esta acción es irreversible.',
+                showDenyButton: true,
+                showCancelButton: false,
+                icon: 'question',
+                confirmButtonText: 'Crear carrera',
+                denyButtonText: `Cancelar`,
+                }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    Swal.fire('Carrera creada!', '', 'success').then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire('Carrera no creada', '', 'error')
+                }
+            })
+        })
+    </script>
 
 
 @elseif (auth()->user()->rol == 1)

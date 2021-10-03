@@ -43,6 +43,7 @@ class CarreraController extends Controller
     {
         // falta validar
         $request->validate([
+            'nombre' => ['required','min:1'],
             'codigo'=>['required','digits:4','unique:carreras','starts_With:1,2,3,4,5,6,7,8,9','integer'],
         ]);
 
@@ -86,7 +87,9 @@ class CarreraController extends Controller
      */
     public function update(Request $request, Carrera $carrera)
     {
-        //
+        $carrera->nombre = $request->nombre;
+        $carrera->save();
+        return redirect('/carreras');
     }
 
     /**
