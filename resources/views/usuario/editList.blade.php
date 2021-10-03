@@ -41,7 +41,7 @@
                                     @endif
                                 @endforeach
                             </select>
-                            <button>Change</button>
+                            <button type="submit" class="btn btn-primary">Change</button>
                         </form>
                     </div>
                 </div>
