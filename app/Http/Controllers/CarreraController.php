@@ -43,7 +43,7 @@ class CarreraController extends Controller
     {
         // falta validar
         $request->validate([
-            'codigo'=>['required','integer','digits:4','unique:carreras','regex:/^[1-9]{1}/',new CodigoCarrera()],
+            'codigo'=>['required','digits:4','unique:carreras','starts_With:1,2,3,4,5,6,7,8,9','integer'],
         ]);
 
         Carrera::create([

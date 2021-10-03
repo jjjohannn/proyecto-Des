@@ -26,6 +26,9 @@ class CodigoCarrera implements Rule
     public function passes($attribute, $value)
     {
         //
+
+
+
     }
 
     /**
@@ -35,6 +38,6 @@ class CodigoCarrera implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'El codigo no debe comenzar en cero.';
     }
 }
