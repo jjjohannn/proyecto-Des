@@ -20,8 +20,13 @@
                     </div>
 
                     <div class="card-body">
+                        <a class="text" href="{{ route('gestionCarrera') }}">{{ __('Gestionar Carreras') }}</a>
+                    </div>
+
+                    <div class="card-body">
                         <a class="text" href="{{ route('usuario-editList')}}">{{ __('Editar') }}</a>
                     </div>
+
                 </div>
             </div>
 

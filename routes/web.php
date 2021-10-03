@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CarreraController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,3 +34,8 @@ Route::post('register.custom', [UsuarioController::class, 'create'])->name('regi
 Route::get('usuario-editList', [UsuarioController::class, 'editLista'])->name('usuario-editList');
 Route::get('usuario-edit', [UsuarioController::class, 'edit'])->name('usuario-edit');
 Route::get('info', [UsuarioController::class, 'info']);
+
+Route::get('carreras',[CarreraController::class,'index'])->name('gestionCarrera');
+Route::get('addCarrera',[CarreraController::class,'create'])->name('agregarCarrera');
+Route::Post('storeCarrera',[CarreraController::class,'store'])->name('guardarCarrera');
+Route::get('editCarrera',[CarreraController::class,'edit'])->name('editarCarrera');
