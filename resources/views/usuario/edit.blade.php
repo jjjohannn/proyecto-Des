@@ -9,11 +9,11 @@
                 <div class="card-header">{{ __('Menu') }}</div>
 
                 <div class="card-body">
-                    <a class="text" href="">{{ __('Inicio') }}</a>
+                    <a class="text" href={{route('index')}}>{{ __('Inicio') }}</a>
                 </div>
 
                 <div class="card-body">
-                    <a class="text" href="">{{ __('Registrar') }}</a>
+                    <a class="text" href={{route('custom-registration')}}>{{ __('Registrar') }}</a>
                 </div>
 
                 <div class="card-body">

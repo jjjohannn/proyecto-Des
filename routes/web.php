@@ -31,5 +31,8 @@ Route::get('index', [UsuarioController::class, 'index'])->name('index');
 Route::get('custom-registration', [App\Http\Controllers\HomeController::class, 'customRegistration'])->name('custom-registration');
 Route::post('register.custom', [UsuarioController::class, 'create'])->name('register.custom');
 Route::get('usuario-editList', [UsuarioController::class, 'editLista'])->middleware('auth')->name('usuario-editList');
+Route::get('usuario-lista', [UsuarioController::class, 'lista'])->name('usuario-lista');
+Route::get('usuario-cambiarStatus', [UsuarioController::class, 'cambiarStatus'])->name('usuario-cambiarStatus');
 Route::get('usuario-edit', [UsuarioController::class, 'edit'])->name('usuario-edit');
+Route::get('usuario-reinicioContr', [UsuarioController::class, 'reinicioContr'])->name('usuario-reinicioContr');
 Route::get('info', [UsuarioController::class, 'info']);

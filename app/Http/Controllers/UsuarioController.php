@@ -95,9 +95,9 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit(User $users)
     {
-        $users = $this->editor($request);
+        //$users = $this->editor($request);
         return view('usuario.edit')->with('users', $users);
     }
 
@@ -110,7 +110,13 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $usuario = $this->editor($request);
+        if($usuario->status === 0){
+            $usuario->status = 1;
+        }
+        else{
+            $usuario->status = 0;
+        }
     }
 
     /**
@@ -136,4 +142,38 @@ class UsuarioController extends Controller
         return $users;
     }
 
+    public function lista(Request $request){
+
+        if ($request->search == null) {
+            $users = User::simplePaginate(5);
+            return view('usuario.editList')->with('users', $users);
+        }else {
+            $users = User::where('rut', $request->search)->simplePaginate(1);
+            return view('usuario.editList')->with('users', $users);
+        }
+
+    }
+
+    public function cambiarStatus(Request $request){
+
+        $usuario = User::where('id', $request->id)->get()->first();
+        if ($usuario->status === 0) {
+            $usuario->status = 1;
+            $usuario->save();
+            return redirect('/usuario-editList');
+        }else {
+            $usuario->status = 0;
+            $usuario->save();
+            return redirect('/usuario-editList');
+        }
+    }
+
+    public function reinicioContr(Request $request){
+
+        $usuario = User::where('id', $request->id)->get()->first();
+        $password = substr(Rut::parse($usuario['rut'])->number(), 0, 6);
+        $usuario->update(['password' => Hash::make($password)]);
+        return redirect('/usuario-editList');
+
+    }
 }
