@@ -35,6 +35,10 @@ Route::get('usuario-editList', [UsuarioController::class, 'editLista'])->name('u
 Route::get('usuario-edit', [UsuarioController::class, 'edit'])->name('usuario-edit');
 Route::get('info', [UsuarioController::class, 'info']);
 
+
+
+Route::resource('/carreras', CarreraController::class,['middleware'=>'auth']);
+
 Route::get('carreras',[CarreraController::class,'index'])->name('gestionCarrera');
 Route::get('addCarrera',[CarreraController::class,'create'])->name('agregarCarrera');
 Route::Post('storeCarrera',[CarreraController::class,'store'])->name('guardarCarrera');

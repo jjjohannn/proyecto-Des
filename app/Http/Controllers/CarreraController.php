@@ -85,9 +85,12 @@ class CarreraController extends Controller
      * @param  \App\Models\Carrera  $carrera
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Carrera $carrera)
+    public function update(Request $request, $id)
     {
-        $carrera->nombre = $request->nombre;
+
+        $carrera=carrera::find($id);
+        $data=$request->except('codigo');
+        $carrera->update($data);
         $carrera->save();
         return redirect('/carreras');
     }

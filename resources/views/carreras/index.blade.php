@@ -25,7 +25,7 @@
             <tr>
                 <th scope="row">{{$carrera->codigo}}</th>
                 <td>{{$carrera->nombre}}</td>
-                <td><a class="btn btn-info" href={{ route('editarCarrera', [$carrera]) }}>editar</a></td>
+                <td><a class="btn btn-info" href={{ route('carreras.edit', [$carrera]) }}>editar</a></td>
             </tr>
             @endforeach
         </tbody>
