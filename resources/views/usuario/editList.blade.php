@@ -9,15 +9,7 @@
                 <div class="card-header">{{ __('Menu') }}</div>
 
                 <div class="card-body">
-                    <a class="text" href="{{ route('index') }}">{{ __('Inicio') }}</a>
-                </div>
-
-                <div class="card-body">
-                    <a class="text" href="{{ route('custom-registration') }}">{{ __('Registrar') }}</a>
-                </div>
-
-                <div class="card-body">
-                    <a class="text" href="{{ route('usuario-editList')}}">{{ __('Editar') }}</a>
+                    <a class="text" href="{{ route('usuario.index') }}">{{ __('Inicio') }}</a>
                 </div>
             </div>
         </div>
@@ -31,18 +23,28 @@
                     <div class="form-group row">
                         <label for="usuario" class="col-md-4 col-form-label text-md-right">{{ __('Lista de Usuarios') }}</label>
 
-
-                        <form method="GET" action="{{ route('usuario-edit') }}">
-                            @csrf
-                            <select name="rut" required>
-                                @foreach($users as $user)
-                                    @if($user->rol == 1 or $user->rol == 2)
-                                        <option value="{{ $user->rut }}">{{ $user->name }}</option>
-                                    @endif
+                        <table class="table table-white">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%" scope="col">Rut</th>
+                                    <th style="width: 25%" scope="col">Nombre</th>
+                                    <th style="width: 25%" scope="col">Email</th>
+                                    <th style="width: 20%" scope="col">Rol</th>
+                                    <th style="width: 20%" scope="col" colspan="3">Accion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($users as $user)
+                                <tr>
+                                    <th scope="row">{{$user->rut}}</th>
+                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->email}}</td>
+                                    <td>{{$user->rol}}</td>
+                                    <td><a class="btn btn-info" href={{ route('usuario.edit', [$user]) }}>editar</a></td>
+                                </tr>
                                 @endforeach
-                            </select>
-                            <button>Change</button>
-                        </form>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

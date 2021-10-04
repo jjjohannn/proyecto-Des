@@ -12,7 +12,7 @@
                     <div class="card-header">{{ __('Menu') }}</div>
 
                     <div class="card-body">
-                        <a class="text" href="{{ route('index') }}">{{ __('Inicio') }}</a>
+                        <a class="text" href="{{ route('usuario.index') }}">{{ __('Inicio') }}</a>
                     </div>
 
                     <div class="card-body">
@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="card-body">
-                        <a class="text" href="{{ route('usuario-editList')}}">{{ __('Editar') }}</a>
+                        <a class="text" href="{{ route('usuario.editList') }}">{{ __('Editar') }}</a>
                     </div>
                 </div>
             </div>

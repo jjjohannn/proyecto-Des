@@ -9,15 +9,7 @@
                 <div class="card-header">{{ __('Menu') }}</div>
 
                 <div class="card-body">
-                    <a class="text" href="{{ route('index') }}">{{ __('Inicio') }}</a>
-                </div>
-
-                <div class="card-body">
-                    <a class="text" href="{{ route('custom-registration') }}">{{ __('Registrar') }}</a>
-                </div>
-
-                <div class="card-body">
-                    <a class="text" href="{{ route('usuario-editList')}}">{{ __('Editar') }}</a>
+                    <a class="text" href="{{ route('usuario.index') }}">{{ __('Inicio') }}</a>
                 </div>
             </div>
         </div>
@@ -28,7 +20,7 @@
 
                 @include('alerta.flash-message')
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register.custom') }}">
+                    <form method="POST" action="{{ route('usuario.create') }}">
                         @csrf
 
                         <div class="form-group row">

@@ -29,8 +29,4 @@ class HomeController extends Controller
     public function customRegistration(){
         return view('usuario.register');
     }
-
-    public function customLogin(){
-        return view('usuario.login');
-    }
 }

@@ -20,7 +20,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        return view('usuario.index');
+        return view('usuario/index');
     }
 
     /**
@@ -95,10 +95,10 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit($id)
     {
-        $users = $this->editor($request);
-        return view('usuario.edit')->with('users', $users);
+        $user = User::find($id);
+        return view('usuario/edit')->with('user', $user);
     }
 
     /**
@@ -110,7 +110,18 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'rut' => ['required', 'string', 'min:8', 'unique:users', new FormatoRut(), new ValidarRut()],
+            'rol' => ['required', 'string'],
+        ]);
+
+        $user = User::find($id);
+        $data = $request->except('password', 'status');
+        $user->update($data);
+        $user->save();
+        return back()->with('success','Usuario Editado Exitosamente!');
     }
 
     /**
@@ -124,16 +135,16 @@ class UsuarioController extends Controller
         //
     }
 
-    public function editLista(){
-
+    public function editList(){
         $users = User::all();
-        return view('usuario.editList')->with('users', $users);
+        return view('usuario/editList')->with('users', $users);
     }
 
     public function editor(Request $request){
 
-        $users = User::where('rut', '=', $request->input('rut'))->first();
-        return $users;
+        $user = User::where('rut', '=', $request->input('rut'))->first();
+        //dd($user);
+        return $user;
     }
 
 }
