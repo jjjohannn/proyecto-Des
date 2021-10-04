@@ -20,7 +20,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        return view('usuario/index');
+        $users = User::all();
+        return view('usuario/index')->with('users', $users);
     }
 
     /**
