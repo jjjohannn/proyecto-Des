@@ -70,26 +70,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $checkbox = isset($data['status']) ? 1 : 0;
 
-        if($checkbox === 1){
-            return User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'rut' => Rut::parse($data['rut'])->normalize(),
-                'status' => 1,
-                'rol' => $data['rol'],
-            ]);
-        }else{
-            return User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'rut' => Rut::parse($data['rut'])->normalize(),
-                'status' => 0,
-                'rol' => $data['rol'],
-            ]);
-        }
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'rut' => Rut::parse($data['rut'])->normalize(),
+            'status' => 1,
+            'rol' => $data['rol'],
+        ]);
     }
 }

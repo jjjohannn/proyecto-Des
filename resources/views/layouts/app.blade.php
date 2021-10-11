@@ -45,14 +45,25 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
+
                             @endif
 
-                            @if (Route::has('register'))
+                            <!--@if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
-                            @endif
+                            @endif-->
+
+                            <li class="nav-item">
+                                @guest
+                                <a class="nav-link" href="{{ route('guest.index') }}">{{ __('Recuperar') }}</a>
+                                @endguest
+                            </li>
                         @else
+                            @auth
+                            <a class="nav-link" href="{{ route('usuario.recuperarContr', ['id' => Auth::user()]) }}">{{ __('Recuperar') }}</a>
+                            @endauth
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

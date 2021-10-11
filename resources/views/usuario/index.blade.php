@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="card-body">
-                        <a class="text" href="{{ route('usuario.editList') }}">{{ __('Editar') }}</a>
+                        <a class="text" href=" {{ route('usuario.editList') }} ">{{ __('Editar') }}</a>
                     </div>
                 </div>
             </div>
@@ -72,5 +72,11 @@
     <p>Alumno</p>
 
 @endif
+
+@guest
+
+    <p>Invitado</p>
+
+@endguest
 
 @endsection
