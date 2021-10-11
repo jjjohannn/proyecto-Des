@@ -53,12 +53,6 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif-->
-
-                            <li class="nav-item">
-                                @guest
-                                <a class="nav-link" href="{{ route('guest.index') }}">{{ __('Recuperar') }}</a>
-                                @endguest
-                            </li>
                         @else
                             @auth
                             <a class="nav-link" href="{{ route('usuario.recuperarContr', ['id' => Auth::user()]) }}">{{ __('Recuperar') }}</a>
