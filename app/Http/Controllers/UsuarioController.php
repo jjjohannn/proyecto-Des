@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 use App\Rules\FormatoRut;
@@ -182,5 +183,32 @@ class UsuarioController extends Controller
         $usuario = User::where('id', $request->id)->get()->first();
         $password = substr(Rut::parse($usuario['rut'])->number(), 0, 6);
         $usuario->update(['password' => Hash::make($password)]);
+        if($usuario->rol == 0){
+            Auth::logout();
+            return redirect('/home');
+        }else{
+            return redirect('/usuario.editList');
+        }
+    }
+
+    public function nuevaClave(Request $request){
+        $user = Auth::user();
+        $currentUser = User::where('rut', $user->rut)->get()->first();
+        $request->validate(['password' => ['required', 'string', 'min:6', 'confirmed']]);
+        $stringPassword = $request['password'];
+        if(is_numeric($stringPassword)){
+            if (password_verify($request['previous-password'], $currentUser->password)) {
+                $newPassword = $request['password'];
+                $currentUser->update(['password' => Hash::make($newPassword)]);
+                return back()->with('success', 'Cambio Exitoso.');
+            }else{
+                //dd('a');
+                return back()->with('error', 'La clave anterior no coincide con nuestras credenciales.');
+            }
+            dd('e');
+        }else{
+            dd('b');
+            return back()->with('error', 'La nueva clave deben ser dígitos.');
+        }
     }
 }

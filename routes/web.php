@@ -30,13 +30,10 @@ Route::get('usuario.editList', [UsuarioController::class, 'editList'])->name('us
 Route::get('usuario.lista', [UsuarioController::class, 'lista'])->name('usuario.lista');
 Route::get('usuario.cambiarStatus', [UsuarioController::class, 'cambiarStatus'])->name('usuario.cambiarStatus');
 
-Route::get('usuario.reinicioContr', function() {
-    [UsuarioController::class, 'reinicioContr'];
-    return redirect('/usuario.editList');
-})->name('usuario.reinicioContr');
+Route::get('usuario.reinicioContr', [UsuarioController::class, 'reinicioContr'])->name('reinicioContr');
 
-Route::get('usuario.recuperarContr', function(){
-    [UsuarioController::class, 'reinicioContr'];
-    Auth::logout();
-    return view('welcome');
-})->name('usuario.recuperarContr');
+Route::get('usuario.cambiarClave', function(){
+    return view('usuario/changePassword');
+})->name('cambiarClave');
+
+Route::post('usuario.nuevaClave', [UsuarioController::class, 'nuevaClave'])->name('nuevaClave');

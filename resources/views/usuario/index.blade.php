@@ -40,28 +40,8 @@
                     </div>
                 </div>
             </div>
-
-            @if(!empty($users))
-                <input id="noUsers" type="hidden">
-            @endif
-
         </div>
     </div>
-
-    <script>
-        const button = document.getElementById('register');
-        const noUsers = document.getElementById('noUsers');
-        if(noUsers == null){
-            button.addEventListener('click', function(e){
-                e.preventDefault();
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
-                })
-            })
-        }
-    </script>
 
 @elseif (auth()->user()->rol == 1)
 

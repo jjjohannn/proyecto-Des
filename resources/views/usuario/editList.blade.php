@@ -52,7 +52,7 @@
                                 @else
                                     <td><a class="btn btn-info" href={{ route('usuario.cambiarStatus', ['id' => $usuario]) }}>habilitar</a></td>
                                 @endif
-                                <td><a class="btn btn-danger" href={{ route('usuario.reinicioContr', ['id' => $usuario]) }}>reiniciar clave</a></td>
+                                <td><a class="btn btn-danger" href={{ route('reinicioContr', ['id' => $usuario]) }}>reiniciar clave</a></td>
                             </tr>
                             @endforeach
                         </tbody>
