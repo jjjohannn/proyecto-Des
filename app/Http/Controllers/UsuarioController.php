@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Rules\FormatoRut;
 use App\Rules\ValidarRut;
-
+use App\Models\Carrera;
 use Freshwork\ChileanBundle\Rut;
 
 class UsuarioController extends Controller
@@ -20,7 +20,8 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        return view('usuario.index');
+        $carreras = Carrera::all();
+        return view('usuario.index')->with('carreras', $carreras);
     }
 
     /**
@@ -51,6 +52,7 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+
         $checkbox = isset($request['status']) ? 1 : 0;
         $password = substr(Rut::parse($request['rut'])->number(), 0, 6);
 
@@ -63,6 +65,7 @@ class UsuarioController extends Controller
                 'rut' => Rut::parse($request['rut'])->normalize(),
                 'status' => 1,
                 'rol' => $request['rol'],
+                'carrera_id' => $request['carrera'],
             ]);
 
         }else{
@@ -74,6 +77,7 @@ class UsuarioController extends Controller
                 'rut' => Rut::parse($request['rut'])->normalize(),
                 'status' => 0,
                 'rol' => $request['rol'],
+                'carrera_id' => $request['carrera'],
             ]);
         }
     }
@@ -97,8 +101,9 @@ class UsuarioController extends Controller
      */
     public function edit(Request $request)
     {
+        $carrera = Carrera::all();
         $users = $this->editor($request);
-        return view('usuario.edit')->with('users', $users);
+        return view('usuario.edit')->with('users', $users)->with('carreras', $carrera);
     }
 
     /**

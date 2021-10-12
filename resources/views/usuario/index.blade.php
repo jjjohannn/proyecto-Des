@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="card-body">
-                        <a class="text" href="{{ route('custom-registration') }}">{{ __('Registrar') }}</a>
+                        <a class="text" id="errorRegistro" href="{{ route('custom-registration') }}">{{ __('Registrar') }}</a>
                     </div>
 
                     <div class="card-body">
@@ -47,6 +47,10 @@
             </div>
         </div>
     </div>
+    <div>
+    </div>
+
+
 
 @elseif (auth()->user()->rol == 1)
 

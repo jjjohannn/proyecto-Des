@@ -9,15 +9,19 @@ use Illuminate\Http\Request;
 class CarreraController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * En este metodo index se manda la lista de carreras a la vista register.blade.php para poder desplegar la lista de carreras
+     * $carreras almacena todas las carreras creadas en el sistema
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         //
         $carreras = Carrera::all();
-        return view('carreras.index')->with('carreras', $carreras);
+        if($carreras == null){
+            return view('usuario.index');
+        }else{
+            return view('carreras.index')->with('carreras', $carreras);
+        }
     }
 
     /**

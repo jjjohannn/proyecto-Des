@@ -117,20 +117,16 @@
                         <div class="form-group row">
                             <label for="carrera" class="col-md-4 col-form-label text-md-right">{{ __('Carrera') }}</label>
 
-                            <div class="col-md-6">
+                            <form method="GET" action="{{ route('gestionCarrera') }}">
 
-                                <select id="carrera" name="carrera" required>
-                                    <option value="">Seleccione</option>
-                                    <option value="0">Carrera 1</option>
-                                    <option value="1">Carrera 2</option>
-                                    <option value="2">Carrera 3</option>
+                                <select id="carrera" name="carrera" >
+                                    <option value="">Seleccionar carrera</option>
+
+                                    @foreach ($carreras as $carrera)
+                                        <option value="{{ $carrera->id}}">{{ $carrera->nombre}}</option>
+                                    @endforeach
                                 </select>
 
-                                @error('carrera')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
 
                             </div>
                         </div>

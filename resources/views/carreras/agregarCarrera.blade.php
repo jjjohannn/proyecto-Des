@@ -17,7 +17,7 @@
                             @csrf
                             <div class="form-group">
                             <label class="form-control-label">CÓDIGO</label>
-                            <input  id="codigo" type="text" class="form-control @error('codigo') is-invalid @enderror"
+                            <input id="codigo" type="text" class="form-control @error('codigo') is-invalid @enderror"
                                 name="codigo" required>
 
                                 @error('codigo')
