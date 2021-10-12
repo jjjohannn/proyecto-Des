@@ -45,14 +45,14 @@
                                 <th scope="row">{{$usuario->rut}}</th>
                                 <td>{{$usuario->name}}</td>
                                 <td>{{$usuario->email}}</td>
-                                <td>{{$usuario->rol}}</td>
+                                <td>{{$usuario->rol}}</td><!-- TODO: Retornar nombre del rol -->
                                 <td><a class="btn btn-info" href={{ route('usuario.edit', [$usuario]) }}>editar</a></td>
                                 @if ($usuario->status === 1)
                                     <td><a class="btn btn-warning" href={{ route('usuario.cambiarStatus', ['id' => $usuario]) }}>deshabilitar</a></td>
                                 @else
                                     <td><a class="btn btn-info" href={{ route('usuario.cambiarStatus', ['id' => $usuario]) }}>habilitar</a></td>
                                 @endif
-                                <td><a class="btn btn-danger" href={{ route('reinicioContr', ['id' => $usuario]) }}>reiniciar clave</a></td>
+                                <td><a class="btn btn-danger" href={{ route('usuario.reinicioContr', ['id' => $usuario]) }}>reiniciar clave</a></td>
                             </tr>
                             @endforeach
                         </tbody>

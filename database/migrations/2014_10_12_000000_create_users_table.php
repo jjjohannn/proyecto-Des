@@ -24,6 +24,12 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('rol');
             $table->rememberToken();
             $table->timestamps();
+
+            /** Esta es la conexion de la clave foranea entre las carreras y el usuario
+             * se relaciona el id de la carrera con el usuario
+             */
+            $table->unsignedBigInteger("carrera_id")->nullable();
+            $table->foreign("carrera_id")->references("id")->on("carreras");
         });
     }
 

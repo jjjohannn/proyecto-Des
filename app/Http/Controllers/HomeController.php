@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Carrera;
 
 class HomeController extends Controller
 {
@@ -25,8 +26,15 @@ class HomeController extends Controller
     {
         return view('home');
     }
-
     public function customRegistration(){
-        return view('usuario.register');
+        $carrera = Carrera::all();
+        return view('usuario.register')->with('carreras', $carrera);
+
     }
+
+    public function customLogin(){
+        return view('usuario.login');
+    }
+
+
 }

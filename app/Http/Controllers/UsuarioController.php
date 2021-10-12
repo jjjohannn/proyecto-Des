@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Rules\FormatoRut;
 use App\Rules\ValidarRut;
-
+use App\Models\Carrera;
 use Freshwork\ChileanBundle\Rut;
 
 class UsuarioController extends Controller
@@ -21,8 +21,9 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        $carreras = Carrera::all();
         $users = User::all();
-        return view('usuario/index')->with('users', $users);
+        return view('usuario/index')->with('users', $users)->with('carreras', $carreras);
     }
 
     /**
@@ -59,6 +60,7 @@ class UsuarioController extends Controller
             'rut' => Rut::parse($request['rut'])->normalize(),
             'status' => 1,
             'rol' => $request['rol'],
+            'carrera_id' => $request['carrera_id']
         ]);
 
         return back()->with('success','Usuario Creado Exitosamente!');
@@ -83,8 +85,9 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
+        $carreras = Carrera::all();
         $user = User::find($id);
-        return view('usuario/edit')->with('user', $user);
+        return view('usuario/edit')->with('user', $user)->with('carreras', $carreras);
     }
 
     /**
@@ -121,6 +124,14 @@ class UsuarioController extends Controller
             $request->validate(['rol' => ['required', 'string']]);
             $rol = $request['rol'];
             $user->update(['rol' => $rol]);
+            $count++;
+        }
+
+
+        if($request->filled('carrera_id')){
+            $request->validate(['carrera_id' => ['required', 'string']]);
+            $carrera_id = $request['carrera_id'];
+            $user->update(['carrera_id' => $carrera_id]);
             $count++;
         }
 
@@ -171,11 +182,11 @@ class UsuarioController extends Controller
         if ($usuario->status === 0) {
             $usuario->status = 1;
             $usuario->save();
-            return redirect('/usuario.editList');
+            return redirect('/Lista');
         }else {
             $usuario->status = 0;
             $usuario->save();
-            return redirect('/usuario.editList');
+            return redirect('/Lista');
         }
     }
 
@@ -187,7 +198,7 @@ class UsuarioController extends Controller
             Auth::logout();
             return redirect('/home');
         }else{
-            return redirect('/usuario.editList');
+            return redirect('ListaUsuarios');
         }
     }
 
@@ -202,12 +213,9 @@ class UsuarioController extends Controller
                 $currentUser->update(['password' => Hash::make($newPassword)]);
                 return back()->with('success', 'Cambio Exitoso.');
             }else{
-                //dd('a');
                 return back()->with('error', 'La clave anterior no coincide con nuestras credenciales.');
             }
-            dd('e');
         }else{
-            dd('b');
             return back()->with('error', 'La nueva clave deben ser dígitos.');
         }
     }
