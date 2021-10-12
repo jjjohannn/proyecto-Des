@@ -21,7 +21,8 @@ class UsuarioController extends Controller
     public function index()
     {
         $carreras = Carrera::all();
-        return view('usuario.index')->with('carreras', $carreras);
+        $users = User::all();
+        return view('usuario/index')->with('users', $users)->with('carreras', $carreras);
     }
 
     /**
@@ -31,17 +32,7 @@ class UsuarioController extends Controller
      */
     public function create(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            //'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'rut' => ['required', 'string', 'min:8', 'unique:users', new FormatoRut(), new ValidarRut()],
-            'rol' => ['required', 'string'],
-        ]);
 
-        $check = $this->store($request);
-
-        return back()->with('success','Usuario Creado Exitosamente!');
     }
 
     /**
@@ -52,34 +43,25 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'rut' => ['required', 'string', 'min:8', 'unique:users', new FormatoRut(), new ValidarRut()],
+            'rol' => ['required', 'string'],
+        ]);
 
-        $checkbox = isset($request['status']) ? 1 : 0;
         $password = substr(Rut::parse($request['rut'])->number(), 0, 6);
 
-        if($checkbox === 1){
-            return User::create([
-                'name' => $request['name'],
-                'email' => $request['email'],
-                //'password' => Hash::make($request['password']),
-                'password' => Hash::make($password),
-                'rut' => Rut::parse($request['rut'])->normalize(),
-                'status' => 1,
-                'rol' => $request['rol'],
-                'carrera_id' => $request['carrera'],
-            ]);
+        $user = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($password),
+            'rut' => Rut::parse($request['rut'])->normalize(),
+            'status' => 1,
+            'rol' => $request['rol'],
+        ]);
 
-        }else{
-            return User::create([
-                'name' => $request['name'],
-                'email' => $request['email'],
-                //'password' => Hash::make($request['password']),
-                'password' => Hash::make($password),
-                'rut' => Rut::parse($request['rut'])->normalize(),
-                'status' => 0,
-                'rol' => $request['rol'],
-                'carrera_id' => $request['carrera'],
-            ]);
-        }
+        return back()->with('success','Usuario Creado Exitosamente!');
     }
 
     /**
@@ -99,11 +81,11 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit($id)
     {
         $carrera = Carrera::all();
-        $users = $this->editor($request);
-        return view('usuario.edit')->with('users', $users)->with('carreras', $carrera);
+        $user = User::find($id);
+        return view('usuario/edit')->with('user', $user)->with('carreras', $carrera);
     }
 
     /**
@@ -115,7 +97,40 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+
+        $count = 0;
+        if($request->filled('name')){
+            $request->validate(['name' => ['required', 'string', 'max:255']]);
+            $name = $request['name'];
+            $user->update(['name' => $name]);
+            $count++;
+        }
+        if($request->filled('email')){
+            $request->validate(['email' => ['required', 'string', 'email', 'max:255', 'unique:users']]);
+            $email = $request['email'];
+            $user->update(['email' => $email]);
+            $count++;
+        }
+        if($request->filled('rut')){
+            $request->validate(['rut' => ['required', 'string', 'min:8', 'unique:users', new FormatoRut(), new ValidarRut()]]);
+            $rut = $request['rut'];
+            $user->update(['rut' => $rut]);
+            $count++;
+        }
+        if($request->filled('rol')){
+            $request->validate(['rol' => ['required', 'string']]);
+            $rol = $request['rol'];
+            $user->update(['rol' => $rol]);
+            $count++;
+        }
+
+        if($count > 0){
+            $user->save();
+            return back()->with('success','Usuario Editado Exitosamente!');
+        }else{
+            return back()->with('error','Datos no ingresados!');
+        }
     }
 
     /**
@@ -129,16 +144,45 @@ class UsuarioController extends Controller
         //
     }
 
-    public function editLista(){
-
+    public function editList(){
         $users = User::all();
-        return view('usuario.editList')->with('users', $users);
+        return view('usuario/editList')->with('users', $users);
     }
 
     public function editor(Request $request){
-
-        $users = User::where('rut', '=', $request->input('rut'))->first();
-        return $users;
+        $user = User::where('rut', '=', $request->input('rut'))->first();
+        return $user;
     }
 
+    public function lista(Request $request){
+
+        if ($request->search == null) {
+            $users = User::simplePaginate(5);
+            return view('usuario.editList')->with('users', $users);
+        }else {
+            $users = User::where('rut', $request->search)->simplePaginate(1);
+            return view('usuario.editList')->with('users', $users);
+        }
+
+    }
+
+    public function cambiarStatus(Request $request){
+
+        $usuario = User::where('id', $request->id)->get()->first();
+        if ($usuario->status === 0) {
+            $usuario->status = 1;
+            $usuario->save();
+            return redirect('/usuario.editList');
+        }else {
+            $usuario->status = 0;
+            $usuario->save();
+            return redirect('/usuario.editList');
+        }
+    }
+
+    public function reinicioContr(Request $request){
+        $usuario = User::where('id', $request->id)->get()->first();
+        $password = substr(Rut::parse($usuario['rut'])->number(), 0, 6);
+        $usuario->update(['password' => Hash::make($password)]);
+    }
 }

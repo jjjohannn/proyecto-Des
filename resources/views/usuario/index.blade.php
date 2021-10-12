@@ -12,11 +12,11 @@
                     <div class="card-header">{{ __('Menu') }}</div>
 
                     <div class="card-body">
-                        <a class="text" href="{{ route('index') }}">{{ __('Inicio') }}</a>
+                        <a class="text" href="{{ route('usuario.index') }}">{{ __('Inicio') }}</a>
                     </div>
 
                     <div class="card-body">
-                        <a class="text" id="errorRegistro" href="{{ route('custom-registration') }}">{{ __('Registrar') }}</a>
+                        <a class="text"  href="{{ route('custom-registration') }}">{{ __('Registrar') }}</a>
                     </div>
 
                     <div class="card-body">
@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="card-body">
-                        <a class="text" href="{{ route('usuario-editList')}}">{{ __('Editar') }}</a>
+                        <a class="text" href=" {{ route('usuario.editList') }} ">{{ __('Editar') }}</a>
                     </div>
 
                 </div>
@@ -45,12 +45,32 @@
                     </div>
                 </div>
             </div>
+
+            @if(!empty($users))
+                <input id="noUsers" type="hidden">
+            @endif
+
         </div>
     </div>
     <div>
     </div>
 
 
+
+    <script>
+        const button = document.getElementById('register');
+        const noUsers = document.getElementById('noUsers');
+        if(noUsers == null){
+            button.addEventListener('click', function(e){
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+            })
+        }
+    </script>
 
 @elseif (auth()->user()->rol == 1)
 
@@ -61,5 +81,11 @@
     <p>Alumno</p>
 
 @endif
+
+@guest
+
+    <p>Invitado</p>
+
+@endguest
 
 @endsection
