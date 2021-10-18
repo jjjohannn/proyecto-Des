@@ -18,7 +18,7 @@ use App\Http\Controllers\UsuarioController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/auth/login');
 });
 
 Auth::routes();
@@ -30,6 +30,9 @@ Route::resource('usuario', UsuarioController::class,['middleware' => 'auth']);
 Route::get('registro', [App\Http\Controllers\HomeController::class, 'customRegistration'])->name('custom-registration');
 Route::get('ListaUsuarios', [UsuarioController::class, 'editList'])->name('usuario.editList');
 Route::get('Lista', [UsuarioController::class, 'lista'])->name('usuario.lista');
+Route::get('EditarUsuario', function(){
+    return view('usuario/editUser');
+})->name('usuario.editUser');
 Route::get('cambiarStatus', [UsuarioController::class, 'cambiarStatus'])->name('usuario.cambiarStatus');
 Route::get('reinicioClave', [UsuarioController::class, 'reinicioContr'])->name('usuario.reinicioContr');
 Route::post('nuevaClave', [UsuarioController::class, 'nuevaClave'])->name('usuario.nuevaClave');

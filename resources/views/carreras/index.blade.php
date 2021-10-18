@@ -23,8 +23,8 @@
         <tbody>
             @foreach ($carreras as $carrera)
             <tr>
-                <th scope="row">{{$carrera->codigo}}</th>
-                <td>{{$carrera->nombre}}</td>
+                <th scope="row">{{$carrera->codigo}} </th>
+                <td>{{$carrera->nombre}} </td>
                 <td><a class="btn btn-info" href={{ route('carreras.edit', [$carrera]) }}>editar</a></td>
             </tr>
             @endforeach

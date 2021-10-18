@@ -55,10 +55,12 @@
 @elseif (auth()->user()->rol == 1)
 
     <p>eres jefe de carrera</p>
+    <img src="{{url('/Images\WoP.png')}}" alt="Image" />
 
 @elseif (auth()->user()->rol == 2)
 
     <p>Alumno</p>
+    <img src="{{url('/Images\WoP.png')}}" alt="Image" />
 
 @endif
 

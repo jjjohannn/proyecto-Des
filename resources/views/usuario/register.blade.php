@@ -112,7 +112,7 @@
                                 <option value="">Seleccionar carrera</option>
 
                                 @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera->id}}">{{ $carrera->nombre}}</option>
+                                    <option value="{{ $carrera->id}}">{{ $carrera->nombre}} ({{$carrera->codigo}})</option>
                                 @endforeach
                             </select>
                         </div>

@@ -66,6 +66,7 @@
                             </div>
                         </div>
 
+                        @if(!$user->rol == 0)
                         <div class="form-group row">
                             <label for="rol" class="col-md-4 col-form-label text-md-right">{{ __('Rol') }}</label>
 
@@ -92,10 +93,11 @@
                                 <option value="">Seleccionar carrera</option>
 
                                 @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera->id}}">{{ $carrera->nombre}}</option>
+                                    <option value="{{ $carrera->id }}">{{ $carrera->nombre }} ({{$carrera->codigo}})</option>
                                 @endforeach
                             </select>
                         </div>
+                        @endif
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

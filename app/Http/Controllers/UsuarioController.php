@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use App\Rules\FormatoRut;
@@ -50,6 +51,13 @@ class UsuarioController extends Controller
             'rut' => ['required', 'string', 'min:8', 'unique:users', new FormatoRut(), new ValidarRut()],
             'rol' => ['required', 'string'],
         ]);
+
+        if($request['rol'] == 1){
+            $user = User::where('carrera_id', $request['carrera_id']);
+            if($user->where('rol', 1)->first()){
+                return back()->with('error','Un jefe de carrera ya tiene asociado esta carrera');
+            }
+        }
 
         $password = substr(Rut::parse($request['rut'])->number(), 0, 6);
 
@@ -130,9 +138,29 @@ class UsuarioController extends Controller
 
         if($request->filled('carrera_id')){
             $request->validate(['carrera_id' => ['required', 'string']]);
-            $carrera_id = $request['carrera_id'];
-            $user->update(['carrera_id' => $carrera_id]);
-            $count++;
+
+            //TODO: Validar que no haya un jefe de carrera registrado con la id de carrera ingresada en el editar
+            /*if($user->rol == 1){
+                //$a = User::all();
+                //$userExist = User::where('carrera_id', $user['carrera_id'])->where('rol', 1);
+                //if($a->where('carrera_id', '=', $request['carrera_id'])->where('rol', '=', 1)){
+                if(DB::table('users')->where('carrera_id', '=', $request['carrera_id'])->orWhere('rol', '=', 1)){
+                    return back()->with('error', 'Un jefe de carrera ya está asociado a esta carrera');
+                }else{
+                    dd('a');
+                }
+                /*if($userExist->where('rol', 1)->first()){
+                }
+            }*/
+
+            if($user->status !== 0){
+                $carrera_id = $request['carrera_id'];
+                $user->update(['carrera_id' => $carrera_id]);
+                $count++;
+            }else{
+                return back()->with('error', 'Este usuario está deshabilitado');
+            }
+
         }
 
         if($count > 0){
@@ -156,7 +184,7 @@ class UsuarioController extends Controller
 
     public function editList(){
         $users = User::all();
-        return view('usuario/editList')->with('users', $users);
+        return view('usuario/editList');
     }
 
     public function editor(Request $request){
@@ -168,10 +196,10 @@ class UsuarioController extends Controller
 
         if ($request->search == null) {
             $users = User::simplePaginate(5);
-            return view('usuario.editList')->with('users', $users);
+            return view('usuario.editUser')->with('users', $users);
         }else {
             $users = User::where('rut', $request->search)->simplePaginate(1);
-            return view('usuario.editList')->with('users', $users);
+            return view('usuario.editUser')->with('users', $users);
         }
 
     }
@@ -182,11 +210,11 @@ class UsuarioController extends Controller
         if ($usuario->status === 0) {
             $usuario->status = 1;
             $usuario->save();
-            return redirect('/Lista');
+            return back()->with('success', 'Usuario Habilitado exitosamente!');
         }else {
             $usuario->status = 0;
             $usuario->save();
-            return redirect('/Lista');
+            return back()->with('success', 'Usuario Deshabilitado exitosamente!');
         }
     }
 
@@ -198,7 +226,7 @@ class UsuarioController extends Controller
             Auth::logout();
             return redirect('/home');
         }else{
-            return redirect('ListaUsuarios');
+            return back()->with('success', 'Contraseña reestablecida exitosamente!');
         }
     }
 
