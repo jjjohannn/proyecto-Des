@@ -153,6 +153,13 @@ class UsuarioController extends Controller
                 }
             }*/
 
+            if($request['rol'] == 1){
+                $user = User::where('carrera_id', $request['carrera_id']);
+                if($user->where('rol', 1)->first()){
+                    return back()->with('error','Un jefe de carrera ya tiene asociado esta carrera');
+                }
+            }
+
             if($user->status !== 0){
                 $carrera_id = $request['carrera_id'];
                 $user->update(['carrera_id' => $carrera_id]);
