@@ -3,6 +3,11 @@
 @section('content')
 
 @if(auth()->user()->rol == 0)
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{session('success')}}
+        </div>
+    @endif
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-2"></div>
@@ -64,11 +69,8 @@
                 }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    Swal.fire('Carrera creada!', '', 'success').then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit();
-                        }
-                    });
+                    form.submit();
+
                 } else if (result.isDenied) {
                     Swal.fire('Carrera no creada', '', 'error')
                 }
