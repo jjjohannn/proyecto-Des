@@ -44,8 +44,11 @@
                             </div>
 
                             <div class="col-lg-12 py-3">
-                                <div class="col-lg-12 text-center">
+                                <div class="d-grid gap-2">
+
+                                    <a class="btn btn-outline-primary" href="/carreras" role="button">Volver</a>
                                     <button type="submit" id="boton" class="btn btn-outline-primary">{{ __('Crear Carrera') }}</button>
+
                                 </div>
                             </div>
                         </form>
