@@ -153,20 +153,28 @@ class UsuarioController extends Controller
                 }
             }*/
 
-            if($request['rol'] == 1){
+
+
+            /*if($request['rol'] == 1){
                 $user = User::where('carrera_id', $request['carrera_id']);
+                $carreraSelect = Carrera::where('id', $request->carrera_id)->first();
+                foreach($carreraSelect->users()->get() as $usuarioDeLaCarrera){
+
+                }
                 if($user->where('rol', 1)->first()){
                     return back()->with('error','Un jefe de carrera ya tiene asociado esta carrera');
                 }
-            }
+            }*/
 
             if($user->status !== 0){
                 $carrera_id = $request['carrera_id'];
                 $user->update(['carrera_id' => $carrera_id]);
                 $count++;
-            }else{
-                return back()->with('error', 'Este usuario está deshabilitado');
             }
+
+            /*else{
+                return back()->with('error', 'Este usuario está deshabilitado');
+            }*/
 
         }
 
@@ -202,8 +210,7 @@ class UsuarioController extends Controller
     public function lista(Request $request){
 
         if ($request->search == null) {
-            $users = User::simplePaginate(5);
-            return view('usuario.editUser')->with('users', $users);
+            return back()->with('warning', 'No ha ingresado ningun');
         }else {
             $users = User::where('rut', $request->search)->simplePaginate(1);
             return view('usuario.editUser')->with('users', $users);

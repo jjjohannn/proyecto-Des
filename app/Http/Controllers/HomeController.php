@@ -35,6 +35,4 @@ class HomeController extends Controller
     public function customLogin(){
         return view('usuario.login');
     }
-
-
 }

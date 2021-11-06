@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+use App\Rules\FormatoRut;
+
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -34,8 +37,21 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            $this->username() => [new FormatoRut(), 'required', 'string'],
+            'password' => 'required|string',
+        ]);
+    }
+
     protected function authenticated(Request $request, $user)
     {
+        /**
+        *
+        * Este apartado permite denegar el acceso a un usuario deshabilitado
+        *
+        */
         if ($user->status === 0) {
             Auth::logout();
             throw ValidationException::withMessages([$this->username() => __('Usted no está autorizado para acceder al sistema. Contacte al administrador.')]);

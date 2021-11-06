@@ -57,7 +57,7 @@
 <div class="alert alert-danger">
 
     <button type="button" class="close" data-dismiss="alert">×</button>
-    A ocurrido un error
+    Ha ocurrido un error
 
 </div>
 

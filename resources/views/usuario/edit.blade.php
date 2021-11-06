@@ -68,9 +68,20 @@
 
                         @if(!$user->rol == 0)
                         <div class="form-group row">
-                            <label for="rol" class="col-md-4 col-form-label text-md-right">{{ __('Rol') }}</label>
+                            <label for="rol" class="col-md-4 col-form-label text-md-right">{{ __('Rol actual') }}</label>
 
                             <div class="col-md-6">
+
+                                @if($user->rol ==  1)
+
+                                <input type="text" class="form" value="{{ old('rol') }}" placeholder="Jefe de carrera" disabled>
+
+                                @else
+
+                                <input type="text" class="form" value="{{ old('rol') }}" placeholder="Estudiante" disabled>
+
+                                @endif
+
                                 <select id="rol" name="rol">
                                     <option value="">Seleccione</option>
                                     <option value="1">Jefe de Carrera</option>
@@ -87,9 +98,13 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="carrera_id" class="col-md-4 col-form-label text-md-right">{{ __('Carrera') }}</label>
+                            <label for="carrera_id" class="col-md-4 col-form-label text-md-right">{{ __('Carrera actual') }}</label>
+
+                            <input type="text" class="form" placeholder={{ $user->carrera->nombre }} disabled>
+
 
                             <select id="carrera_id" name="carrera_id" >
+
                                 <option value="">Seleccionar carrera</option>
 
                                 @foreach ($carreras as $carrera)
