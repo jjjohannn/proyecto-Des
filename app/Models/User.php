@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'rut',
+        'status',
+        'rol',
+        'carrera_id'
     ];
 
     /**
@@ -41,4 +45,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function carrera(){
+        return $this->belongsTo(Carrera::class);
+    }
 }
