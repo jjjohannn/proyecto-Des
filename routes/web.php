@@ -3,7 +3,7 @@
 use App\Http\Controllers\CarreraController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\UsersImportController;
 use App\Http\Controllers\UsuarioController;
 
 /*
@@ -48,3 +48,7 @@ Route::get('addCarrera',[CarreraController::class,'create'])->name('agregarCarre
 Route::Post('storeCarrera',[CarreraController::class,'store'])->name('guardarCarrera');
 Route::put('actualizarCarrera',[CarreraController::class, 'update'])->name('actualizarCarrera');
 Route::get('editCarrera',[CarreraController::class,'edit'])->name('editarCarrera');
+
+
+Route::get('/users/import', [UsersImportController::class, 'show']);
+Route::post('/users/import', [UsersImportController::class, 'store']);
