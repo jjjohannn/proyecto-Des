@@ -93,7 +93,8 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $carreras = Carrera::all();
+        //$carreras = Carrera::all();
+        $carreras = Carrera::with('users')->get();
         $user = User::find($id);
         return view('usuario/edit')->with('user', $user)->with('carreras', $carreras);
     }
@@ -140,42 +141,12 @@ class UsuarioController extends Controller
             $request->validate(['carrera_id' => ['required', 'string']]);
 
             //TODO: Validar que no haya un jefe de carrera registrado con la id de carrera ingresada en el editar
-            /*if($user->rol == 1){
-                //$a = User::all();
-                //$userExist = User::where('carrera_id', $user['carrera_id'])->where('rol', 1);
-                //if($a->where('carrera_id', '=', $request['carrera_id'])->where('rol', '=', 1)){
-                if(DB::table('users')->where('carrera_id', '=', $request['carrera_id'])->orWhere('rol', '=', 1)){
-                    return back()->with('error', 'Un jefe de carrera ya está asociado a esta carrera');
-                }else{
-                    dd('a');
-                }
-                /*if($userExist->where('rol', 1)->first()){
-                }
-            }*/
-
-
-
-            /*if($request['rol'] == 1){
-                $user = User::where('carrera_id', $request['carrera_id']);
-                $carreraSelect = Carrera::where('id', $request->carrera_id)->first();
-                foreach($carreraSelect->users()->get() as $usuarioDeLaCarrera){
-
-                }
-                if($user->where('rol', 1)->first()){
-                    return back()->with('error','Un jefe de carrera ya tiene asociado esta carrera');
-                }
-            }*/
 
             if($user->status !== 0){
                 $carrera_id = $request['carrera_id'];
                 $user->update(['carrera_id' => $carrera_id]);
                 $count++;
             }
-
-            /*else{
-                return back()->with('error', 'Este usuario está deshabilitado');
-            }*/
-
         }
 
         if($count > 0){

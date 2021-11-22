@@ -127,4 +127,45 @@
         </div>
     </div>
 </div>
+
+<script>
+    const rolSelect = {!! json_encode($user->rol) !!}
+            const carreraSelect = document.getElementById('carrera_id')
+            const optionSelect = document.getElementById("carrera_id").getElementsByTagName("option");
+            const listaCarreras = {!! json_encode($carreras) !!}
+            console.log(listaCarreras);
+            if (listaCarreras.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'No puedes crear usuarios sin tener carreras en el sistema!',
+                    footer: 'Para crear carreras has&nbsp;<a href="/carrera/create">click aca</a>'
+                }).then((result) => {
+                    window.location.href = '/usuario'
+                })
+            }
+            if (rolSelect == 1) {
+                    listaCarreras.forEach(carrera => {
+                        carrera.users.forEach(user => {
+                            if (user.rol == 1) {
+                                for (let i = 0; i < optionSelect.length; i++) {
+                                    if (carrera.id == optionSelect[i].value) {
+                                        optionSelect[i].style.display = "none"
+                                    }
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    listaCarreras.forEach(carrera => {
+                        carrera.users.forEach(user => {
+                            for (let i = 0; i < optionSelect.length; i++) {
+                                if (carrera.id == optionSelect[i].value) {
+                                    optionSelect[i].style.display = "unset"
+                                }
+                            }
+                        });
+                    });
+                }
+</script>
 @endsection
