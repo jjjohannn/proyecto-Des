@@ -83,7 +83,7 @@
                                 @endif
 
                                 <select id="rol" name="rol">
-                                    <option value="">Seleccione</option>
+                                    <option value="">Seleccione Rol</option>
                                     <option value="1">Jefe de Carrera</option>
                                     <option value="2">Estudiante</option>
                                 </select>
@@ -98,19 +98,21 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="carrera_id" class="col-md-4 col-form-label text-md-right">{{ __('Carrera actual') }}</label>
+                            <div class="col-md-12">
+                                <label for="carrera_id" class="col-md-4 col-form-label text-md-right">{{ __('Carrera actual') }}</label>
 
-                            <input type="text" class="form" placeholder={{ $user->carrera->nombre }} disabled>
+                                <input type="text" class="form" placeholder={{ $user->carrera->nombre }} disabled>
 
 
-                            <select id="carrera_id" name="carrera_id" >
+                                <select id="carrera_id" name="carrera_id" style="width: 150px;">
 
-                                <option value="">Seleccionar carrera</option>
+                                    <option value="">Seleccionar carrera</option>
 
-                                @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera->id }}">{{ $carrera->nombre }} ({{$carrera->codigo}})</option>
-                                @endforeach
-                            </select>
+                                    @foreach ($carreras as $carrera)
+                                        <option value="{{ $carrera->id }}">{{ $carrera->nombre }} ({{$carrera->codigo}})</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         @endif
 
