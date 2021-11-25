@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CarreraController;
+use App\Http\Controllers\SolicitudController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,8 +25,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-//USUARIO
+#################################################USUARIO#################################################
 
 //Admin
 Route::middleware(['rutasAdmin'])->group(function () {
@@ -39,13 +39,19 @@ Route::middleware(['rutasAdmin'])->group(function () {
     Route::get('reinicioClave', [UsuarioController::class, 'reinicioContr'])->name('usuario.reinicioContr');
 });
 
+//Alumno
+Route::middleware(['rutasAlumno'])->group(function () {
+    Route::resource('solicitud', SolicitudController::class);
+});
+
 Route::resource('usuario', UsuarioController::class,['middleware' => 'auth']);
 Route::post('nuevaClave', [UsuarioController::class, 'nuevaClave'])->name('usuario.nuevaClave');
 Route::get('cambiarClave', function(){
     return view('usuario/changePassword');
 })->name('cambiarClave');
+##################################################################################################
 
-//CARRERA
+#################################################CARRERA#################################################
 Route::resource('/carreras', CarreraController::class,['middleware'=>'auth']);
 
 Route::get('carreras',[CarreraController::class,'index'])->name('gestionCarrera');

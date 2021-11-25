@@ -66,6 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'rutasJefeCarrera' => \App\Http\Middleware\RutasJefeCarrera::class,
         'rutasAdmin' => \App\Http\Middleware\RutasAdmin::class,
-        'rutasAlumno' => \App\Http\Middleware\RutasAdmin::class,
+        'rutasAlumno' => \App\Http\Middleware\RutasAlumno::class,
     ];
 }
