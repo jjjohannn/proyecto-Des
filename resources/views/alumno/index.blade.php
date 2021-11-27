@@ -62,10 +62,7 @@
                             <td>{{$solicitud->getOriginal()['pivot_id']}}</td>
                             <td>{{$solicitud->getOriginal()['pivot_updated_at']}}</td>
                             <td>{{$solicitud->getOriginal()['tipo']}}</td>
-                            <td><a class="btn btn-info" href={{ route('verSolicitudAlumno',
-                                    ['id'=>$solicitud->getOriginal()['pivot_id'], 'alumno_id' => $user->id])
-                                    }}>Ver</a></td>
-
+                            <td><a class="btn btn-info" href={{ route('verSolicitudAlumno',['id'=>$solicitud->getOriginal()['pivot_id'], 'alumno_id' => $user->id])}}>Ver</a></td>
                         </tr>
                         @empty
                         <tr>

@@ -44,6 +44,16 @@ Route::middleware(['rutasAlumno'])->group(function () {
     Route::resource('solicitud', SolicitudController::class);
 });
 
+//Jefe de Carrera
+Route::middleware(['rutasJefeCarrera'])->group(function () {
+    Route::get('buscar-estudiante', function(){return view('buscar-estudiante.index');})->name('buscarEstudiante');
+    Route::post('alumno',[BuscarEstudianteController::class, 'devolverEstudiante'])->name('postBuscarEstudiante');
+    Route::get('alumno/{id}', [BuscarEstudianteController::class,'mostrarEstudiante'])->name('mostrarEstudiante');
+    Route::get('alumno/{alumno_id}/solicitud/{id}', [BuscarEstudianteController::class, 'verDatosSolicitud'])->name('verSolicitudAlumno');
+    Route::get('resolver', [App\Http\Controllers\ResolverSolicitudController::class, 'index'])->name('resolver');
+});
+
+//General
 Route::resource('usuario', UsuarioController::class,['middleware' => 'auth']);
 Route::post('nuevaClave', [UsuarioController::class, 'nuevaClave'])->name('usuario.nuevaClave');
 Route::get('cambiarClave', function(){

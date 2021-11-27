@@ -8,6 +8,17 @@
             <div class="col-lg-12 login-key">
                 <i class="fas fa-chalkboard-teacher"></i>
             </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col col-1">
+            <div class="row justify-content-center">
+                <a class="btn btn-secondary" href="{{ route('usuario.index') }}" class="btn btn-secondary">Atras</a>
+            </div>
+        </div>
+
+        <div class="col col-10">
             <div class="col-lg-12 login-title">
                 NUEVA SOLICITUD
             </div>
@@ -158,6 +169,8 @@
             <div class="col-lg-3 col-md-2"></div>
         </div>
     </div>
+
+
 </div>
 <script type="text/javascript">
     const selectSolicitud = document.getElementById('tipo');
