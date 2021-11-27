@@ -40,10 +40,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($alumnos as $alumno)
                     <tr>
-                        <!-- Acá debería poder imprimir los datos de cada solicitud -->
-                        <!-- <td>{{$alumno->estado}}</td> -->
+
+                    @forelse ($alumnos as $alumno)
+                        @foreach ($alumno->solicitudes as $solicitud)
+                            <tr>
+                                <td>{{ $solicitud->pivot->created_at }}</td>
+                                <td>{{ $solicitud->pivot->id }}</td>
+                                <td>{{ $alumno->rut }}</td>
+                                <td>{{ $alumno->name }}</td>
+                                <td>{{ $solicitud->tipo }}</td>
+                            </tr>
+                        @endforeach
                     </tr>
                     @empty
                     <tr>
