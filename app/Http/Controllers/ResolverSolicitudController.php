@@ -15,6 +15,8 @@ class ResolverSolicitudController extends Controller
      */
     public function index()
     {
+        $carreraJefeCarrera = Auth::user()->carrera_id;
+        //dd($carreraJefeCarrera);
         $alumnoConSolicitud = User::whereHas(
             'solicitudes', function($q){
                 $q->where('estado', 0);
@@ -22,13 +24,14 @@ class ResolverSolicitudController extends Controller
         )->with('solicitudes')->get();
 
 
+        $aux = 0;
+        foreach($alumnoConSolicitud as $key){
+            if($key->carrera_id == $carreraJefeCarrera){
+                $aux++;
+            }
+        }
 
-        //$alumnoConSolicitud = User::with('solicitudes');
-
-        //$alumno = $alumnoConSolicitud->solicitudes;
-        //dd($alumnoConSolicitud);
-        //$solicitudesAlumno = Auth::user()->solicitudes;
-        return view('solicitud.resolver')->with('alumnos', $alumnoConSolicitud);
+        return view('solicitud.resolver')->with('alumnos', $alumnoConSolicitud)->with('aux', $aux);
     }
 
     /**

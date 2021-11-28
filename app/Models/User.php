@@ -50,6 +50,10 @@ class User extends Authenticatable
         return $this->belongsTo(Carrera::class);
     }
 
+    public function getCarreraId(){
+        return $this->belongsTo(Carrera::class, 'id');
+    }
+
     public function solicitudes(){
         return $this->belongsToMany(Solicitud::class)->withTimestamps()->withPivot('id','telefono' ,'estado', 'NRC', 'nombre_asignatura', 'detalles', 'calificacion_aprob', 'cant_ayudantias', 'tipo_facilidad', 'nombre_profesor', 'archivos');
     }

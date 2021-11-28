@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\BuscarEstudianteController;
 use App\Http\Controllers\CarreraController;
+use App\Http\Controllers\ResolverSolicitudController;
 use App\Http\Controllers\SolicitudController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -49,8 +51,9 @@ Route::middleware(['rutasJefeCarrera'])->group(function () {
     Route::get('buscar-estudiante', function(){return view('buscar-estudiante.index');})->name('buscarEstudiante');
     Route::post('alumno',[BuscarEstudianteController::class, 'devolverEstudiante'])->name('postBuscarEstudiante');
     Route::get('alumno/{id}', [BuscarEstudianteController::class,'mostrarEstudiante'])->name('mostrarEstudiante');
-    Route::get('alumno/{alumno_id}/solicitud/{id}', [BuscarEstudianteController::class, 'verDatosSolicitud'])->name('verSolicitudAlumno');
-    Route::get('resolver', [App\Http\Controllers\ResolverSolicitudController::class, 'index'])->name('resolver');
+    Route::get('alumno/{idAlumno}/solicitud/{idSolicitud}', [BuscarEstudianteController::class, 'verDatosSolicitud'])->name('verSolicitudAlumno');
+    Route::get('resolver', [ResolverSolicitudController::class, 'index'])->name('resolver');
+    Route::get('alumno/{idAlumno}/solicitud/{idSolicitud}', [BuscarEstudianteController::class, 'datos'])->name('informacion');
 });
 
 //General

@@ -35,4 +35,11 @@ class BuscarEstudianteController extends Controller
         $getUser = User::where('id', $id)->firstOrFail()->getSolicitudId($alumno_id)->first();
         return view('datosSolicitud.index')->with('solicitud',$getUser);
     }
+
+    public function datos (String $id, String $alumno_id){
+
+        $getUser = User::where('id', $id)->firstOrFail()->getSolicitudId($alumno_id)->first();
+        $alumno = User::where('id', $id)->first();
+        return view('solicitud/informacion')->with('solicitud',$getUser)->with('alumno', $alumno);
+    }
 }
