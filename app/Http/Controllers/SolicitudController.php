@@ -195,7 +195,9 @@ class SolicitudController extends Controller
      */
     public function edit(Solicitud $solicitud)
     {
-        //
+
+        return view('solicitud/edit')->with('solicitud', $solicitud);
+
     }
 
     /**

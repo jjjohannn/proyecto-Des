@@ -81,7 +81,9 @@
                         @default
 
                         @endswitch
-                        <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="editar" href={{route('solicitud.edit', [$solicitud]) }}><i class="far fa-edit"></i>Ir</a></td>
+                        @if ($solicitud->getOriginal()['pivot_estado'] === 0)
+                            <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="editar" href={{route('solicitud.edit', [$solicitud]) }}><i class="far fa-edit"></i>Ir</a></td>
+                        @endif
                     </tr>
                     @empty
                     <tr>
