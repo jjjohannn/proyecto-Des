@@ -131,8 +131,8 @@ class SolicitudController extends Controller
                     'telefono' => $request->telefono,
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle,
-                    'calificacion_aprob' => $request->calificacion_aprob,
-                    'cant_ayudantias' => $request->cant_ayudantias
+                    'calificacion_aprob' => $request->calificacion,
+                    'cant_ayudantias' => $request->cantidad
                 ]);
                 return redirect('/solicitud');
             break;
@@ -182,9 +182,9 @@ class SolicitudController extends Controller
      * @param  \App\Models\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function show(Solicitud $solicitud)
+    public function show(String $id)
     {
-        //
+
     }
 
     /**
@@ -193,10 +193,12 @@ class SolicitudController extends Controller
      * @param  \App\Models\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function edit(Solicitud $solicitud)
+    public function edit(String $id)
     {
-
-        return view('solicitud/edit')->with('solicitud', $solicitud);
+        $user_id = Auth::user()->id;
+        $user = User::where('id', $user_id)->firstOrFail()->getSolicitudId($id)->first();
+        //dd($user->getOriginal()['tipo']);
+        return view('solicitud/edit')->with('solicitud', $user);
 
     }
 
@@ -207,9 +209,69 @@ class SolicitudController extends Controller
      * @param  \App\Models\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Solicitud $solicitud)
+    public function update(Request $request, String $id)
     {
-        //
+        //dd($request);
+        $id_user = Auth::user()->id;
+        $user = User::where('id','=', $id_user)->first();
+        if($request->filled('telefono')){
+            $request->validate(['telefono' => ['regex:/[0-9]*/','required']]);
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+                'telefono' => $request['telefono']
+            ]);
+        }
+        if ($request->filled('nrc')) {
+            $request->validate(['nrc' => ['required']]);
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+                 'NRC' => $request['nrc']
+            ]);
+        }
+        if ($request->filled('nombre')) {
+            $request->validate(['nombre' => ['required']]);
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+                'nombre_asignatura' => $request['nombre']
+            ]);
+        }
+        if ($request->filled('detalle')) {
+            $request->validate(['detalle' => ['required']]);
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+                'detalles' => $request['detalle']
+            ]);
+        }
+        if($request->filled('calificacion')){
+            $request->validate(['calificacion' => ['required']]);
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+                'calificacion_aprob' => $request['calificacion']
+            ]);
+        }
+        if($request->filled('cantidad')){
+            $request->validate(['cantidad' => ['required']]);
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+                'cant_ayudantias' => $request['cantidad']
+            ]);
+        }
+        if($request->filled('facilidad')){
+            $request->validate(['facilidad' => ['required']]);
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+                'tipo_facilidad' => $request['facilidad']
+            ]);
+        }
+        if($request->filled('profesor')){
+            $request->validate(['profesor' => ['required']]);
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+                'nombre_profesor' => $request['profesor']
+            ]);
+        }
+        if($request->filled('adjunto[]')){
+            $request->validate(['adjunto[]' => ['required']]);
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+                'archivos' => $request['adjunto[]']
+            ]);
+        }
+
+        $user->save();
+        return redirect('/solicitud')->with('success','editado');
+
     }
 
     /**
@@ -222,4 +284,16 @@ class SolicitudController extends Controller
     {
         //
     }
+
+    public function anulacion(Request $request){
+        //dd($request->id);
+        $id_user = Auth::user()->id;
+        $user = User::where('id','=', $id_user)->first();
+        $user->solicitudes()->wherePivot('id', $request->id)->updateExistingPivot(1, [
+            'estado' => 4
+        ]);
+        $user->save();
+        return redirect('/solicitud');
+    }
+
 }
