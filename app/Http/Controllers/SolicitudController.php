@@ -40,64 +40,7 @@ class SolicitudController extends Controller
     public function store(Request $request)
     {
         switch ($request->tipo) {
-            case '1':
-                $request->validate([
-                    'telefono' => ['regex:/[0-9]*/','required'],
-                    'nrc' => ['required'],
-                    'nombre' => ['required'],
-                    'detalle' => ['required']
-                ]);
-
-                $findUser = User::find($request->user);
-
-                $findUser->solicitudes()->attach($request->tipo, [
-                    'telefono' => $request->telefono,
-                    'NRC' => $request->nrc,
-                    'nombre_asignatura' => $request->nombre,
-                    'detalles' => $request->detalle
-                ]);
-                return redirect('/solicitud');
-            break;
-
-            case '2':
-                $request->validate([
-                    'telefono' => ['regex:/[0-9]*/','required'],
-                    'nrc' => ['required'],
-                    'nombre' => ['required'],
-                    'detalle' => ['required']
-                ]);
-
-                $findUser = User::find($request->user);
-
-                $findUser->solicitudes()->attach($request->tipo, [
-                    'telefono' => $request->telefono,
-                    'NRC' => $request->nrc,
-                    'nombre_asignatura' => $request->nombre,
-                    'detalles' => $request->detalle
-                ]);
-                return redirect('/solicitud');
-            break;
-
-            case '3':
-                $request->validate([
-                    'telefono' => ['regex:/[0-9]*/','required'],
-                    'nrc' => ['required'],
-                    'nombre' => ['required'],
-                    'detalle' => ['required']
-                ]);
-
-                $findUser = User::find($request->user);
-
-                $findUser->solicitudes()->attach($request->tipo, [
-                    'telefono' => $request->telefono,
-                    'NRC' => $request->nrc,
-                    'nombre_asignatura' => $request->nombre,
-                    'detalles' => $request->detalle
-                ]);
-                return redirect('/solicitud');
-            break;
-
-            case '4':
+            case '1' and '2' and '3' and '4':
                 $request->validate([
                     'telefono' => ['regex:/[0-9]*/','required'],
                     'nrc' => ['required'],
@@ -214,57 +157,58 @@ class SolicitudController extends Controller
         //dd($request);
         $id_user = Auth::user()->id;
         $user = User::where('id','=', $id_user)->first();
+        $array = [1,2,3,4,5,6];
         if($request->filled('telefono')){
             $request->validate(['telefono' => ['regex:/[0-9]*/','required']]);
-            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
                 'telefono' => $request['telefono']
             ]);
         }
         if ($request->filled('nrc')) {
             $request->validate(['nrc' => ['required']]);
-            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
                  'NRC' => $request['nrc']
             ]);
         }
         if ($request->filled('nombre')) {
             $request->validate(['nombre' => ['required']]);
-            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
                 'nombre_asignatura' => $request['nombre']
             ]);
         }
         if ($request->filled('detalle')) {
             $request->validate(['detalle' => ['required']]);
-            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
                 'detalles' => $request['detalle']
             ]);
         }
         if($request->filled('calificacion')){
             $request->validate(['calificacion' => ['required']]);
-            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
                 'calificacion_aprob' => $request['calificacion']
             ]);
         }
         if($request->filled('cantidad')){
             $request->validate(['cantidad' => ['required']]);
-            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
                 'cant_ayudantias' => $request['cantidad']
             ]);
         }
         if($request->filled('facilidad')){
             $request->validate(['facilidad' => ['required']]);
-            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
                 'tipo_facilidad' => $request['facilidad']
             ]);
         }
         if($request->filled('profesor')){
             $request->validate(['profesor' => ['required']]);
-            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
                 'nombre_profesor' => $request['profesor']
             ]);
         }
         if($request->filled('adjunto[]')){
             $request->validate(['adjunto[]' => ['required']]);
-            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
                 'archivos' => $request['adjunto[]']
             ]);
         }
@@ -288,8 +232,10 @@ class SolicitudController extends Controller
     public function anulacion(Request $request){
         //dd($request->id);
         $id_user = Auth::user()->id;
+        $array = [1,2,3,4,5,6];
         $user = User::where('id','=', $id_user)->first();
-        $user->solicitudes()->wherePivot('id', $request->id)->updateExistingPivot(1, [
+        //dd($array);
+        $user->solicitudes()->wherePivot('id', $request->id)->updateExistingPivot($array, [
             'estado' => 4
         ]);
         $user->save();
