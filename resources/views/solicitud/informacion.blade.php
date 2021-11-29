@@ -5,11 +5,9 @@
     <div class="row justify-content-center">
 
         <div>
-            <div class="card">
-                <div class="card-header">{{ __('Menu') }}</div>
-
-                <div class="card-body">
-                    <a class="text" href="">{{ __('Inicio') }}</a>
+            <div class="col col-1">
+                <div class="row justify-content-center">
+                    <a class="btn btn-secondary" href="{{ route('resolver') }}" class="btn btn-secondary">Atras</a>
                 </div>
             </div>
         </div>
@@ -89,7 +87,7 @@
                         <input id="solicitud" type="text" class="form-control" name="solicitud" value="{{ $solicitud->pivot->id }}" hidden>
                         <input id="alumno" type="text" class="form-control" name="alumno" value="{{ $alumno->id }}" hidden>
 
-                        <button type="submit" class="btn btn-primary me-2">
+                        <button type="submit" class="btn btn-primary me-2" style= "margin: -62px 50px 0 35%">
                             {{ __('Aceptar con obs') }}
                         </button>
                     </form>
@@ -100,7 +98,7 @@
                         <input id="solicitud" type="text" class="form-control" name="solicitud" value="{{ $solicitud->pivot->id }}" hidden>
                         <input id="alumno" type="text" class="form-control" name="alumno" value="{{ $alumno->id }}" hidden>
 
-                        <button type="submit" class="btn btn-danger me-2">
+                        <button type="submit" class="btn btn-danger me-2" style= "margin: -110px 50px 0 88%">
                             {{ __('Rechazar') }}
                         </button>
                     </form>

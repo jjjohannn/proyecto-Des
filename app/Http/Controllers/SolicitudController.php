@@ -42,7 +42,7 @@ class SolicitudController extends Controller
         switch ($request->tipo) {
             case '1':
                 $request->validate([
-                    'telefono' => ['regex:/[0-9]*/','required'],
+                    'telefono' => ['regex:/[0-9]*/', 'integer','required'],
                     'nrc' => ['required'],
                     'nombre' => ['required'],
                     'detalle' => ['required']

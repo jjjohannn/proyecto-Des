@@ -23,7 +23,6 @@ class ResolverSolicitudController extends Controller
             }
         )->with('solicitudes')->get();
 
-
         $aux = 0;
         foreach($alumnoConSolicitud as $key){
             if($key->carrera_id == $carreraJefeCarrera){
@@ -92,7 +91,23 @@ class ResolverSolicitudController extends Controller
                 'estado' => 1
             ]);
             $user->save();
-            return back()->with('success','Usuario Editado Exitosamente!');
+            return back()->with('success','Solicitud Aceptada Exitosamente!');
+        }
+        if($request['value'] == 2){
+            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot(1, [
+                'estado' => 2,
+                'detalles' => $request['nuevo']
+            ]);
+            $user->save();
+            return back()->with('success','Solicitud Aceptada Exitosamente!');
+        }
+        if($request['value'] == 3){
+            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot(1, [
+                'estado' => 3,
+                'detalles' => $request['nuevo']
+            ]);
+            $user->save();
+            return back()->with('error','Solicitud Rechazada Exitosamente!');
         }
     }
 

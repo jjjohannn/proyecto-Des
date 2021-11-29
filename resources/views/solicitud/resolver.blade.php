@@ -17,7 +17,7 @@
             </form>-->
         </div>
         <div class="col col-7">
-            <p class="text-center" style="font-size: x-large">Solicitudes</p>
+            <p class="text-center" style="font-size: x-large">Solicitudes Pendientes</p>
         </div>
     </div>
 
@@ -65,14 +65,16 @@
                     @forelse ($alumnos as $alumno)
                         @if ($alumno->carrera_id == Auth::user()->carrera_id)
                             @foreach ($alumno->solicitudes as $solicitud)
-                                <tr>
-                                    <td>{{ $solicitud->pivot->created_at }}</td>
-                                    <td>{{ $solicitud->pivot->id }}</td>
-                                    <td>{{ $alumno->rut }}</td>
-                                    <td>{{ $alumno->name }}</td>
-                                    <td>{{ $solicitud->tipo }}</td>
-                                    <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ir" href={{ route('informacion', ['idSolicitud'=>$solicitud->getOriginal()['pivot_id'], 'idAlumno'=>$alumno->getOriginal()['id']])}}><i class="far fa-edit"></i>Ir</a></td>
-                                </tr>
+                                @if ($solicitud->pivot->estado == 0)
+                                    <tr>
+                                        <td>{{ $solicitud->pivot->created_at }}</td>
+                                        <td>{{ $solicitud->pivot->id }}</td>
+                                        <td>{{ $alumno->rut }}</td>
+                                        <td>{{ $alumno->name }}</td>
+                                        <td>{{ $solicitud->tipo }}</td>
+                                        <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ir" href={{ route('informacion', ['idSolicitud'=>$solicitud->getOriginal()['pivot_id'], 'idAlumno'=>$alumno->getOriginal()['id']])}}><i class="far fa-edit"></i>Ir</a></td>
+                                    </tr>
+                                @endif
                             @endforeach
                         @endif
                     </tr>
