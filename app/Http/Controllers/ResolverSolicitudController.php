@@ -22,7 +22,9 @@ class ResolverSolicitudController extends Controller
                 $q->where('estado', 0);
             }
         )->with('solicitudes')->get();
-
+        $alumno = User::whereHas(
+            'solicitudes'
+        )->with('solicitudes')->get();
         $aux = 0;
         foreach($alumnoConSolicitud as $key){
             if($key->carrera_id == $carreraJefeCarrera){
@@ -30,7 +32,7 @@ class ResolverSolicitudController extends Controller
             }
         }
 
-        return view('solicitud.resolver')->with('alumnos', $alumnoConSolicitud)->with('aux', $aux);
+        return view('solicitud.resolver')->with('alumnos', $alumno)->with('aux', $aux);
     }
 
     /**
@@ -85,16 +87,17 @@ class ResolverSolicitudController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $array = [1,2,3,4,5,6];
         $user = User::where('id', '=', $request['alumno'])->first();
         if($request['value'] == 1){
-            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 1
             ]);
             $user->save();
             return back()->with('success','Solicitud Aceptada Exitosamente!');
         }
         if($request['value'] == 2){
-            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 2,
                 'detalles' => $request['nuevo']
             ]);
@@ -102,7 +105,7 @@ class ResolverSolicitudController extends Controller
             return back()->with('success','Solicitud Aceptada Exitosamente!');
         }
         if($request['value'] == 3){
-            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 3,
                 'detalles' => $request['nuevo']
             ]);
