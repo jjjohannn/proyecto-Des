@@ -35,10 +35,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-2"></div>
-            </div>
+            <div class="col-lg-3 col-md-2"></div>
         </div>
-
-
-
+    </div>
 @endsection

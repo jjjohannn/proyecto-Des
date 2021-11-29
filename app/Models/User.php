@@ -49,4 +49,16 @@ class User extends Authenticatable
     public function carrera(){
         return $this->belongsTo(Carrera::class);
     }
+
+    public function getCarreraId(){
+        return $this->belongsTo(Carrera::class, 'id');
+    }
+
+    public function solicitudes(){
+        return $this->belongsToMany(Solicitud::class)->withTimestamps()->withPivot('id','telefono' ,'estado', 'NRC', 'nombre_asignatura', 'detalles', 'calificacion_aprob', 'cant_ayudantias', 'tipo_facilidad', 'nombre_profesor', 'archivos');
+    }
+
+    public function getSolicitudId(String $id){
+        return $this->solicitudes()->wherePivot('id', $id)->get();
+    }
 }

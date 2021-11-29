@@ -83,7 +83,7 @@
                                 @endif
 
                                 <select id="rol" name="rol">
-                                    <option value="">Seleccione</option>
+                                    <option value="">Seleccione Rol</option>
                                     <option value="1">Jefe de Carrera</option>
                                     <option value="2">Estudiante</option>
                                 </select>
@@ -98,19 +98,21 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="carrera_id" class="col-md-4 col-form-label text-md-right">{{ __('Carrera actual') }}</label>
+                            <div class="col-md-12">
+                                <label for="carrera_id" class="col-md-4 col-form-label text-md-right">{{ __('Carrera actual') }}</label>
 
-                            <input type="text" class="form" placeholder={{ $user->carrera->nombre }} disabled>
+                                <input type="text" class="form" placeholder={{ $user->carrera->nombre }} disabled>
 
 
-                            <select id="carrera_id" name="carrera_id" >
+                                <select id="carrera_id" name="carrera_id" style="width: 150px;">
 
-                                <option value="">Seleccionar carrera</option>
+                                    <option value="">Seleccionar carrera</option>
 
-                                @foreach ($carreras as $carrera)
-                                    <option value="{{ $carrera->id }}">{{ $carrera->nombre }} ({{$carrera->codigo}})</option>
-                                @endforeach
-                            </select>
+                                    @foreach ($carreras as $carrera)
+                                        <option value="{{ $carrera->id }}">{{ $carrera->nombre }} ({{$carrera->codigo}})</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         @endif
 
@@ -127,4 +129,45 @@
         </div>
     </div>
 </div>
+
+<script>
+    const rolSelect = {!! json_encode($user->rol) !!}
+            const carreraSelect = document.getElementById('carrera_id')
+            const optionSelect = document.getElementById("carrera_id").getElementsByTagName("option");
+            const listaCarreras = {!! json_encode($carreras) !!}
+            console.log(listaCarreras);
+            if (listaCarreras.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'No puedes crear usuarios sin tener carreras en el sistema!',
+                    footer: 'Para crear carreras has&nbsp;<a href="/carrera/create">click aca</a>'
+                }).then((result) => {
+                    window.location.href = '/usuario'
+                })
+            }
+            if (rolSelect == 1) {
+                    listaCarreras.forEach(carrera => {
+                        carrera.users.forEach(user => {
+                            if (user.rol == 1) {
+                                for (let i = 0; i < optionSelect.length; i++) {
+                                    if (carrera.id == optionSelect[i].value) {
+                                        optionSelect[i].style.display = "none"
+                                    }
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    listaCarreras.forEach(carrera => {
+                        carrera.users.forEach(user => {
+                            for (let i = 0; i < optionSelect.length; i++) {
+                                if (carrera.id == optionSelect[i].value) {
+                                    optionSelect[i].style.display = "unset"
+                                }
+                            }
+                        });
+                    });
+                }
+</script>
 @endsection
