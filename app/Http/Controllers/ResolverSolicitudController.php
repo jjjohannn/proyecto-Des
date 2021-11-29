@@ -86,7 +86,14 @@ class ResolverSolicitudController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::where('id', '=', $request['alumno'])->first();
+        if($request['value'] == 1){
+            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot(1, [
+                'estado' => 1
+            ]);
+            $user->save();
+            return back()->with('success','Usuario Editado Exitosamente!');
+        }
     }
 
     /**

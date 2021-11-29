@@ -48,6 +48,7 @@ Route::middleware(['rutasAlumno'])->group(function () {
 
 //Jefe de Carrera
 Route::middleware(['rutasJefeCarrera'])->group(function () {
+    Route::resource('resolverSolicitud', ResolverSolicitudController::class);
     Route::get('buscar-estudiante', function(){return view('buscar-estudiante.index');})->name('buscarEstudiante');
     Route::post('alumno',[BuscarEstudianteController::class, 'devolverEstudiante'])->name('postBuscarEstudiante');
     Route::get('alumno/{id}', [BuscarEstudianteController::class,'mostrarEstudiante'])->name('mostrarEstudiante');

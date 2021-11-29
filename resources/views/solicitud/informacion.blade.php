@@ -35,7 +35,7 @@
                     <div class="form-group row">
                         <label for="rut" class="col-md-4 text-md-right">{{ __('Rut') }}</label>
                         <div>
-                            <i class="text">{{ $alumno->id }}</i>
+                            <i class="text">{{ $alumno->rut }}</i>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -59,6 +59,7 @@
                     <div class="form-group row">
                         <label for="telefono" class="col-md-4 text-md-right">{{ __('Telefono') }}</label>
                         <div>
+                            <i class="text">{{ __('+569') }}</i>
                             <i class="text">{{ $solicitud->pivot->telefono }}</i>
                         </div>
                     </div>
@@ -68,11 +69,41 @@
                             <textarea disabled id="detalle" type="text" class="form-control" name="detalle">{{ $solicitud->pivot->detalles }}</textarea>
                         </div>
                     </div>
-                    <div class="row-md-4 text-md-center">
-                        <a class="btn btn-success me-2" href="" role="button">Aceptar</a>
-                        <a class="btn btn-primary me-2" href="" role="button">Aceptar con obs<i class="fas fa-download"></i></a>
-                        <a class="btn btn-danger me-2"  href="" role="button">Rechazar</a>
-                    </div>
+
+                    <form method="POST" action="{{ route('resolverSolicitud.update', [$solicitud]) }}">
+                        @csrf
+                        @method('PUT')
+                        <input id="value" type="text" class="form-control" name="value" value="1" hidden>
+                        <input id="solicitud" type="text" class="form-control" name="solicitud" value="{{ $solicitud->pivot->id }}" hidden>
+                        <input id="alumno" type="text" class="form-control" name="alumno" value="{{ $alumno->id }}" hidden>
+
+                        <hr noshade="noshade" size="2" width="100%">
+                        <button type="submit" class="btn btn-success me-2">
+                            {{ __('Aceptar') }}
+                        </button>
+                    </form>
+                    <form method="POST" action="{{ route('resolverSolicitud.update', [$solicitud]) }}">
+                        @csrf
+                        @method('PUT')
+                        <input id="value" type="text" class="form-control" name="value" value="2" hidden>
+                        <input id="solicitud" type="text" class="form-control" name="solicitud" value="{{ $solicitud->pivot->id }}" hidden>
+                        <input id="alumno" type="text" class="form-control" name="alumno" value="{{ $alumno->id }}" hidden>
+
+                        <button type="submit" class="btn btn-primary me-2">
+                            {{ __('Aceptar con obs') }}
+                        </button>
+                    </form>
+                    <form method="POST" action="{{ route('resolverSolicitud.update', [$solicitud]) }}">
+                        @csrf
+                        @method('PUT')
+                        <input id="value" type="text" class="form-control" name="value" value="3" hidden>
+                        <input id="solicitud" type="text" class="form-control" name="solicitud" value="{{ $solicitud->pivot->id }}" hidden>
+                        <input id="alumno" type="text" class="form-control" name="alumno" value="{{ $alumno->id }}" hidden>
+
+                        <button type="submit" class="btn btn-danger me-2">
+                            {{ __('Rechazar') }}
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
