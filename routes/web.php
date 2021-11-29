@@ -44,6 +44,7 @@ Route::middleware(['rutasAdmin'])->group(function () {
 //Alumno
 Route::middleware(['rutasAlumno'])->group(function () {
     Route::resource('solicitud', SolicitudController::class);
+    Route::get('anular', [SolicitudController::class,'anulacion'])->name('solicitud.anular');
 });
 
 //Jefe de Carrera

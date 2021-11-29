@@ -40,6 +40,7 @@
                         <th style="width: 30%" scope="col">Tipo Solicitud</th>
                         <th style="width: 20%" scope="col">Estado</th>
                         <th style="width: 10%" scope="col">Editar</th>
+                        <th style="width: 10%" scope="col">Anular</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,11 +78,20 @@
                             </div>
                         </td>
                         @break
-
+                        @case(4)
+                        <td>
+                            <div class="alert alert-danger" role="alert">
+                                Anulada
+                            </div>
+                        </td>
+                        @break
                         @default
 
                         @endswitch
-                        <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="editar" href={{route('solicitud.edit', [$solicitud]) }}><i class="far fa-edit"></i>Ir</a></td>
+                        @if ($solicitud->getOriginal()['pivot_estado'] === 0)
+                            <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="editar" href={{route('solicitud.edit', [$solicitud->pivot->id]) }}><i class="far fa-edit"></i>Ir</a></td>
+                            <td><a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="anular" href={{ route('solicitud.anular', ['id' => $solicitud->pivot->id]) }}>Anular</a></td>
+                        @endif
                     </tr>
                     @empty
                     <tr>
