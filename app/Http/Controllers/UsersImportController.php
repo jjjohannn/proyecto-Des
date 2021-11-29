@@ -14,10 +14,13 @@ class UsersImportController extends Controller
 
     public function store(Request $request)
     {
-        $file = $request->file('file');
+        $file = $request->file('file')->store('import');
+        $import = new UserImport;
+        $import->import($file);
         
-        Excel::import(new UserImport, $file);
-
+        if($import->failures()->isNotEmpty()) return back()->withFailures($import->failures())->withStatus('El archivo contuvo algunos errores, seran descartados y el resto sera importado de todas formas.');
+        
         return back() ->withStatus('Archivo de excel importado de forma satisfactoria.');
     }
+    
 }

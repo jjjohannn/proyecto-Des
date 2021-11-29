@@ -51,4 +51,4 @@ Route::get('editCarrera',[CarreraController::class,'edit'])->name('editarCarrera
 
 
 Route::get('/users/import', [UsersImportController::class, 'show']);
-Route::post('/users/import', [UsersImportController::class, 'store']);
+Route::post('/users/import', [UsersImportController::class, 'store'])->name('cargaMasiva');

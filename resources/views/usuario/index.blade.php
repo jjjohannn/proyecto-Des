@@ -27,6 +27,10 @@
                         <a class="text" href=" {{ route('usuario.editList') }} ">{{ __('Editar') }}</a>
                     </div>
 
+                    <div class="card-body">
+                        <a class="text" href=" {{ route('cargaMasiva') }} ">{{ __('Carga Masiva') }}</a>
+                    </div>
+
                 </div>
             </div>
 
