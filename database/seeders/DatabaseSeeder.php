@@ -22,6 +22,24 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt("191006"),
         ]);
 
+        \App\Models\User::create([
+            'name' => 'Profesor',
+            'email' => 'profesor@ucn.cl',
+            'rut' => '17977139K',
+            'status' => 1,
+            'rol' => 1,
+            'password' => bcrypt("179771"),
+        ]);
+
+        \App\Models\User::create([
+            'name' => 'Alumno',
+            'email' => 'alumno@ucn.cl',
+            'rut' => '113303832',
+            'status' => 1,
+            'rol' => 2,
+            'password' => bcrypt("113303"),
+        ]);
+
         \App\Models\Carrera::create([
             'codigo' => 1234,
             'nombre' => 'Carrera 1',

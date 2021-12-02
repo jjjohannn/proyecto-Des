@@ -24,12 +24,13 @@
             </div>
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
+
                     <form id="formulario" method="POST" action="{{ route('solicitud.store') }}"
                         enctype="multipart/form-data">
                         @csrf
                         <input type="text" name="user" id="user" value={{Auth::user()->id}} hidden>
                         <div class="form-group">
-                            <label for="form-control-label" style="color: white">Tipo Solicitud</label>
+                            <label for="form-control-label" style="color: black">Tipo Solicitud</label>
                             <select class="form-control" name="tipo" id="tipo">
                                 <option value={{ null }}>Seleccione..</option>
                                 <option value="1">Solicitud de Sobrecupo</option>
@@ -145,15 +146,16 @@
                         </div>
 
                         <div class="form-group" id="groupAdjunto" hidden>
+                            @include('alerta.flash-message')
                             <label class="form-control-label">ADJUNTAR ARCHIVO</label>
                             <input id="adjunto" type="file" class="form-control @error('adjunto') is-invalid @enderror"
                                 name="adjunto[]" multiple>
 
-                            @error('adjunto')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                                @foreach($errors->all() as $error)
+                                @if($error=="Only PDF, JPEG, PNG are allowed.")
+                                        <span class="help-block"><strong>{{$error}}</strong></span>
+                                @endif
+                            @endforeach
                         </div>
 
 

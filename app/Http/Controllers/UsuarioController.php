@@ -140,8 +140,6 @@ class UsuarioController extends Controller
         if($request->filled('carrera_id')){
             $request->validate(['carrera_id' => ['required', 'string']]);
 
-            //TODO: Validar que no haya un jefe de carrera registrado con la id de carrera ingresada en el editar
-
             if($user->status !== 0){
                 $carrera_id = $request['carrera_id'];
                 $user->update(['carrera_id' => $carrera_id]);
