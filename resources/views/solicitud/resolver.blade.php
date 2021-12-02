@@ -107,7 +107,6 @@
                                                                 <td>{{ $alumno->rut }}</td>
                                                                 <td>{{ $alumno->name }}</td>
                                                                 <td>{{ $solicitud->tipo }}</td>
-                                                                <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ir" href={{ route('informacion', ['idSolicitud'=>$solicitud->getOriginal()['pivot_id'], 'idAlumno'=>$alumno->getOriginal()['id']])}}><i class="far fa-edit"></i>Ir</a></td>
                                                             </tr>
                                                         @endif
                                                     @endforeach
@@ -146,7 +145,6 @@
                                                                 <td>{{ $alumno->rut }}</td>
                                                                 <td>{{ $alumno->name }}</td>
                                                                 <td>{{ $solicitud->tipo }}</td>
-                                                                <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ir" href={{ route('informacion', ['idSolicitud'=>$solicitud->getOriginal()['pivot_id'], 'idAlumno'=>$alumno->getOriginal()['id']])}}><i class="far fa-edit"></i>Ir</a></td>
                                                             </tr>
                                                         @endif
                                                     @endforeach
@@ -184,7 +182,6 @@
                                                                 <td>{{ $alumno->rut }}</td>
                                                                 <td>{{ $alumno->name }}</td>
                                                                 <td>{{ $solicitud->tipo }}</td>
-                                                                <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ir" href={{ route('informacion', ['idSolicitud'=>$solicitud->getOriginal()['pivot_id'], 'idAlumno'=>$alumno->getOriginal()['id']])}}><i class="far fa-edit"></i>Ir</a></td>
                                                             </tr>
                                                         @endif
                                                     @endforeach

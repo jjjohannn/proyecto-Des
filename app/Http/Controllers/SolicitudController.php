@@ -285,7 +285,7 @@ class SolicitudController extends Controller
         }
 
         $user->save();
-        return redirect('/solicitud')->with('success','editado');
+        return redirect('/solicitud')->with('success','                                                                            Editado.');
 
     }
 

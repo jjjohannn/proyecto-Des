@@ -61,9 +61,9 @@
                 <div class="card">
                     <div class="card-header">{{ __('Menu') }}</div>
 
-                    <div class="card-body">
+                    <!--<div class="card-body">
                         <a class="text" href="{{ route('buscarEstudiante') }}">{{ __('Buscar') }}</a>
-                    </div>
+                    </div>-->
 
                     <div class="card-body">
                         <a class="text" href="{{ route('resolver') }}">{{ __('Resolver Solicitud') }}</a>
