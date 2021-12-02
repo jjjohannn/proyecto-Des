@@ -15,22 +15,38 @@ class ResolverSolicitudController extends Controller
      */
     public function index()
     {
-        $carreraJefeCarrera = Auth::user()->carrera_id;
-        //dd($carreraJefeCarrera);
-        $alumnoConSolicitud = User::whereHas(
-            'solicitudes', function($q){
-                $q->where('estado', 0);
-            }
+        $alumnos = User::whereHas(
+            'solicitudes'
         )->with('solicitudes')->get();
 
-        $aux = 0;
-        foreach($alumnoConSolicitud as $key){
-            if($key->carrera_id == $carreraJefeCarrera){
-                $aux++;
+        $aux_Pendiente = 0;
+        $aux_Aceptada = 0;
+        $aux_Observacion = 0;
+        $aux_Rechazada = 0;
+        $aux_Negada = 0;
+        foreach($alumnos as $alumno){
+            foreach($alumno->solicitudes as $solicitud){
+                if($solicitud->pivot->estado == 0 and $alumno->carrera_id == Auth::user()->carrera_id){
+                   $aux_Pendiente++;
+                }
+                if($solicitud->pivot->estado == 1 and $alumno->carrera_id == Auth::user()->carrera_id){
+                    $aux_Aceptada++;
+                }
+                if($solicitud->pivot->estado == 2 and $alumno->carrera_id == Auth::user()->carrera_id){
+                    $aux_Observacion++;
+                }
+                if($solicitud->pivot->estado == 3 and $alumno->carrera_id == Auth::user()->carrera_id){
+                    $aux_Rechazada++;
+                }
+                if($solicitud->pivot->estado == 4 and $alumno->carrera_id == Auth::user()->carrera_id){
+                    $aux_Negada++;
+                }
             }
         }
 
-        return view('solicitud.resolver')->with('alumnos', $alumnoConSolicitud)->with('aux', $aux);
+        return view('solicitud.resolver')->with('alumnos', $alumnos)->with('aux_Pendiente', $aux_Pendiente)->with('aux_Aceptada', $aux_Aceptada)
+                                        ->with('aux_Observacion', $aux_Observacion)->with('aux_Rechazada', $aux_Rechazada)
+                                        ->with('aux_Negada', $aux_Negada);
     }
 
     /**
@@ -86,25 +102,25 @@ class ResolverSolicitudController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::where('id', '=', $request['alumno'])->first();
+        $array = [1,2,3,4,5,6];
+
         if($request['value'] == 1){
-            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 1
             ]);
             $user->save();
             return back()->with('success','Solicitud Aceptada Exitosamente!');
         }
         if($request['value'] == 2){
-            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 2,
-                'detalles' => $request['nuevo']
             ]);
             $user->save();
             return back()->with('success','Solicitud Aceptada Exitosamente!');
         }
         if($request['value'] == 3){
-            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot(1, [
+            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 3,
-                'detalles' => $request['nuevo']
             ]);
             $user->save();
             return back()->with('error','Solicitud Rechazada Exitosamente!');

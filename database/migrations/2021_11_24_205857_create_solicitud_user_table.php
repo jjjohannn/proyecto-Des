@@ -15,7 +15,7 @@ class CreateSolicitudUserTable extends Migration
     {
         Schema::create('solicitud_user', function (Blueprint $table) {
             $table->id();
-            $table->string('telefono');
+            $table->integer('telefono');
             $table->tinyInteger('estado')->default(0); //0: Pendiente, 1:Aceptada, 2:Aceptada con obs, 3:Rechazada
 
             //columnas para sobrecupo, cambio paralelo, eliminación e inscripción asignatura.

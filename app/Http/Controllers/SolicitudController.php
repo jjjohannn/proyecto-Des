@@ -7,6 +7,9 @@ use App\Models\User;
 use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Rules\Telefono;
+
 
 class SolicitudController extends Controller
 {
@@ -42,7 +45,7 @@ class SolicitudController extends Controller
         switch ($request->tipo) {
             case '1':
                 $request->validate([
-                    'telefono' => ['regex:/[0-9]*/', 'integer','required'],
+                    'telefono' => ['integer','required', new Telefono()],
                     'nrc' => ['required'],
                     'nombre' => ['required'],
                     'detalle' => ['required']
@@ -61,7 +64,7 @@ class SolicitudController extends Controller
 
             case '2':
                 $request->validate([
-                    'telefono' => ['regex:/[0-9]*/','required'],
+                    'telefono' => ['integer','required', new Telefono()],
                     'nrc' => ['required'],
                     'nombre' => ['required'],
                     'detalle' => ['required']
@@ -80,7 +83,7 @@ class SolicitudController extends Controller
 
             case '3':
                 $request->validate([
-                    'telefono' => ['regex:/[0-9]*/','required'],
+                    'telefono' => ['integer','required', new Telefono()],
                     'nrc' => ['required'],
                     'nombre' => ['required'],
                     'detalle' => ['required']
@@ -99,7 +102,7 @@ class SolicitudController extends Controller
 
             case '4':
                 $request->validate([
-                    'telefono' => ['regex:/[0-9]*/','required'],
+                    'telefono' => ['integer','required', new Telefono()],
                     'nrc' => ['required'],
                     'nombre' => ['required'],
                     'detalle' => ['required']
@@ -118,7 +121,7 @@ class SolicitudController extends Controller
 
             case '5':
                 $request->validate([
-                    'telefono' => ['regex:/[0-9]*/','required'],
+                    'telefono' => ['integer','required', new Telefono()],
                     'nombre' => ['required'],
                     'calificacion' => ['required'],
                     'cantidad' => ['required', 'integer'],
@@ -131,43 +134,54 @@ class SolicitudController extends Controller
                     'telefono' => $request->telefono,
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle,
-                    'calificacion_aprob' => $request->calificacion_aprob,
+                    'calificacion' => $request->calificacion_aprob,
                     'cant_ayudantias' => $request->cant_ayudantias
                 ]);
                 return redirect('/solicitud');
             break;
 
             case '6':
-            $request->validate([
-                'telefono' => ['regex:/[0-9]*/','required'],
-                'nombre' => ['required'],
-                'detalle' => ['required'],
-                'facilidad' => ['required'],
-                'profesor' => ['required'],
-                'adjunto.*' => ['mimes:pdf,jpg,jpeg,doc,docx'],
-            ]);
+                $validator = Validator::make($request->all(), [
+                    'telefono' => ['integer','required', new Telefono()],
+                    'nombre' => ['required'],
+                    'detalle' => ['required'],
+                    'facilidad' => ['required'],
+                    'profesor' => ['required'],
+                    'adjunto.*' => ['mimes:pdf|max:3'],
+                ]);
 
-            $findUser = User::find($request->user);
+                if($validator->fails()){
+                    return back()->with('warning','Solo se permiten archivos de tipo pdf.');
+                }
 
-            $aux = 0;
+                $findUser = User::find($request->user);
 
-            foreach ($request->adjunto as $file) {
+                $aux = 0;
 
-                $name = $aux.time().'-'.$findUser->name.'.pdf';
-                $file->move(public_path('\storage\docs'), $name);
-                $datos[] = $name;
-                $aux++;
-            }
+                if($request->adjunto){
+                    foreach ($request->adjunto as $file) {
+                        $name = $aux.time().'-'.$findUser->name.'.pdf';
+                        $file->move(public_path('\storage\docs'), $name);
+                        $datos[] = $name;
+                        $aux++;
+                    }
 
-            $findUser->solicitudes()->attach($request->tipo, [
-                'telefono' => $request->telefono,
-                'nombre_asignatura' => $request->nombre,
-                'detalles' => $request->detalle,
-                'tipo_facilidad' => $request->facilidad,
-                'nombre_profesor' => $request->profesor,
-                'archivos' => json_encode($datos),
-            ]);
-            return redirect('/solicitud');
+                    if($aux > 3){
+                        return back()->with('warning', 'Solo se pueden ingresar hasta 3 archivos.');
+                    }
+                }else{
+                    $datos = NULL;
+                }
+
+                $findUser->solicitudes()->attach($request->tipo, [
+                    'telefono' => $request->telefono,
+                    'nombre_asignatura' => $request->nombre,
+                    'detalles' => $request->detalle,
+                    'tipo_facilidad' => $request->facilidad,
+                    'nombre_profesor' => $request->profesor,
+                    'archivos' => json_encode($datos),
+                ]);
+                return redirect('/solicitud')->with('Success, Se ha generado la solicitud exitosamente!.');
             break;
 
             default:

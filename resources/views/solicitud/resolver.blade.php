@@ -29,50 +29,6 @@
         </div>
 
         <div class="col col-9">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <!--<th style="width: 15%" scope="col">Fecha y hora</th>
-                        <th style="width: 20%" scope="col">Numero Solicitud</th>
-                        <th style="width: 30%" scope="col">Rut Estudiante</th>
-                        <th style="width: 20%" scope="col">Nombre estudiante</th>
-                        <th style="width: 10%" scope="col">Tipo</th>
-                        <th style="width: 10%" scope="col">Resolver</th>-->
-                    </tr>
-                </thead>
-                <tbody>
-                    <!--<tr>
-                    @forelse ($alumnos as $alumno)
-                        @if ($alumno->carrera_id == Auth::user()->carrera_id)
-                            @foreach ($alumno->solicitudes as $solicitud)
-                                @if ($solicitud->pivot->estado == 0)
-                                    <tr>
-                                        <td>{{ $solicitud->pivot->created_at }}</td>
-                                        <td>{{ $solicitud->pivot->id }}</td>
-                                        <td>{{ $alumno->rut }}</td>
-                                        <td>{{ $alumno->name }}</td>
-                                        <td>{{ $solicitud->tipo }}</td>
-                                        <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ir" href={{ route('informacion', ['idSolicitud'=>$solicitud->getOriginal()['pivot_id'], 'idAlumno'=>$alumno->getOriginal()['id']])}}><i class="far fa-edit"></i>Ir</a></td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        @endif
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="4">
-                            <p>No hay solicitudes por resolver</p>
-                        </td>
-                    </tr>
-                    @endforelse
-                    @if ($aux == 0)
-                        <td colspan="4">
-                            <p>No hay solicitudes por resolver</p>
-                        </td>
-                    @endif-->
-                </tbody>
-            </table>
-
             <section id="tabs" class="project-tab">
                 <div class="container">
                     <div class="row">
@@ -87,7 +43,9 @@
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
+
                                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                    @if ($aux_Pendiente > 0)
                                     <table class="table" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -102,9 +60,8 @@
                                         <tbody>
                                             <tr>
                                                 @forelse ($alumnos as $alumno)
-                                                @if ($alumno->carrera_id == Auth::user()->carrera_id)
                                                     @foreach ($alumno->solicitudes as $solicitud)
-                                                        @if ($solicitud->pivot->estado == 0)
+                                                        @if ($solicitud->pivot->estado == 0 and $alumno->carrera_id == Auth::user()->carrera_id)
                                                             <tr>
                                                                 <td>{{ $solicitud->pivot->created_at }}</td>
                                                                 <td>{{ $solicitud->pivot->id }}</td>
@@ -115,24 +72,20 @@
                                                             </tr>
                                                         @endif
                                                     @endforeach
-                                                @endif
+                                                @empty
+
+                                                @endforelse
                                             </tr>
-                                            @empty
-                                            <tr>
-                                                <td colspan="4">
-                                                    <p>No hay solicitudes por resolver</p>
-                                                </td>
-                                            </tr>
-                                            @endforelse
-                                            @if ($aux == 0)
-                                                <td colspan="4">
-                                                    <p>No hay solicitudes por resolver</p>
-                                                </td>
-                                            @endif
                                         </tbody>
                                     </table>
+                                    @else
+                                    <p>No hay solicitudes por resolver</p>
+                                    @endif
                                 </div>
+
+
                                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                    @if ($aux_Aceptada > 0)
                                     <table class="table" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -144,37 +97,34 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($alumnos as $alumno)
-                                            @if ($alumno->carrera_id == Auth::user()->carrera_id)
-                                                @foreach ($alumno->solicitudes as $solicitud)
-                                                    @if ($solicitud->pivot->estado == 1)
-                                                        <tr>
-                                                            <td>{{ $solicitud->pivot->created_at }}</td>
-                                                            <td>{{ $solicitud->pivot->id }}</td>
-                                                            <td>{{ $alumno->rut }}</td>
-                                                            <td>{{ $alumno->name }}</td>
-                                                            <td>{{ $solicitud->tipo }}</td>
-                                                        </tr>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="4">
-                                                <p>No hay solicitudes por resolver</p>
-                                            </td>
-                                        </tr>
-                                        @endforelse
-                                        @if ($aux == 0)
-                                            <td colspan="4">
-                                                <p>No hay solicitudes por resolver</p>
-                                            </td>
-                                        @endif
+                                            <tr>
+                                                @forelse ($alumnos as $alumno)
+                                                    @foreach ($alumno->solicitudes as $solicitud)
+                                                        @if ($solicitud->pivot->estado == 1 and $alumno->carrera_id == Auth::user()->carrera_id)
+                                                            <tr>
+                                                                <td>{{ $solicitud->pivot->created_at }}</td>
+                                                                <td>{{ $solicitud->pivot->id }}</td>
+                                                                <td>{{ $alumno->rut }}</td>
+                                                                <td>{{ $alumno->name }}</td>
+                                                                <td>{{ $solicitud->tipo }}</td>
+                                                                <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ir" href={{ route('informacion', ['idSolicitud'=>$solicitud->getOriginal()['pivot_id'], 'idAlumno'=>$alumno->getOriginal()['id']])}}><i class="far fa-edit"></i>Ir</a></td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                @empty
+
+                                                @endforelse
+                                            </tr>
+                                            </tr>
                                         </tbody>
                                     </table>
+                                    @else
+                                    <p>No hay solicitudes por resolver</p>
+                                    @endif
                                 </div>
+
                                 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                    @if ($aux_Observacion > 0)
                                     <table class="table" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -186,37 +136,33 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($alumnos as $alumno)
-                                            @if ($alumno->carrera_id == Auth::user()->carrera_id)
-                                                @foreach ($alumno->solicitudes as $solicitud)
-                                                    @if ($solicitud->pivot->estado == 2)
-                                                        <tr>
-                                                            <td>{{ $solicitud->pivot->created_at }}</td>
-                                                            <td>{{ $solicitud->pivot->id }}</td>
-                                                            <td>{{ $alumno->rut }}</td>
-                                                            <td>{{ $alumno->name }}</td>
-                                                            <td>{{ $solicitud->tipo }}</td>
-                                                        </tr>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="4">
-                                                <p>No hay solicitudes por resolver</p>
-                                            </td>
-                                        </tr>
-                                        @endforelse
-                                        @if ($aux == 0)
-                                            <td colspan="4">
-                                                <p>No hay solicitudes por resolver</p>
-                                            </td>
-                                        @endif
+                                            <tr>
+                                                @forelse ($alumnos as $alumno)
+                                                    @foreach ($alumno->solicitudes as $solicitud)
+                                                        @if ($solicitud->pivot->estado == 2 and $alumno->carrera_id == Auth::user()->carrera_id)
+                                                            <tr>
+                                                                <td>{{ $solicitud->pivot->created_at }}</td>
+                                                                <td>{{ $solicitud->pivot->id }}</td>
+                                                                <td>{{ $alumno->rut }}</td>
+                                                                <td>{{ $alumno->name }}</td>
+                                                                <td>{{ $solicitud->tipo }}</td>
+                                                                <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ir" href={{ route('informacion', ['idSolicitud'=>$solicitud->getOriginal()['pivot_id'], 'idAlumno'=>$alumno->getOriginal()['id']])}}><i class="far fa-edit"></i>Ir</a></td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                @empty
+
+                                                @endforelse
+                                            </tr>
                                         </tbody>
                                     </table>
+                                    @else
+                                    <p>No hay solicitudes por resolver</p>
+                                    @endif
                                 </div>
+
                                 <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+                                    @if ($aux_Rechazada > 0)
                                     <table class="table" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -228,37 +174,34 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($alumnos as $alumno)
-                                            @if ($alumno->carrera_id == Auth::user()->carrera_id)
-                                                @foreach ($alumno->solicitudes as $solicitud)
-                                                    @if ($solicitud->pivot->estado == 3)
-                                                        <tr>
-                                                            <td>{{ $solicitud->pivot->created_at }}</td>
-                                                            <td>{{ $solicitud->pivot->id }}</td>
-                                                            <td>{{ $alumno->rut }}</td>
-                                                            <td>{{ $alumno->name }}</td>
-                                                            <td>{{ $solicitud->tipo }}</td>
-                                                        </tr>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="4">
-                                                <p>No hay solicitudes por resolver</p>
-                                            </td>
-                                        </tr>
-                                        @endforelse
-                                        @if ($aux == 0)
-                                            <td colspan="4">
-                                                <p>No hay solicitudes por resolver</p>
-                                            </td>
-                                        @endif
+                                            <tr>
+                                                @forelse ($alumnos as $alumno)
+                                                    @foreach ($alumno->solicitudes as $solicitud)
+                                                        @if ($solicitud->pivot->estado == 3 and $alumno->carrera_id == Auth::user()->carrera_id)
+                                                            <tr>
+                                                                <td>{{ $solicitud->pivot->created_at }}</td>
+                                                                <td>{{ $solicitud->pivot->id }}</td>
+                                                                <td>{{ $alumno->rut }}</td>
+                                                                <td>{{ $alumno->name }}</td>
+                                                                <td>{{ $solicitud->tipo }}</td>
+                                                                <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ir" href={{ route('informacion', ['idSolicitud'=>$solicitud->getOriginal()['pivot_id'], 'idAlumno'=>$alumno->getOriginal()['id']])}}><i class="far fa-edit"></i>Ir</a></td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                @empty
+
+                                                @endforelse
+                                            </tr>
                                         </tbody>
                                     </table>
+                                    @else
+                                    <p>No hay solicitudes por resolver</p>
+                                    @endif
                                 </div>
+
                                 <div class="tab-pane fade" id="nav-a" role="tabpanel" aria-labelledby="nav-a-tab">
+                                    @if ($aux_Negada > 0)
+
                                     <table class="table" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -273,7 +216,7 @@
                                             @forelse ($alumnos as $alumno)
                                             @if ($alumno->carrera_id == Auth::user()->carrera_id)
                                                 @foreach ($alumno->solicitudes as $solicitud)
-                                                    @if ($solicitud->pivot->estado == 4)
+                                                    @if ($solicitud->pivot->estado == 4 and $alumno->carrera_id == Auth::user()->carrera_id)
                                                         <tr>
                                                             <td>{{ $solicitud->pivot->created_at }}</td>
                                                             <td>{{ $solicitud->pivot->id }}</td>
@@ -292,13 +235,11 @@
                                             </td>
                                         </tr>
                                         @endforelse
-                                        @if ($aux == 0)
-                                            <td colspan="4">
-                                                <p>No hay solicitudes por resolver</p>
-                                            </td>
-                                        @endif
                                         </tbody>
                                     </table>
+                                    @else
+                                    <p>No hay solicitudes por resolver</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
