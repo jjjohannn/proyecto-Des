@@ -18,19 +18,6 @@ class ResolverSolicitudController extends Controller
         $alumnos = User::whereHas(
             'solicitudes'
         )->with('solicitudes')->get();
-<<<<<<< HEAD
-        $alumno = User::whereHas(
-            'solicitudes'
-        )->with('solicitudes')->get();
-        $aux = 0;
-        foreach($alumnoConSolicitud as $key){
-            if($key->carrera_id == $carreraJefeCarrera){
-                $aux++;
-            }
-        }
-
-        return view('solicitud.resolver')->with('alumnos', $alumno)->with('aux', $aux);
-=======
 
         $aux_Pendiente = 0;
         $aux_Aceptada = 0;
@@ -60,7 +47,6 @@ class ResolverSolicitudController extends Controller
         return view('solicitud.resolver')->with('alumnos', $alumnos)->with('aux_Pendiente', $aux_Pendiente)->with('aux_Aceptada', $aux_Aceptada)
                                         ->with('aux_Observacion', $aux_Observacion)->with('aux_Rechazada', $aux_Rechazada)
                                         ->with('aux_Negada', $aux_Negada);
->>>>>>> origin/diegoVera
     }
 
     /**

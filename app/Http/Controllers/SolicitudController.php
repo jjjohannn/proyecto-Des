@@ -134,13 +134,8 @@ class SolicitudController extends Controller
                     'telefono' => $request->telefono,
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle,
-<<<<<<< HEAD
                     'calificacion_aprob' => $request->calificacion,
                     'cant_ayudantias' => $request->cantidad
-=======
-                    'calificacion' => $request->calificacion_aprob,
-                    'cant_ayudantias' => $request->cant_ayudantias
->>>>>>> origin/diegoVera
                 ]);
                 return redirect('/solicitud');
             break;
