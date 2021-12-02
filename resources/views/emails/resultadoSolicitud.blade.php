@@ -8,6 +8,9 @@
 </head>
 <body>
     <h1>Resultado de su solicitud</h1>
-    <p>Su solicitud fue: aaaaaaaaaaaa</p>
+    <p>Su solicitud número: {{$Numero}}</p>
+    <p>Tipo de la solicitud: {{$Tipo}}</p>
+    <p>Ha sido: {{$Resultado}} </p>
+    <p>Comentarios: </p>
 </body>
 </html>

@@ -22,9 +22,11 @@ class ResolverSolicitudMailable extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($solicitud, $resultado)
     {
-        //
+        $this->solicitud_id = $solicitud->id;
+        $this->solicitud_tipo = $solicitud->tipo;
+        $this->resultado = $resultado;
     }
 
     /**
@@ -34,6 +36,10 @@ class ResolverSolicitudMailable extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.resultadoSolicitud');
+        return $this->view('emails.resultadoSolicitud')->with([
+            'Numero' => $this->solicitud_id,
+            'Tipo' => $this->solicitud_tipo,
+            'Resultado' => $this->resultado,
+        ]);
     }
 }
