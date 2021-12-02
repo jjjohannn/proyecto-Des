@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UsersImportController;
 use App\Http\Controllers\UsuarioController;
-
+use App\Mail\ResolverSolicitudMailable;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,3 +79,5 @@ Route::get('editCarrera',[CarreraController::class,'edit'])->name('editarCarrera
 
 Route::get('/users/import', [UsersImportController::class, 'show']);
 Route::post('/users/import', [UsersImportController::class, 'store'])->name('cargaMasiva');
+
+

@@ -19,6 +19,7 @@
         </div>
 
         <div class="col col-10">
+            @include('alerta.flash-message')
             <div class="col-lg-12 login-title">
                 NUEVA SOLICITUD
             </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Mail\ResolverSolicitudMailable;
+use Illuminate\Support\Facades\Mail;
 
 class ResolverSolicitudController extends Controller
 {
@@ -31,6 +33,10 @@ class ResolverSolicitudController extends Controller
                 $aux++;
             }
         }
+
+        $correo = new ResolverSolicitudMailable;
+        Mail::to('edgardo.ortiz@alumnos.ucn.cl')->send($correo);
+
 
         return view('solicitud.resolver')->with('alumnos', $alumno)->with('aux', $aux);
     }
@@ -94,7 +100,7 @@ class ResolverSolicitudController extends Controller
                 'estado' => 1
             ]);
             $user->save();
-            return back()->with('success','Solicitud Aceptada Exitosamente!');
+            return redirect('/resolver')->with('success','Solicitud Aceptada Exitosamente!');
         }
         if($request['value'] == 2){
             $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
