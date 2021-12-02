@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Mail\ResolverSolicitudMailable;
+use Illuminate\Support\Facades\Mail;
 
 class ResolverSolicitudController extends Controller
 {
@@ -102,28 +104,33 @@ class ResolverSolicitudController extends Controller
     public function update(Request $request, $id)
     {
         $array = [1,2,3,4,5,6];
-        $user = User::where('id', '=', $request['alumno'])->first();
-        $array = [1,2,3,4,5,6];
+        $usuario = User::where('id', '=', $request['alumno'])->first();
+        $solicitud = User::where('id', $request['alumno'])->firstOrFail()->getSolicitudId($request['solicitud'])->first();
 
         if($request['value'] == 1){
-            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
+            $resultado = "Aceptada";
+            $usuario->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 1
             ]);
-            $user->save();
-            return back()->with('success','Solicitud Aceptada Exitosamente!');
+            $usuario->save();
+
+            Mail::to($usuario)->send(new ResolverSolicitudMailable($solicitud, $resultado));
+            return redirect('/resolver')->with('success','Solicitud Aceptada Exitosamente!');
         }
         if($request['value'] == 2){
-            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
+            $resultado = "Aceptada con observación";
+            $usuario->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 2,
             ]);
-            $user->save();
+            $usuario->save();
             return back()->with('success','Solicitud Aceptada Exitosamente!');
         }
         if($request['value'] == 3){
-            $user->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
+            $resultado = "Rechazada";
+            $usuario->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 3,
             ]);
-            $user->save();
+            $usuario->save();
             return back()->with('error','Solicitud Rechazada Exitosamente!');
         }
     }
