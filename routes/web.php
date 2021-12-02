@@ -39,6 +39,9 @@ Route::middleware(['rutasAdmin'])->group(function () {
     })->name('usuario.editUser');
     Route::get('cambiarStatus', [UsuarioController::class, 'cambiarStatus'])->name('usuario.cambiarStatus');
     Route::get('reinicioClave', [UsuarioController::class, 'reinicioContr'])->name('usuario.reinicioContr');
+    Route::get('/users/import', [UsersImportController::class, 'show']);
+    Route::post('/users/import', [UsersImportController::class, 'store'])->name('cargaMasiva');
+
 });
 
 //Alumno
@@ -75,6 +78,3 @@ Route::Post('storeCarrera',[CarreraController::class,'store'])->name('guardarCar
 Route::put('actualizarCarrera',[CarreraController::class, 'update'])->name('actualizarCarrera');
 Route::get('editCarrera',[CarreraController::class,'edit'])->name('editarCarrera');
 
-
-Route::get('/users/import', [UsersImportController::class, 'show']);
-Route::post('/users/import', [UsersImportController::class, 'store'])->name('cargaMasiva');
