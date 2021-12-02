@@ -153,7 +153,7 @@
                                 name="adjunto[]" multiple>
 
                                 @foreach($errors->all() as $error)
-                                @if($error=="Only PDF, JPEG, PNG are allowed.")
+                                @if($error=="Solo pdf permitido.")
                                         <span class="help-block"><strong>{{$error}}</strong></span>
                                 @endif
                             @endforeach

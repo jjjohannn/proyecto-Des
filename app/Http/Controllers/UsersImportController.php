@@ -14,6 +14,9 @@ class UsersImportController extends Controller
 
     public function store(Request $request)
     {
+        if($request->file('file') == NULL){
+            return back()->with('warning', 'Archivos no detectados.');
+        }
         $file = $request->file('file')->store('import');
         $import = new UserImport;
         $import->import($file);
