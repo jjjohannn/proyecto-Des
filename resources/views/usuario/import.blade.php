@@ -42,6 +42,15 @@
                                 {{ session('status') }}
                             </div>
                         @endif
+                        <form action="/users/import" method="post" enctype="multipart/form-data" >
+                            @csrf
+
+                            <div class="form-group">
+                                <input type="file" name="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+
+                                <button type="submit" class="btn btn-primary">Importar</button>
+                            </div>
+                        </form>
  
                         @if (isset($errors) && $errors->any())
                             <div class="alert alert-danger">
@@ -79,15 +88,22 @@
                             </table>
                         @endif
 
-                        <form action="/users/import" method="post" enctype="multipart/form-data" >
-                            @csrf
-
-                            <div class="form-group">
-                                <input type="file" name="file" />
-
-                                <button type="submit" class="btn btn-primary">Importar</button>
-                            </div>
-                        </form>
+                        @if (session()->has('importedUsers'))
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Rut</th>
+                                    <th>Correo</th>
+                                </tr>
+                                @foreach (session()->get('importedUsers') as $userImported)
+                                <tr>
+                                    <td>{{$userImported['nombre']}}</td>
+                                    <td>{{$userImported['rut']}}</td>
+                                    <td>{{$userImported['correo']}}</td>
+                                @endforeach
+                            </table>
+                            
+                        @endif
                     </div>
                 </div>
             </div>
