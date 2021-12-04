@@ -30,7 +30,7 @@ class UsersImportController extends Controller
         {
             return back()->withErrors('Porfavor solo archivos excel');
         }
-        
+    
         $import = new UserImport;
         $import->import($file);
         $importedUsers = $import->getImported();

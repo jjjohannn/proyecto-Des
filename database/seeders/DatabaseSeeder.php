@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::create([
             'name' => 'Alumno',
-            'email' => 'diego.vera@alumnos.ucn.cl',
+            'email' => 'alumno@.ucn.cl',
             'rut' => '113303832',
             'status' => 1,
             'rol' => 2,
@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Carrera::create([
             'codigo' => 2323,
-            'nombre' => 'Carrera 1',
+            'nombre' => 'Carrera 2',
         ]);
 
         \App\Models\Carrera::create([

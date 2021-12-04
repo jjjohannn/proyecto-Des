@@ -14,7 +14,6 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
                     <a class="text" href="{{ route('usuario.index') }}">{{ __('Acceder') }}</a>
                 </div>
             </div>

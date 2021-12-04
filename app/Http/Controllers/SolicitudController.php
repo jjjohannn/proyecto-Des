@@ -147,7 +147,7 @@ class SolicitudController extends Controller
                     'detalle' => ['required'],
                     'facilidad' => ['required'],
                     'profesor' => ['required'],
-                    'adjunto.*' => ['mimes:pdf|max:3'],
+                    'adjunto.*' => ['mimes:pdf'],
                 ]);
 
                 if($validator->fails()){
@@ -157,7 +157,6 @@ class SolicitudController extends Controller
                 $findUser = User::find($request->user);
 
                 $aux = 0;
-
                 if($request->adjunto){
                     foreach ($request->adjunto as $file) {
                         $name = $aux.time().'-'.$findUser->name.'.pdf';
@@ -285,7 +284,7 @@ class SolicitudController extends Controller
         }
 
         $user->save();
-        return redirect('/solicitud')->with('success','                                                                            Editado.');
+        return redirect('/solicitud')->with('success','Editado.');
 
     }
 

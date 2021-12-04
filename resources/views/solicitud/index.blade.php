@@ -9,13 +9,13 @@
 @endif
 <div class="container">
     <div class="row mb-4">
-        <div class="col col-3">
+        <!--<div class="col col-3">
             <form class="form-inline my-2 my-lg-0" method="GET" action="">
                 <input class="form-control mr-sm-2" name="search" id="search" type="search"
                     placeholder="Buscar por código" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i>Ir</button>
             </form>
-        </div>
+        </div>-->
         <div class="col col-7">
             <p class="text-center" style="font-size: x-large">Mis Solicitudes</p>
         </div>
