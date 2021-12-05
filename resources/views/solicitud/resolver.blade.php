@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col col-1">
             <div class="row justify-content-center">
-                <a class="btn btn-secondary" href="{{ route('usuario.index') }}" class="btn btn-secondary">Atras</a>
+                <a class="btn btn-secondary" href="{{ route('usuario.index') }}" class="btn btn-secondary">Atrás</a>
             </div>
         </div>
 
@@ -90,7 +90,7 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 15%" scope="col">Fecha y hora</th>
-                                                <th style="width: 20%" scope="col">Numero Solicitud</th>
+                                                <th style="width: 20%" scope="col">Número Solicitud</th>
                                                 <th style="width: 30%" scope="col">Rut Estudiante</th>
                                                 <th style="width: 20%" scope="col">Nombre estudiante</th>
                                                 <th style="width: 10%" scope="col">Tipo</th>
@@ -128,7 +128,7 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 15%" scope="col">Fecha y hora</th>
-                                                <th style="width: 20%" scope="col">Numero Solicitud</th>
+                                                <th style="width: 20%" scope="col">Número Solicitud</th>
                                                 <th style="width: 30%" scope="col">Rut Estudiante</th>
                                                 <th style="width: 20%" scope="col">Nombre estudiante</th>
                                                 <th style="width: 10%" scope="col">Tipo</th>
@@ -165,7 +165,7 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 15%" scope="col">Fecha y hora</th>
-                                                <th style="width: 20%" scope="col">Numero Solicitud</th>
+                                                <th style="width: 20%" scope="col">Número Solicitud</th>
                                                 <th style="width: 30%" scope="col">Rut Estudiante</th>
                                                 <th style="width: 20%" scope="col">Nombre estudiante</th>
                                                 <th style="width: 10%" scope="col">Tipo</th>
@@ -203,7 +203,7 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 15%" scope="col">Fecha y hora</th>
-                                                <th style="width: 20%" scope="col">Numero Solicitud</th>
+                                                <th style="width: 20%" scope="col">Número Solicitud</th>
                                                 <th style="width: 30%" scope="col">Rut Estudiante</th>
                                                 <th style="width: 20%" scope="col">Nombre estudiante</th>
                                                 <th style="width: 10%" scope="col">Tipo</th>

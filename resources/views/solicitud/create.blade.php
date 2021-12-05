@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-2"></div>
@@ -19,7 +20,6 @@
         </div>
 
         <div class="col col-10">
-            @include('alerta.flash-message')
             <div class="col-lg-12 login-title">
                 NUEVA SOLICITUD
             </div>
@@ -34,27 +34,29 @@
                             <label for="form-control-label" style="color: black">Tipo Solicitud</label>
                             <select class="form-control" name="tipo" id="tipo">
                                 <option value={{ null }}>Seleccione..</option>
-                                <option value="1">Solicitud de Sobrecupo</option>
-                                <option value="2">Solicitud Cambio de Paralelo</option>
-                                <option value="3">Solicitud Eliminación de Asignatura</option>
-                                <option value="4">Solicitud Inscripción de Asignatura</option>
-                                <option value="5">Solicitud Ayudantía</option>
-                                <option value="6">Solicitud Facilidades Académicas</option>
+                                <option value="1" @if(old('tipo') == "1") selected @endif>Solicitud de Sobrecupo</option>
+                                <option value="2" @if(old('tipo') == "2") selected @endif>Solicitud Cambio de Paralelo</option>
+                                <option value="3" @if(old('tipo') == "3") selected @endif>Solicitud Eliminación de Asignatura</option>
+                                <option value="4" @if(old('tipo') == "4") selected @endif>Solicitud Inscripción de Asignatura</option>
+                                <option value="5" @if(old('tipo') == "5") selected @endif>Solicitud Ayudantía</option>
+                                <option value="6" @if(old('tipo') == "6") selected @endif>Solicitud Facilidades Académicas</option>
                             </select>
                         </div>
                         <br>
+
                         <div class="form-group" id="groupTelefono" hidden>
                             <label class="form-control-label">TELEFONO CONTACTO</label>
-                            <input id="telefono" type="text"
-                                class="form-control @error('telefono') is-invalid @enderror" name="telefono"
-                                value="{{ old('telefono') }}" autocomplete="telefono" autofocus>
-
-                            @error('telefono')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">+569</span>
+                                <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" autocomplete="telefono" autofocus>
+                                @error('telefono')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
                         </div>
+
                         <div class="form-group" id="groupNrc" hidden>
                             <label class="form-control-label">NRC ASIGNATURA</label>
                             <input id="nrc" type="text" class="form-control @error('nrc') is-invalid @enderror"
@@ -122,14 +124,13 @@
                         </div>
 
                         <div class="form-group" id="groupTipoFacilidad" hidden>
-                            <label for="form-control-label" style="color: white">TIPO DE FACILIDAD</label>
+                            <label for="form-control-label" style="color: black">TIPO DE FACILIDAD</label>
                             <select class="form-control" name="facilidad" id="facilidad">
                                 <option value={{ null }}>Seleccione..</option>
                                 <option value="Licencia">Licencia Médica o Certificado Médico</option>
                                 <option value="Inasistencia Fuerza Mayor">Inasistencia por Fuerza Mayor</option>
                                 <option value="Representacion">Representación de la Universidad</option>
-                                <option value="Inasistencia Motivo Personal">Inasistencia a Clases por Motivos
-                                    Familiares</option>
+                                <option value="Inasistencia Motivo Personal">Inasistencia a Clases por Motivos Familiares</option>
                             </select>
                         </div>
 
@@ -147,23 +148,22 @@
                         </div>
 
                         <div class="form-group" id="groupAdjunto" hidden>
-                            @include('alerta.flash-message')
                             <label class="form-control-label">ADJUNTAR ARCHIVO</label>
                             <input id="adjunto" type="file" class="form-control @error('adjunto') is-invalid @enderror"
                                 name="adjunto[]" multiple>
 
-                                @foreach($errors->all() as $error)
-                                @if($error=="Solo pdf permitido.")
-                                        <span class="help-block"><strong>{{$error}}</strong></span>
-                                @endif
-                            @endforeach
+                                @error('adjunto')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                @enderror
+
                         </div>
 
 
                         <div hidden id="groupButton" class="col-lg-12 py-3">
                             <div class="col-lg-12 text-center">
-                                <button type="submit" id="boton" class="btn btn-outline-primary">{{ __('Agregar')
-                                    }}</button>
+                                <button type="submit" id="boton" class="btn btn-outline-primary">{{ __('Agregar')}}</button>
                             </div>
                         </div>
                     </form>
@@ -175,6 +175,7 @@
 
 
 </div>
+
 <script type="text/javascript">
     const selectSolicitud = document.getElementById('tipo');
     const inputTelefono = document.getElementById('groupTelefono');
@@ -187,6 +188,94 @@
     const inputProfesor = document.getElementById('groupProfesor');
     const inputAdjunto = document.getElementById('groupAdjunto');
     const button = document.getElementById('groupButton');
+
+    const variable = {!! json_encode(old('tipo')) !!}
+    switch (variable) {
+            case "1":
+                inputTelefono.hidden = false;
+                inputNrc.hidden = false;
+                inputNombre.hidden = false;
+                inputDetalles.hidden = false;
+                inputCalificacion.hidden = true;
+                inputCantidad.hidden = true;
+                inputTipoFacilidad.hidden = true;
+                inputProfesor.hidden = true;
+                inputAdjunto.hidden = true;
+                button.hidden = false
+                break;
+            case "2":
+                inputTelefono.hidden = false;
+                inputNrc.hidden = false;
+                inputNombre.hidden = false;
+                inputDetalles.hidden = false;
+                inputCalificacion.hidden = true;
+                inputCantidad.hidden = true;
+                inputTipoFacilidad.hidden = true;
+                inputProfesor.hidden = true;
+                inputAdjunto.hidden = true;
+                button.hidden = false
+                break;
+            case "3":
+                inputTelefono.hidden = false;
+                inputNrc.hidden = false;
+                inputNombre.hidden = false;
+                inputDetalles.hidden = false;
+                inputCalificacion.hidden = true;
+                inputCantidad.hidden = true;
+                inputTipoFacilidad.hidden = true;
+                inputProfesor.hidden = true;
+                inputAdjunto.hidden = true;
+                button.hidden = false
+                break;
+            case "4":
+                inputTelefono.hidden = false;
+                inputNrc.hidden = false;
+                inputNombre.hidden = false;
+                inputDetalles.hidden = false;
+                inputCalificacion.hidden = true;
+                inputCantidad.hidden = true;
+                inputTipoFacilidad.hidden = true;
+                inputProfesor.hidden = true;
+                inputAdjunto.hidden = true;
+                button.hidden = false
+                break;
+            case "5":
+                inputTelefono.hidden = false;
+                inputNrc.hidden = true;
+                inputNombre.hidden = false;
+                inputDetalles.hidden = false;
+                inputCalificacion.hidden = false;
+                inputCantidad.hidden = false;
+                inputTipoFacilidad.hidden = true;
+                inputProfesor.hidden = true;
+                inputAdjunto.hidden = true;
+                button.hidden = false
+                break;
+            case "6":
+                inputTelefono.hidden = false;
+                inputNrc.hidden = true;
+                inputNombre.hidden = false;
+                inputDetalles.hidden = false;
+                inputCalificacion.hidden = true;
+                inputCantidad.hidden = true;
+                inputTipoFacilidad.hidden = false;
+                inputProfesor.hidden = false;
+                inputAdjunto.hidden = false;
+                button.hidden = false
+                break;
+            default:
+                inputTelefono.hidden = true;
+                inputNrc.hidden = true;
+                inputNombre.hidden = true;
+                inputDetalles.hidden = true;
+                inputCalificacion.hidden = true;
+                inputCantidad.hidden = true;
+                inputTipoFacilidad.hidden = true;
+                inputProfesor.hidden = true;
+                inputAdjunto.hidden = true;
+                button.hidden = true
+                break;
+    }
     selectSolicitud.addEventListener('change', () => {
         switch (selectSolicitud.value) {
             case "1":
@@ -275,5 +364,27 @@
                 break;
         }
     })
+</script>
+
+<script>
+    const boton = document.getElementById('groupButton');
+    const formulario = document.getElementById('formulario');
+    boton.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres generar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            formulario.submit();
+        }else if(result.isDenied){
+            Swal.fire('No se ha generado la solicitud', '', 'info')
+        }
+    })
+})
 </script>
 @endsection

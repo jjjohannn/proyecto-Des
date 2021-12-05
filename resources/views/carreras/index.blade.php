@@ -17,7 +17,7 @@
             <tr>
                 <th style="width: 10%" scope="col">Código</th>
                 <th style="width: 70%" scope="col">Nombre</th>
-                <th style="width: 20%" scope="col" colspan="1">Accion</th>
+                <th style="width: 20%" scope="col" colspan="1">Acción</th>
             </tr>
         </thead>
         <tbody>

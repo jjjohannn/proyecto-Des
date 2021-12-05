@@ -187,6 +187,7 @@ class SolicitudController extends Controller
                 # code...
             break;
         }
+        return redirect('/solicitud')->with('Success, Se ha generado la solicitud exitosamente!.');
     }
 
     /**
@@ -284,8 +285,6 @@ class SolicitudController extends Controller
         }
 
         $user->save();
-        return redirect('/solicitud')->with('success','Editado.');
-
     }
 
     /**

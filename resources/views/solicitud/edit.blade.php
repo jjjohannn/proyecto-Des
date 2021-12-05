@@ -12,14 +12,14 @@
         <div class="col col-10">
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
-                    <form method="POST" action="{{ route('solicitud.update', [$solicitud->pivot->id]) }}">
+                    <form method="POST" id="formulario" action="{{ route('solicitud.update', [$solicitud->pivot->id]) }}">
                         @csrf
                         @method('PUT')
 
                         @if($solicitud->getOriginal()['tipo']==="Sobrecupo" || $solicitud->getOriginal()['tipo']==="Cambio Paralelo"
                         || $solicitud->getOriginal()['tipo']==="Eliminación Asignatura" || $solicitud->getOriginal()['tipo']==="Inscripción Asignatura")
                         <div class="form-group" id="groupTelefono" >
-                            <label class="form-control-label">TELEFONO CONTACTO</label>
+                            <label class="form-control-label">TELÉFONO CONTACTO</label>
                             <input id="telefono" type="text"
                                 class="form-control @error('telefono') is-invalid @enderror" name="telefono"
                                 value="{{ old('telefono') }}" autofocus placeholder="{{ $solicitud->getOriginal()['pivot_telefono'] }}">
@@ -69,7 +69,7 @@
 
                         @elseif($solicitud->getOriginal()['tipo']==="Ayudantía")
                         <div class="form-group" id="groupTelefono" >
-                            <label class="form-control-label">TELEFONO CONTACTO</label>
+                            <label class="form-control-label">TELÉFONO CONTACTO</label>
                             <input id="telefono" type="text"
                                 class="form-control @error('telefono') is-invalid @enderror" name="telefono"
                                 value="{{ old('telefono') }}" autofocus placeholder="{{ $solicitud->getOriginal()['pivot_telefono'] }}">
@@ -117,7 +117,7 @@
                         </div>
 
                         <div class="form-group" id="groupCantidad">
-                            <label class="form-control-label">CANTIDAD DE AYUDANTIAS REALIZADAS</label>
+                            <label class="form-control-label">CANTIDAD DE AYUDANTÍAS REALIZADAS</label>
                             <input id="cantidad" type="text"
                                 class="form-control @error('cantidad') is-invalid @enderror" name="cantidad"
                                 value="{{ old('cantidad') }}"
@@ -132,7 +132,7 @@
 
                         @elseif($solicitud->getOriginal()['tipo']==="Facilidades")
                         <div class="form-group" id="groupTelefono" >
-                            <label class="form-control-label">TELEFONO CONTACTO</label>
+                            <label class="form-control-label">TELÉFONO CONTACTO</label>
                             <input id="telefono" type="text"
                                 class="form-control @error('telefono') is-invalid @enderror" name="telefono"
                                 value="{{ old('telefono') }}" autofocus placeholder="{{ $solicitud->getOriginal()['pivot_telefono'] }}">
@@ -169,7 +169,7 @@
                         <div class="form-group" id="groupTipoFacilidad">
                             <label for="form-control-label" style="color: white">TIPO DE FACILIDAD</label>
                             <select class="form-control" name="facilidad" id="facilidad">
-                                <option value={{ null }}>Seleccione..</option>
+                                <option value={{ null }}>Seleccione...</option>
                                 <option value="Licencia">Licencia Médica o Certificado Médico</option>
                                 <option value="Inasistencia Fuerza Mayor">Inasistencia por Fuerza Mayor</option>
                                 <option value="Representacion">Representación de la Universidad</option>
@@ -215,4 +215,26 @@
             <div class="col-lg-3 col-md-2"></div>
         </div>
 </div>
+
+<script>
+    const boton = document.getElementById('groupButton');
+    const formulario = document.getElementById('formulario');
+    boton.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres editar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            formulario.submit();
+        }else if(result.isDenied){
+            Swal.fire('No se ha editado la solicitud', '', 'info')
+        }
+    })
+})
+</script>
  @endsection

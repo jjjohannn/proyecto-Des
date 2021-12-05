@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="telefono" class="col-md-4 text-md-right">{{ __('Telefono') }}</label>
+                        <label for="telefono" class="col-md-4 text-md-right">{{ __('Teléfono') }}</label>
                         <div>
                             <i class="text">{{ __('+569') }}</i>
                             <i class="text">{{ $solicitud->pivot->telefono }}</i>
@@ -86,7 +86,7 @@
                                     <tr>
                                         <tr>
                                             <td>
-                                                <form method="POST" action="{{ route('resolverSolicitud.update', [$solicitud]) }}">
+                                                <form method="POST" id="formAceptar" action="{{ route('resolverSolicitud.update', [$solicitud]) }}">
                                                     @csrf
                                                     @method('PUT')
                                                     <input id="value" type="text" class="form-control" name="value" value="1" hidden>
@@ -94,7 +94,7 @@
                                                     <input id="alumno" type="text" class="form-control" name="alumno" value="{{ $alumno->id }}" hidden>
 
                                                     <hr noshade="noshade" size="2" width="100%">
-                                                    <button type="submit" class="btn btn-success me-2" style= "margin: 40px 50px 0 40%">
+                                                    <button type="submit" id = "botonAceptar" class="btn btn-success me-2" style= "margin: 40px 50px 0 40%">
                                                         {{ __('Aceptar') }}
                                                     </button>
                                                 </form>
@@ -117,7 +117,7 @@
                                     <tr>
                                         <tr>
                                             <td>
-                                                <form method="POST" action="{{ route('resolverSolicitud.update', [$solicitud]) }}">
+                                                <form method="POST" id="formAceptarObs" action="{{ route('resolverSolicitud.update', [$solicitud]) }}">
                                                     @csrf
                                                     @method('PUT')
                                                     <input id="value2" type="text" class="form-control" name="value2" value="2" hidden>
@@ -128,7 +128,7 @@
                                                     class="form-control" name="detalles"
                                                     value="{{ old('detalles') }}" autocomplete="detalles" autofocus></textarea>
 
-                                                    <button type="submit" class="btn btn-primary me-2" style= "margin: 40px 50px 0 40%">
+                                                    <button type="submit" id="botonAceptarObs" class="btn btn-primary me-2" style= "margin: 40px 50px 0 40%">
                                                         {{ __('Aceptar con obs') }}
                                                     </button>
                                                 </form>
@@ -150,7 +150,7 @@
                                     <tr>
                                         <tr>
                                             <td>
-                                                <form method="POST" action="{{ route('resolverSolicitud.update', [$solicitud]) }}">
+                                                <form id="formRechazar" method="POST"  action="{{ route('resolverSolicitud.update', [$solicitud]) }}">
                                                     @csrf
                                                     @method('PUT')
                                                     <input id="value3" type="text" class="form-control" name="value3" value="3" hidden>
@@ -161,7 +161,7 @@
                                                     class="form-control" name="detalles"
                                                     value="detalles" autocomplete="detalles" autofocus></textarea>
 
-                                                    <button type="submit"  class="btn btn-primary me-2" style= "margin: 40px 50px 0 40%">
+                                                    <button type="submit" id="botonRechazar" class="btn btn-primary me-2" style= "margin: 40px 50px 0 40%">
                                                         {{ __('Rechazar') }}
                                                     </button>
                                                 </form>
@@ -177,4 +177,68 @@
         </div>
     </div>
 </div>
+
+<script>
+    const botonAceptar = document.getElementById('botonAceptar');
+    const botonAcepObs = document.getElementById('botonAceptarObs');
+    const botonRechazar = document.getElementById('botonRechazar');
+    const formularioAceptar = document.getElementById('formAceptar');
+    const formularioAcepObs = document.getElementById('formAceptarObs');
+    const formularioRechazar = document.getElementById('formRechazar');
+    botonAceptar.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres aceptar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            formularioAceptar.submit();
+            Swal.fire('Se ha aceptado la solicitud!', '', 'success')
+        }else if(result.isDenied){
+            Swal.fire('No se ha aceptado la solicitud', '', 'info')
+        }
+    })
+})
+    botonAcepObs.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres aceptar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            formularioAcepObs.submit();
+
+        }else if(result.isDenied){
+            Swal.fire('No se ha aceptado la solicitud', '', 'info')
+        }
+    })
+})
+    botonRechazar.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres rechazar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            formularioRechazar.submit();
+
+        }else if(result.isDenied){
+            Swal.fire('No se ha aceptado la solicitud', '', 'info')
+        }
+    })
+})
+</script>
+
 @endsection
