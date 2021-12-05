@@ -59,7 +59,7 @@ class SolicitudController extends Controller
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle
                 ]);
-                return redirect('/solicitud');
+                return redirect('/solicitud')->with('success', 'Se ha generado la solicitud exitosamente!');
             break;
 
             case '2':
@@ -78,7 +78,7 @@ class SolicitudController extends Controller
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle
                 ]);
-                return redirect('/solicitud');
+                return redirect('/solicitud')->with('success', 'Se ha generado la solicitud exitosamente!');
             break;
 
             case '3':
@@ -97,7 +97,7 @@ class SolicitudController extends Controller
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle
                 ]);
-                return redirect('/solicitud');
+                return redirect('/solicitud')->with('success', 'Se ha generado la solicitud exitosamente!');
             break;
 
             case '4':
@@ -116,7 +116,7 @@ class SolicitudController extends Controller
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle
                 ]);
-                return redirect('/solicitud');
+                return redirect('/solicitud')->with('success', 'Se ha generado la solicitud exitosamente!');
             break;
 
             case '5':
@@ -137,7 +137,7 @@ class SolicitudController extends Controller
                     'calificacion_aprob' => $request->calificacion,
                     'cant_ayudantias' => $request->cantidad
                 ]);
-                return redirect('/solicitud');
+                return redirect('/solicitud')->with('success', 'Se ha generado la solicitud exitosamente!');
             break;
 
             case '6':
@@ -187,7 +187,6 @@ class SolicitudController extends Controller
                 # code...
             break;
         }
-        return redirect('/solicitud')->with('Success, Se ha generado la solicitud exitosamente!.');
     }
 
     /**
@@ -285,6 +284,7 @@ class SolicitudController extends Controller
         }
 
         $user->save();
+        return redirect('/solicitud')->with('success','Editado');
     }
 
     /**

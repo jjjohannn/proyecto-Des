@@ -106,6 +106,7 @@ class ResolverSolicitudController extends Controller
         $array = [1,2,3,4,5,6];
         $usuario = User::where('id', '=', $request['alumno'])->first();
         $solicitud = User::where('id', $request['alumno'])->firstOrFail()->getSolicitudId($request['solicitud'])->first();
+        $request->validate(['detalles' => ['required']]);
 
         if($request['value'] == 1){
             $resultado = "Aceptada";
@@ -137,7 +138,7 @@ class ResolverSolicitudController extends Controller
             $usuario->save();
             $comentario = $request['detalles'];
             Mail::to($usuario)->send(new ResolverSolicitudMailable($solicitud, $resultado, $comentario));
-            return redirect('/resolver')->with('error','Solicitud Rechazada Exitosamente!');
+            return redirect('/resolver')->with('success','Solicitud Rechazada Exitosamente!');
         }
     }
 

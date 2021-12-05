@@ -6,20 +6,24 @@
 <div class="alert alert-success">
     {{ session('success') }}
 </div>
+@elseif (session('error'))
+<div class="alert alert-warning">
+    {{ session('error') }}
+</div>
 @endif
 
 <div class="container">
         <div class="col col-10">
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
-                    <form method="POST" id="formulario" action="{{ route('solicitud.update', [$solicitud->pivot->id]) }}">
+                    <form method="POST" id="formulario" enctype="multipart/form-data" action="{{ route('solicitud.update',[$solicitud->pivot->id]) }}">
                         @csrf
                         @method('PUT')
 
                         @if($solicitud->getOriginal()['tipo']==="Sobrecupo" || $solicitud->getOriginal()['tipo']==="Cambio Paralelo"
                         || $solicitud->getOriginal()['tipo']==="Eliminación Asignatura" || $solicitud->getOriginal()['tipo']==="Inscripción Asignatura")
                         <div class="form-group" id="groupTelefono" >
-                            <label class="form-control-label">TELÉFONO CONTACTO</label>
+                            <label class="form-control-label">TELEFONO CONTACTO</label>
                             <input id="telefono" type="text"
                                 class="form-control @error('telefono') is-invalid @enderror" name="telefono"
                                 value="{{ old('telefono') }}" autofocus placeholder="{{ $solicitud->getOriginal()['pivot_telefono'] }}">
@@ -69,7 +73,7 @@
 
                         @elseif($solicitud->getOriginal()['tipo']==="Ayudantía")
                         <div class="form-group" id="groupTelefono" >
-                            <label class="form-control-label">TELÉFONO CONTACTO</label>
+                            <label class="form-control-label">TELEFONO CONTACTO</label>
                             <input id="telefono" type="text"
                                 class="form-control @error('telefono') is-invalid @enderror" name="telefono"
                                 value="{{ old('telefono') }}" autofocus placeholder="{{ $solicitud->getOriginal()['pivot_telefono'] }}">
@@ -117,7 +121,7 @@
                         </div>
 
                         <div class="form-group" id="groupCantidad">
-                            <label class="form-control-label">CANTIDAD DE AYUDANTÍAS REALIZADAS</label>
+                            <label class="form-control-label">CANTIDAD DE AYUDANTIAS REALIZADAS</label>
                             <input id="cantidad" type="text"
                                 class="form-control @error('cantidad') is-invalid @enderror" name="cantidad"
                                 value="{{ old('cantidad') }}"
@@ -132,7 +136,7 @@
 
                         @elseif($solicitud->getOriginal()['tipo']==="Facilidades")
                         <div class="form-group" id="groupTelefono" >
-                            <label class="form-control-label">TELÉFONO CONTACTO</label>
+                            <label class="form-control-label">TELEFONO CONTACTO</label>
                             <input id="telefono" type="text"
                                 class="form-control @error('telefono') is-invalid @enderror" name="telefono"
                                 value="{{ old('telefono') }}" autofocus placeholder="{{ $solicitud->getOriginal()['pivot_telefono'] }}">
@@ -167,9 +171,17 @@
                             @enderror
                         </div>
                         <div class="form-group" id="groupTipoFacilidad">
-                            <label for="form-control-label" style="color: white">TIPO DE FACILIDAD</label>
-                            <select class="form-control" name="facilidad" id="facilidad">
-                                <option value={{ null }}>Seleccione...</option>
+                            <label for="form-control-label" style="color: black">TIPO DE FACILIDAD</label>
+                            <select class="form-control" name="facilidad" id="facilidad" placeholder="{{ $solicitud->getOriginal()['pivot_tipo_facilidad'] }}">
+                                @if($solicitud->getOriginal()['pivot_tipo_facilidad'] === "Licencia")
+                                <option value={{ old('tipo_facilidad')}}>Licencia Médica o Certificado Médico</option>
+                                @elseif($solicitud->getOriginal()['pivot_tipo_facilidad'] === "Inasistencia Fuerza Mayor")
+                                <option value={{ old('tipo_facilidad')}}>Inasistencia por Fuerza Mayor</option>
+                                @elseif($solicitud->getOriginal()['pivot_tipo_facilidad'] === "Representacion")
+                                <option value={{ old('tipo_facilidad')}}>Representación de la Universidad</option>
+                                @elseif($solicitud->getOriginal()['pivot_tipo_facilidad'] === "Inasistencia Motivo Personal")
+                                <option value={{ old('tipo_facilidad')}}>Inasistencia a Clases por Motivos Familiares</option>
+                                @endif
                                 <option value="Licencia">Licencia Médica o Certificado Médico</option>
                                 <option value="Inasistencia Fuerza Mayor">Inasistencia por Fuerza Mayor</option>
                                 <option value="Representacion">Representación de la Universidad</option>
@@ -194,7 +206,7 @@
                         <div class="form-group" id="groupAdjunto">
                             <label class="form-control-label">ADJUNTAR ARCHIVO</label>
                             <input id="adjunto" type="file" class="form-control @error('adjunto') is-invalid @enderror"
-                                name="adjunto[]" multiple >
+                                name="adjunto[]" multiple>
 
                             @error('adjunto')
                             <span class="invalid-feedback" role="alert">
@@ -203,11 +215,17 @@
                             @enderror
                         </div>
                         @endif
+
                         <div  id="groupButton" class="col-lg-12 py-3">
                             <div class="col-lg-12 text-center">
                                 <button type="submit" id="boton" class="btn btn-outline-primary">{{ __('Editar')
                                     }}</button>
                             </div>
+                        </div>
+                        <div class="col-lg-12 py-3">
+                            <div class="col-lg-12 text-center">
+                            <a class="btn btn-secondary" href="{{ route('solicitud.index') }}" class="btn btn-secondary">Atras</a>
+                        </div>
                         </div>
                     </form>
                 </div>
@@ -215,6 +233,7 @@
             <div class="col-lg-3 col-md-2"></div>
         </div>
 </div>
+
 
 <script>
     const boton = document.getElementById('groupButton');
