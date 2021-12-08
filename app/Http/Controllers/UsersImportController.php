@@ -21,10 +21,10 @@ class UsersImportController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $file = $request->file('file');
 
-        if(empty($file)) 
+        if(empty($file))
         {
             return back()->withErrors("");
         }
@@ -40,14 +40,14 @@ class UsersImportController extends Controller
         {
             if($headings[0]!='carrera' || $headings[1] != 'rut' || $headings[2] != 'nombre' || $headings[3] != 'correo')
             {
-                return back()->withErrors("Por favor ingresar un archivo con cabezeras validas Formato: CARRERA/RUT/NOMBRE/CORREO");
+                return back()->withErrors("Por favor ingresar un archivo con cabeceras válidas, Formato: CARRERA/RUT/NOMBRE/CORREO");
             }
         }
         else
         {
-            return back()->withErrors("Por favor ingresar un archivo con cabezeras validas Formato: CARRERA/RUT/NOMBRE/CORREO");
+            return back()->withErrors("Por favor ingresar un archivo con cabeceras válidas, Formato: CARRERA/RUT/NOMBRE/CORREO");
         }
-    
+
         $import = new UserImport;
         $import->import($file);
         $importedUsers = $import->getImported();
@@ -55,11 +55,11 @@ class UsersImportController extends Controller
         {
             if($import->failures()->isNotEmpty())
             {
-                return back()->withFailures($import->failures())->withStatus('No se logro importar usuario alguno debido a que todas las filas del documento tienen errores');
+                return back()->withFailures($import->failures())->withStatus('No se logró importar ningún usuario debido a que todas las filas del documento tienen errores');
             }
             else
             {
-                return back()->withStatus('El archivo esta vacio');
+                return back()->withStatus('El archivo esta vacío');
             }
         }
         else
