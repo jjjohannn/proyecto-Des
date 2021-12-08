@@ -44,7 +44,7 @@ class UserImport implements
     
     public function model(array $row)
     {
-        echo ('.');
+        echo ".";
         $importedRow = array('nombre' => $row['nombre'],'rut' => $row['rut'],'correo'=> $row['correo']);
         array_push($this->arrayImported,$importedRow);
         return new User([
