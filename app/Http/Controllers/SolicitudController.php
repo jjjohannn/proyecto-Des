@@ -147,7 +147,7 @@ class SolicitudController extends Controller
                     'detalle' => ['required'],
                     'facilidad' => ['required'],
                     'profesor' => ['required'],
-                    'adjunto.*' => ['mimes:pdf'],
+                    'adjunto.*' => ['mimes:pdf,jpg,jpeg,doc,docx'],
                 ]);
 
                 if($validator->fails()){
@@ -159,7 +159,8 @@ class SolicitudController extends Controller
                 $aux = 0;
                 if($request->adjunto){
                     foreach ($request->adjunto as $file) {
-                        $name = $aux.time().'-'.$findUser->name.'.pdf';
+                        $extension = $file->getClientOriginalExtension();
+                        $name = $aux.time().'-'.$findUser->name.'.'.$extension;
                         $file->move(public_path('\storage\docs'), $name);
                         $datos[] = $name;
                         $aux++;

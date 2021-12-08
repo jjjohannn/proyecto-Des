@@ -72,6 +72,20 @@
                             <i class="text">{{ $solicitud->pivot->telefono }}</i>
                         </div>
                     </div>
+
+
+                    <div class="form-group row justify-content-center">
+                        <label for="archivos" >{{ __('Archivos') }}</label>
+                        <div class="col-md-5 text-md-left">
+                            @if ($solicitud->getOriginal()['pivot_archivos'])
+                                @foreach (json_decode($solicitud->getOriginal()['pivot_archivos']) as $file)
+                                    <div><a href={{"/storage/docs/".$file}}>{{$file}}</a></div>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+
+
                     <div class="row">
                         <label for="detalle" class="col-md-4 text-md-right">{{ __('Detalle') }}</label>
                         <div>
