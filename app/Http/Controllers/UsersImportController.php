@@ -26,7 +26,7 @@ class UsersImportController extends Controller
 
         if(empty($file))
         {
-            return back()->withErrors("");
+            return back()->withErrors("Por favor ingresar un archivo");
         }
 
         else if (!in_array($file->getMimeType(), array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel', 'text/csv', 'text/plain', 'text/tsv')))
