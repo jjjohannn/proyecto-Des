@@ -141,32 +141,30 @@ class SolicitudController extends Controller
             break;
 
             case '6':
-                $validator = Validator::make($request->all(), [
+                $request->validate([
                     'telefono' => ['integer','required', new Telefono()],
                     'nombre' => ['required'],
                     'detalle' => ['required'],
                     'facilidad' => ['required'],
                     'profesor' => ['required'],
-                    'adjunto.*' => ['mimes:pdf'],
+                    'adjunto.*' => ['mimes:pdf,jpg,jpeg,doc,docx'],
+                    'adjunto' => ['max:3']
                 ]);
 
-                if($validator->fails()){
-                    return back()->with('warning','Solo se permiten archivos de tipo pdf.');
-                }
+                /*if($validator->fails()->has('adjunto')){
+                    return back()->with('error','Solo se permiten archivos de tipo pdf.');
+                }*/
 
                 $findUser = User::find($request->user);
 
                 $aux = 0;
                 if($request->adjunto){
                     foreach ($request->adjunto as $file) {
-                        $name = $aux.time().'-'.$findUser->name.'.pdf';
+                        $extension = $file->getClientOriginalExtension();
+                        $name = $request['facilidad'].'-'.$aux.time().'-'.$findUser->name.'.'.$extension;
                         $file->move(public_path('\storage\docs'), $name);
                         $datos[] = $name;
                         $aux++;
-                    }
-
-                    if($aux > 3){
-                        return back()->with('warning', 'Solo se pueden ingresar hasta 3 archivos.');
                     }
                 }else{
                     $datos = NULL;

@@ -57,7 +57,7 @@
                     <div class="form-group row">
                         <label for="telefono" class="col-md-4 text-md-right">{{ __('Telefono') }}</label>
                         <div>
-                            <i class="text">{{ __('+569') }}</i>
+                            <i class="text">{{ __('+56 9') }}</i>
                             <i class="text">{{ $solicitud->pivot->telefono }}</i>
                         </div>
                     </div>
@@ -67,7 +67,12 @@
                             <textarea disabled id="detalle" type="text" class="form-control" name="detalle">{{ $solicitud->pivot->detalles }}</textarea>
                         </div>
                     </div>
-
+                    <div class="form-group row">
+                        <label for="archivo" class="col-md-4 text-md-right">{{ __('Archivo') }}</label>
+                        <div>
+                            <i class="text">{{ $solicitud->pivot->archivos }}</i>
+                        </div>
+                    </div>
                     <nav>
                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Aceptar</a>
