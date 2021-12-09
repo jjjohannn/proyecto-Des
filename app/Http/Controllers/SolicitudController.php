@@ -145,7 +145,7 @@ class SolicitudController extends Controller
                 'detalle' => ['required'],
                 'facilidad' => ['required'],
                 'profesor' => ['required'],
-                'adjunto.*' => ['mimes:pdf,jpg,jpeg,doc,docx'],
+                'adjunto.*' => ['mimes:pdf,jpg,jpeg,doc,docx,png'],
             ]);
 
             $findUser = User::find($request->user);
@@ -183,7 +183,7 @@ class SolicitudController extends Controller
      * @param  \App\Models\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function show(String $id)
+    public function show(Solicitud $solicitud)
     {
 
     }
@@ -219,7 +219,7 @@ class SolicitudController extends Controller
         $piezas = explode(",", $archivos_viejos[0]);
         $aux = 0;
         $extensiones = ['pdf','jpg','jpeg','doc','docx','png'];
-        $eliminar = ["[","]","\""];
+        $eliminar = [" ","[","]","\""];
         //dd($piezas);
         $array = [1,2,3,4,5,6];
 
@@ -348,13 +348,16 @@ class SolicitudController extends Controller
         $user2 = User::where('id', $id_user)->firstOrFail()->getSolicitudId($id_sol)->first();
         $archivos_viejos[] = $user2->getOriginal()['pivot_archivos'];
         $piezas = explode(",", $archivos_viejos[0]);
-        $eliminar = ["[","]","\""];
+        $eliminar = [" ","[","]","\""];
+        $acortador = str_replace($eliminar,"",$request->nombre);
+
         foreach ($piezas as $archivo) {
             $archivos[] = str_replace($eliminar,"",$archivo);
         }
-        foreach ($archivos as $eliminar) {
-            if($eliminar != $request->nombre)
-            $datos[] = $eliminar;
+
+        foreach ($archivos as $noEliminado) {
+            if($noEliminado != $acortador)
+            $datos[] = $noEliminado;
         }
 
         $user->solicitudes()->wherePivot('id', $id_sol)->updateExistingPivot(6, [

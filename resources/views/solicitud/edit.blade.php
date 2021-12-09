@@ -218,7 +218,7 @@
                                     @if ($solicitud->getOriginal()['pivot_archivos'])
                                         @foreach (json_decode($solicitud->getOriginal()['pivot_archivos']) as $file)
                                                 <tr>
-                                                    <td><a href={{"/storage/docs/".$file}}>{{$file}}</a> </td>
+                                                    <td><a href="/storage/docs/{{$file}}">{{$file}}</a> </td>
                                                     <td><a id="eliminar" class="btn btn-secondary" href={{ route('solicitud.eliminar',['nombre'=>$file,'id'=>$solicitud->pivot->id])}} >Eliminar</a></td>
                                                 </tr>
                                         @endforeach
