@@ -6,13 +6,17 @@
 <div class="alert alert-success">
     {{ session('success') }}
 </div>
+@elseif (session('error'))
+<div class="alert alert-warning">
+    {{ session('error') }}
+</div>
 @endif
 
 <div class="container">
         <div class="col col-10">
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
-                    <form method="POST" action="{{ route('solicitud.update', [$solicitud->pivot->id]) }}">
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('solicitud.update',[$solicitud->pivot->id]) }}">
                         @csrf
                         @method('PUT')
 
@@ -167,9 +171,17 @@
                             @enderror
                         </div>
                         <div class="form-group" id="groupTipoFacilidad">
-                            <label for="form-control-label" style="color: white">TIPO DE FACILIDAD</label>
-                            <select class="form-control" name="facilidad" id="facilidad">
-                                <option value={{ null }}>Seleccione..</option>
+                            <label for="form-control-label" style="color: black">TIPO DE FACILIDAD</label>
+                            <select class="form-control" name="facilidad" id="facilidad" placeholder="{{ $solicitud->getOriginal()['pivot_tipo_facilidad'] }}">
+                                @if($solicitud->getOriginal()['pivot_tipo_facilidad'] === "Licencia")
+                                <option value={{ old('tipo_facilidad')}}>Licencia Médica o Certificado Médico</option>
+                                @elseif($solicitud->getOriginal()['pivot_tipo_facilidad'] === "Inasistencia Fuerza Mayor")
+                                <option value={{ old('tipo_facilidad')}}>Inasistencia por Fuerza Mayor</option>
+                                @elseif($solicitud->getOriginal()['pivot_tipo_facilidad'] === "Representacion")
+                                <option value={{ old('tipo_facilidad')}}>Representación de la Universidad</option>
+                                @elseif($solicitud->getOriginal()['pivot_tipo_facilidad'] === "Inasistencia Motivo Personal")
+                                <option value={{ old('tipo_facilidad')}}>Inasistencia a Clases por Motivos Familiares</option>
+                                @endif
                                 <option value="Licencia">Licencia Médica o Certificado Médico</option>
                                 <option value="Inasistencia Fuerza Mayor">Inasistencia por Fuerza Mayor</option>
                                 <option value="Representacion">Representación de la Universidad</option>
@@ -191,10 +203,35 @@
                             @enderror
                         </div>
 
+
+
+
+                        <table class="table" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%" scope="col">Archivos</th>
+                                    <th style="width: 15%" scope="col">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if ($solicitud->getOriginal()['pivot_archivos'])
+                                        @foreach (json_decode($solicitud->getOriginal()['pivot_archivos']) as $file)
+                                                <tr>
+                                                    <td><a href={{"/storage/docs/".$file}}>{{$file}}</a> </td>
+                                                    <td><a id="eliminar" class="btn btn-secondary" href={{ route('solicitud.eliminar',['nombre'=>$file,'id'=>$solicitud->pivot->id])}} >Eliminar</a></td>
+                                                </tr>
+                                        @endforeach
+                                    @endif
+                                </tr>
+                            </tbody>
+                        </table>
+
+
                         <div class="form-group" id="groupAdjunto">
                             <label class="form-control-label">ADJUNTAR ARCHIVO</label>
                             <input id="adjunto" type="file" class="form-control @error('adjunto') is-invalid @enderror"
-                                name="adjunto[]" multiple >
+                                name="adjunto[]" multiple>
 
                             @error('adjunto')
                             <span class="invalid-feedback" role="alert">
@@ -203,11 +240,17 @@
                             @enderror
                         </div>
                         @endif
+
                         <div  id="groupButton" class="col-lg-12 py-3">
                             <div class="col-lg-12 text-center">
                                 <button type="submit" id="boton" class="btn btn-outline-primary">{{ __('Editar')
                                     }}</button>
                             </div>
+                        </div>
+                        <div class="col-lg-12 py-3">
+                            <div class="col-lg-12 text-center">
+                            <a class="btn btn-secondary" href="{{ route('solicitud.index') }}" class="btn btn-secondary">Atras</a>
+                        </div>
                         </div>
                     </form>
                 </div>
@@ -218,53 +261,4 @@
 
 
  @endsection
-@if($solicitud->getOriginal()['tipo']==="Sobrecupo")
-                        <div class="form-group" id="groupTelefono" >
-                            <label class="form-control-label">TELEFONO CONTACTO</label>
-                            <input id="telefono" type="text"
-                                class="form-control @error('telefono') is-invalid @enderror" name="telefono"
-                                value="{{ old('telefono') }}" autofocus placeholder="{{ $solicitud->getOriginal()['pivot_telefono'] }}">
 
-                            @error('telefono')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="form-group" id="groupNrc">
-                            <label class="form-control-label">NRC ASIGNATURA</label>
-                            <input id="nrc" type="text" class="form-control @error('nrc') is-invalid @enderror"
-                                name="nrc" value="{{ old('nrc') }}" autofocus placeholder="{{ $solicitud->getOriginal()['pivot_NRC'] }}"s>
-
-                            @error('nrc')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group" id="groupNombre">
-                            <label class="form-control-label">NOMBRE ASIGNATURA</label>
-                            <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror"
-                                name="nombre" value="{{ old('nombre') }}" autofocus placeholder="{{ $solicitud->getOriginal()['pivot_nombre_asignatura'] }}">
-
-                            @error('nombre')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group" id="groupDetalles">
-                            <label class="form-control-label">DETALLES DE LA SOLICITUD</label>
-                            <textarea id="detalle" type="text"
-                                class="form-control @error('detalle') is-invalid @enderror" name="detalle"
-                                value="{{ old('detalle') }}" autofocus placeholder="{{ $solicitud->getOriginal()['pivot_detalles'] }}"></textarea>
-
-                            @error('detalle')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        @endif

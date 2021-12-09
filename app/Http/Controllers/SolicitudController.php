@@ -39,8 +39,66 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
+
         switch ($request->tipo) {
-            case '1' and '2' and '3' and '4':
+            case '1':
+                $request->validate([
+                    'telefono' => ['regex:/[0-9]*/','required'],
+                    'nrc' => ['required'],
+                    'nombre' => ['required'],
+                    'detalle' => ['required']
+                ]);
+
+                $findUser = User::find($request->user);
+
+                $findUser->solicitudes()->attach($request->tipo, [
+                    'telefono' => $request->telefono,
+                    'NRC' => $request->nrc,
+                    'nombre_asignatura' => $request->nombre,
+                    'detalles' => $request->detalle
+                ]);
+                return redirect('/solicitud');
+            break;
+
+            case '2':
+                $request->validate([
+                    'telefono' => ['regex:/[0-9]*/','required'],
+                    'nrc' => ['required'],
+                    'nombre' => ['required'],
+                    'detalle' => ['required']
+                ]);
+
+                $findUser = User::find($request->user);
+
+                $findUser->solicitudes()->attach($request->tipo, [
+                    'telefono' => $request->telefono,
+                    'NRC' => $request->nrc,
+                    'nombre_asignatura' => $request->nombre,
+                    'detalles' => $request->detalle
+                ]);
+                return redirect('/solicitud');
+            break;
+
+            case '3':
+                $request->validate([
+                    'telefono' => ['regex:/[0-9]*/','required'],
+                    'nrc' => ['required'],
+                    'nombre' => ['required'],
+                    'detalle' => ['required']
+                ]);
+
+                $findUser = User::find($request->user);
+
+                $findUser->solicitudes()->attach($request->tipo, [
+                    'telefono' => $request->telefono,
+                    'NRC' => $request->nrc,
+                    'nombre_asignatura' => $request->nombre,
+                    'detalles' => $request->detalle
+                ]);
+                return redirect('/solicitud');
+            break;
+
+            case '4':
                 $request->validate([
                     'telefono' => ['regex:/[0-9]*/','required'],
                     'nrc' => ['required'],
@@ -91,16 +149,16 @@ class SolicitudController extends Controller
             ]);
 
             $findUser = User::find($request->user);
-
             $aux = 0;
 
             foreach ($request->adjunto as $file) {
 
-                $name = $aux.time().'-'.$findUser->name.'.pdf';
+                $name = $findUser->rut.'-'.$file->getClientOriginalName();;
                 $file->move(public_path('\storage\docs'), $name);
                 $datos[] = $name;
                 $aux++;
             }
+
 
             $findUser->solicitudes()->attach($request->tipo, [
                 'telefono' => $request->telefono,
@@ -154,10 +212,20 @@ class SolicitudController extends Controller
      */
     public function update(Request $request, String $id)
     {
-        //dd($request);
         $id_user = Auth::user()->id;
         $user = User::where('id','=', $id_user)->first();
+        $user2 = User::where('id', $id_user)->firstOrFail()->getSolicitudId($id)->first();
+        $archivos_viejos[] = $user2->getOriginal()['pivot_archivos'];
+        $piezas = explode(",", $archivos_viejos[0]);
+        $aux = 0;
+        $extensiones = ['pdf','jpg','jpeg','doc','docx','png'];
+        $eliminar = ["[","]","\""];
+        //dd($piezas);
         $array = [1,2,3,4,5,6];
+
+       if($request->isNotFilled('telefono','nrc','nombre','detalle','calificacion','cantidad','facilidad','profesor') && $request->adjunto == null ){
+            return back()->with('error','No pueden estar todos los campos vacíos, llene al menos uno');
+        }
         if($request->filled('telefono')){
             $request->validate(['telefono' => ['regex:/[0-9]*/','required']]);
             $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
@@ -206,15 +274,33 @@ class SolicitudController extends Controller
                 'nombre_profesor' => $request['profesor']
             ]);
         }
-        if($request->filled('adjunto[]')){
-            $request->validate(['adjunto[]' => ['required']]);
-            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
-                'archivos' => $request['adjunto[]']
+        if($request->adjunto != null){
+
+            foreach ($request->adjunto as $file) {
+                if(!in_array($file->getClientOriginalExtension(), $extensiones)){
+                    return back()->with('error','Los archivos deben estar en uno de estos formatos: pdf, jpg, jpeg, doc, docx, png');
+                }
+                $name = $user->rut.'-'.$file->getClientOriginalName();
+                $file->move(public_path('\storage\docs'), $name);
+                $datos[] = $name;
+                $aux++;
+            }
+            foreach ($piezas as $archivo) {
+                $datos[] = str_replace($eliminar,"",$archivo);
+            }
+
+            //dd($datos);
+            if(count($datos) > 3){
+                return back()->with('error','No se pueden adjuntar más de tres archivos');
+            }
+
+            $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot(6, [
+                'archivos' => $datos
             ]);
         }
-
+       // dd($user->solicitudes()->wherePivot('id', $id));
         $user->save();
-        return redirect('/solicitud')->with('success','editado');
+        return redirect('/solicitud')->with('success','Editado');
 
     }
 
@@ -224,11 +310,17 @@ class SolicitudController extends Controller
      * @param  \App\Models\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Solicitud $solicitud)
+    public function destroy(String $file)
     {
-        //
+
     }
 
+    /**
+     * Anula la solicitud deseada.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function anulacion(Request $request){
         //dd($request->id);
         $id_user = Auth::user()->id;
@@ -240,6 +332,37 @@ class SolicitudController extends Controller
         ]);
         $user->save();
         return redirect('/solicitud');
+    }
+
+    /**
+     * Elimina un archivo.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function eliminacion(Request $request){
+        //dd($request->nombre);
+        $id_sol = $request->id;
+        $id_user = Auth::user()->id;
+        $user = User::where('id','=', $id_user)->first();
+        $user2 = User::where('id', $id_user)->firstOrFail()->getSolicitudId($id_sol)->first();
+        $archivos_viejos[] = $user2->getOriginal()['pivot_archivos'];
+        $piezas = explode(",", $archivos_viejos[0]);
+        $eliminar = ["[","]","\""];
+        foreach ($piezas as $archivo) {
+            $archivos[] = str_replace($eliminar,"",$archivo);
+        }
+        foreach ($archivos as $eliminar) {
+            if($eliminar != $request->nombre)
+            $datos[] = $eliminar;
+        }
+
+        $user->solicitudes()->wherePivot('id', $id_sol)->updateExistingPivot(6, [
+            'archivos' => $datos
+        ]);
+        $user->save();
+        return back()->with('success', 'Se ha eliminado el archivo');
+
     }
 
 }
