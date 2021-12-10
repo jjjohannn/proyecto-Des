@@ -131,12 +131,17 @@
                         <div class="form-group" id="groupTipoFacilidad" hidden>
                             <label for="form-control-label" style="color: black">TIPO DE FACILIDAD</label>
                             <select class="form-control" name="facilidad" id="facilidad">
-                                <option value={{ null }}>Seleccione..</option>
+                                <option value="">Seleccione..</option>
                                 <option value="Licencia">Licencia Médica o Certificado Médico</option>
                                 <option value="Inasistencia Fuerza Mayor">Inasistencia por Fuerza Mayor</option>
                                 <option value="Representacion">Representación de la Universidad</option>
                                 <option value="Inasistencia Motivo Personal">Inasistencia a Clases por Motivos Familiares</option>
                             </select>
+                            @error('facilidad')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                         </div>
 
                         <div class="form-group" id="groupProfesor" hidden>
@@ -385,7 +390,7 @@
         title: '¿Quiéres generar esta solicitud?',
         icon: 'question',
         showDenyButton: true,
-        showCancelButton: true,
+        showCancelButton: false,
         confirmButtonText: 'Si',
         denyButtonText: 'No',
     }).then((result)=>{
