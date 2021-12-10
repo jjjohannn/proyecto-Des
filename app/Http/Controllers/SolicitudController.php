@@ -148,7 +148,7 @@ class SolicitudController extends Controller
                     'facilidad' => ['required'],
                     'profesor' => ['required'],
                     'adjunto.*' => ['mimes:pdf,jpg,jpeg,doc,docx'],
-                    'adjunto' => ['min:1','max:3']
+                    'adjunto' => ['required','max:3']
                 ],
                 $messages = [
                     'adjunto.min' => 'Debe adjuntar un archivo',
