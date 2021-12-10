@@ -92,12 +92,7 @@
                             <textarea disabled id="detalle" type="text" class="form-control" name="detalle">{{ $solicitud->pivot->detalles }}</textarea>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="archivo" class="col-md-4 text-md-right">{{ __('Archivo') }}</label>
-                        <div>
-                            <i class="text">{{ $solicitud->pivot->archivos }}</i>
-                        </div>
-                    </div>
+
 
                     <form id="formulario" method="POST" action="{{ route('resolverSolicitud.update', [$solicitud]) }}" enctype="multipart/form-data">
                         @csrf
@@ -153,7 +148,7 @@
 
                             <textarea id="detalles2" type="text"
                             class="form-control @error('detalles2') is-invalid @enderror" name="detalles2"
-                            value="{{ old('detalles2') }}" autocomplete="detalles" autofocus></textarea>
+                            value="{{ old('detalles2') }}" autocomplete="detalles2" autofocus></textarea>
 
                             @error('detalles2')
                             <span class="invalid-feedback" role="alert">

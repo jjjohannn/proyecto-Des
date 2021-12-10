@@ -23,13 +23,13 @@ class UsersImportController extends Controller
     {
 
         $file = $request->file('file');
-
+        //dd($file->getMimeType());
         if(empty($file))
         {
             return back()->withErrors("Por favor ingresar un archivo");
         }
 
-        else if (!in_array($file->getMimeType(), array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel', 'text/csv', 'text/plain', 'text/tsv')))
+        else if (!in_array($file->getMimeType(), array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel', 'text/csv',)))
         {
             return back()->withErrors('Por favor solo archivos excel');
         }

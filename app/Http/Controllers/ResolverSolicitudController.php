@@ -121,7 +121,12 @@ class ResolverSolicitudController extends Controller
 
             case 'observacion':
                 $resultado = "Aceptada con observación";
-                $request->validate(['detalles' => ['required']]);
+                $request->validate(
+                    ['detalles' => ['required']],
+                    $messages = [
+                        'detalles.required' => 'Los detalles de observación son requeridos.'
+                    ]
+            );
                 $usuario->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                     'estado' => 2,
                     'detalles' => $request['detalles']
@@ -134,7 +139,12 @@ class ResolverSolicitudController extends Controller
 
             case 'rechazar':
                 $resultado = "Rechazada";
-                $request->validate(['detalles2' => ['required']]);
+                $request->validate(
+                    ['detalles2' => ['required']],
+                    $messages = [
+                        'detalles2.required' => 'Los detalles de rechazo son requeridos.'
+                    ]
+            );
                 $usuario->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                     'estado' => 3,
                     'detalles' => $request['detalles2']
