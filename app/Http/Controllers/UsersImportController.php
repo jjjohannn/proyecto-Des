@@ -18,19 +18,19 @@ class UsersImportController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $file = $request->file('file');
 
-        if(empty($file)) 
+        if(empty($file))
         {
             return back()->withErrors("");
         }
 
         else if (!in_array($file->getMimeType(), array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel', 'text/csv', 'text/plain', 'text/tsv')))
         {
-            return back()->withErrors('Porfavor solo archivos excel');
+            return back()->withErrors('Por favor solo archivos excel');
         }
-    
+
         $import = new UserImport;
         $import->import($file);
         $importedUsers = $import->getImported();
@@ -40,11 +40,11 @@ class UsersImportController extends Controller
         {
             if($import->failures()->isNotEmpty())
             {
-                return back()->withFailures($import->failures())->withStatus('No se logro importar usuario alguno debido a que todas las filas del documento tienen errores');
+                return back()->withFailures($import->failures())->withStatus('No se logró importar ningún usuario debido a que todas las filas del documento tienen errores');
             }
             else
             {
-                return back()->withStatus('El archivo esta vacio');
+                return back()->withStatus('El archivo esta vacío');
             }
         }
         else

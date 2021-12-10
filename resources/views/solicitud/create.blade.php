@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
+
 <div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-2"></div>
@@ -148,10 +154,16 @@
 
                         <div class="form-group" id="groupAdjunto" hidden>
                             <label class="form-control-label">ADJUNTAR ARCHIVO</label>
-                            <input id="adjunto" type="file" class="form-control @error('adjunto') is-invalid @enderror"
+                            <input id="adjunto" type="file" class="form-control @error('adjunto') is-invalid @enderror @error('adjunto.*') is-invalid @enderror"
                                 name="adjunto[]" multiple>
 
                                 @error('adjunto')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                @enderror
+
+                                @error('adjunto.*')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
@@ -173,6 +185,7 @@
 
 
 </div>
+
 <script type="text/javascript">
     const selectSolicitud = document.getElementById('tipo');
     const inputTelefono = document.getElementById('groupTelefono');
@@ -361,5 +374,27 @@
                 break;
         }
     })
+</script>
+
+<script>
+    const boton = document.getElementById('groupButton');
+    const formulario = document.getElementById('formulario');
+    boton.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres generar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            formulario.submit();
+        }else if(result.isDenied){
+            Swal.fire('No se ha generado la solicitud', '', 'info')
+        }
+    })
+})
 </script>
 @endsection

@@ -59,7 +59,7 @@ class SolicitudController extends Controller
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle
                 ]);
-                return redirect('/solicitud');
+                return redirect('/solicitud')->with('success', 'Se ha generado la solicitud exitosamente!');
             break;
 
             case '2':
@@ -78,7 +78,7 @@ class SolicitudController extends Controller
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle
                 ]);
-                return redirect('/solicitud');
+                return redirect('/solicitud')->with('success', 'Se ha generado la solicitud exitosamente!');
             break;
 
             case '3':
@@ -97,7 +97,7 @@ class SolicitudController extends Controller
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle
                 ]);
-                return redirect('/solicitud');
+                return redirect('/solicitud')->with('success', 'Se ha generado la solicitud exitosamente!');
             break;
 
             case '4':
@@ -116,7 +116,7 @@ class SolicitudController extends Controller
                     'nombre_asignatura' => $request->nombre,
                     'detalles' => $request->detalle
                 ]);
-                return redirect('/solicitud');
+                return redirect('/solicitud')->with('success', 'Se ha generado la solicitud exitosamente!');
             break;
 
             case '5':
@@ -137,7 +137,7 @@ class SolicitudController extends Controller
                     'calificacion_aprob' => $request->calificacion,
                     'cant_ayudantias' => $request->cantidad
                 ]);
-                return redirect('/solicitud');
+                return redirect('/solicitud')->with('success', 'Se ha generado la solicitud exitosamente!');
             break;
 
             case '6':
@@ -148,7 +148,12 @@ class SolicitudController extends Controller
                     'facilidad' => ['required'],
                     'profesor' => ['required'],
                     'adjunto.*' => ['mimes:pdf,jpg,jpeg,doc,docx'],
-                    'adjunto' => ['max:3']
+                    'adjunto' => ['min:1','max:3']
+                ],
+                $messages = [
+                    'adjunto.min' => 'Debe adjuntar un archivo',
+                    'adjunto.max' => 'Solo se permiten un máximo de 3 archivos',
+                    'adjunto.*.mimes' => 'Solo se permiten archivos con extensión "pdf,jpg,jpeg,doc,docx"'
                 ]);
 
                 /*if($validator->fails()->has('adjunto')){
@@ -282,8 +287,7 @@ class SolicitudController extends Controller
         }
 
         $user->save();
-        return redirect('/solicitud')->with('success','Editado.');
-
+        return redirect('/solicitud')->with('success','Editado');
     }
 
     /**

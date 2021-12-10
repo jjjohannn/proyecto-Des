@@ -56,7 +56,7 @@ class CarreraController extends Controller
             'nombre' => $request->nombre
         ]);
 
-        return redirect('/carreras')->with('success','Carrera creada con exito');
+        return redirect('/carreras')->with('success','Carrera creada con éxito');
     }
 
     /**

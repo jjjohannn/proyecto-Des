@@ -24,7 +24,7 @@
                     <table class="table table-striped table-dark table-hover table-sm">
                         <tbody>
                             <tr>
-                                <td>Telefono:</td>
+                                <td>Teléfono:</td>
                                 <td>{{ $solicitud->getOriginal()['pivot_telefono'] }}</td>
                             </tr>
                             <tr>

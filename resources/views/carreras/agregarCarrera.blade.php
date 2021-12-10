@@ -73,7 +73,6 @@
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     form.submit();
-
                 } else if (result.isDenied) {
                     Swal.fire('Carrera no creada', '', 'error')
                 }

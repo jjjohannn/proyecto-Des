@@ -27,7 +27,7 @@
     <div class="row justify-content-center">
         <div class="col col-1">
             <div class="row justify-content-center">
-                <a class="btn btn-secondary" href="{{ route('usuario.index') }}" class="btn btn-secondary">Atras</a>
+                <a class="btn btn-secondary" href="{{ route('usuario.index') }}" class="btn btn-secondary">Atrás</a>
             </div>
         </div>
 
@@ -36,7 +36,7 @@
                 <thead>
                     <tr>
                         <th style="width: 15%" scope="col">Fecha Solicitud</th>
-                        <th style="width: 20%" scope="col">Numero Solicitud</th>
+                        <th style="width: 20%" scope="col">Número Solicitud</th>
                         <th style="width: 30%" scope="col">Tipo Solicitud</th>
                         <th style="width: 20%" scope="col">Estado</th>
                         <th style="width: 10%" scope="col">Editar</th>
@@ -90,7 +90,7 @@
                         @endswitch
                         @if ($solicitud->getOriginal()['pivot_estado'] === 0)
                             <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="editar" href={{route('solicitud.edit', [$solicitud->pivot->id]) }}><i class="far fa-edit"></i>Ir</a></td>
-                            <td><a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="anular" href={{ route('solicitud.anular', ['id' => $solicitud->pivot->id]) }}>Anular</a></td>
+                            <td><a class="btn btn-warning" onclick="AlertaMax()" data-toggle="tooltip" data-placement="top" title="anular" href={{ route('solicitud.anular', ['id' => $solicitud->pivot->id]) }}>Anular</a></td>
                         @endif
                     </tr>
                     @empty
@@ -105,5 +105,24 @@
         </div>
     </div>
 </div>
+<script>
+    function AlertaMax() {
 
+        Swal.fire({
+            title: 'Estas seguro que quieres anular la solicitud?\n Esta acción es irreversible.',
+            showDenyButton: true,
+            showCancelButton: false,
+            icon: 'question',
+            confirmButtonText: 'Anular solicitud',
+            denyButtonText: 'Cancelar',
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Swal.fire('solicitud anulada')
+            } else if (result.isDenied) {
+                Swal.fire('solicitud no anulada')
+            }
+        })
+    }
+</script>
 @endsection

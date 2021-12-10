@@ -106,7 +106,6 @@ class ResolverSolicitudController extends Controller
         $array = [1,2,3,4,5,6];
         $usuario = User::where('id', '=', $request['alumno'])->first();
         $solicitud = User::where('id', $request['alumno'])->firstOrFail()->getSolicitudId($request['solicitud'])->first();
-
         if($request['value'] == 1){
             $resultado = "Aceptada";
             $usuario->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
@@ -119,6 +118,7 @@ class ResolverSolicitudController extends Controller
         }
         if($request['value2'] == 2){
             $resultado = "Aceptada con observación";
+            $request->validate(['detalles' => ['required']]);
             $usuario->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 2,
                 'detalles' => $request['detalles']
@@ -130,6 +130,7 @@ class ResolverSolicitudController extends Controller
         }
         if($request['value3'] == 3){
             $resultado = "Rechazada";
+            $request->validate(['detalles' => ['required']]);
             $usuario->solicitudes()->wherePivot('id', $request['solicitud'])->updateExistingPivot($array, [
                 'estado' => 3,
                 'detalles' => $request['detalles']
@@ -137,7 +138,7 @@ class ResolverSolicitudController extends Controller
             $usuario->save();
             $comentario = $request['detalles'];
             Mail::to($usuario)->send(new ResolverSolicitudMailable($solicitud, $resultado, $comentario));
-            return redirect('/resolver')->with('error','Solicitud Rechazada Exitosamente!');
+            return redirect('/resolver')->with('success','Solicitud Rechazada Exitosamente!');
         }
     }
 

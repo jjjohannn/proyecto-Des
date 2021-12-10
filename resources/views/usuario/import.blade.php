@@ -7,7 +7,7 @@
 
             <div>
                 <div class="card">
-                    <div class="card-header">{{ __('Menu') }}</div>
+                    <div class="card-header">{{ __('Menú') }}</div>
 
                     <div class="card-body">
                         <a class="text" href="{{ route('usuario.index') }}">{{ __('Inicio') }}</a>
@@ -44,7 +44,6 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-<<<<<<< HEAD
                         <form action="/users/import" method="post" enctype="multipart/form-data" >
                             @csrf
 
@@ -54,10 +53,7 @@
                                 <button type="submit" class="btn btn-primary">Importar</button>
                             </div>
                         </form>
- 
-=======
 
->>>>>>> b5aade95127952be62e6e759dfaed112ccde1034
                         @if (isset($errors) && $errors->any())
                             <div class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
@@ -108,7 +104,7 @@
                                     <td>{{$userImported['correo']}}</td>
                                 @endforeach
                             </table>
-                            
+
                         @endif
                     </div>
                 </div>
