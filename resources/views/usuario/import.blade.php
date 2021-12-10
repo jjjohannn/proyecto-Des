@@ -7,7 +7,7 @@
 
             <div>
                 <div class="card">
-                    <div class="card-header">{{ __('Menu') }}</div>
+                    <div class="card-header">{{ __('Menú') }}</div>
 
                     <div class="card-body">
                         <a class="text" href="{{ route('usuario.index') }}">{{ __('Inicio') }}</a>
@@ -102,7 +102,7 @@
                                     <td>{{$userImported['correo']}}</td>
                                 @endforeach
                             </table>
-                            
+
                         @endif
                     </div>
                 </div>

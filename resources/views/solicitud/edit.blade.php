@@ -16,7 +16,7 @@
         <div class="col col-10">
             <div class="col-lg-12 login-form">
                 <div class="col-lg-12 login-form">
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('solicitud.update',[$solicitud->pivot->id]) }}">
+                    <form method="POST" id="formulario" enctype="multipart/form-data" action="{{ route('solicitud.update',[$solicitud->pivot->id]) }}">
                         @csrf
                         @method('PUT')
 
@@ -258,4 +258,27 @@
             <div class="col-lg-3 col-md-2"></div>
         </div>
 </div>
+
+
+<script>
+    const boton = document.getElementById('groupButton');
+    const formulario = document.getElementById('formulario');
+    boton.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres editar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            formulario.submit();
+        }else if(result.isDenied){
+            Swal.fire('No se ha editado la solicitud', '', 'info')
+        }
+    })
+})
+</script>
  @endsection
