@@ -149,7 +149,7 @@ class SolicitudController extends Controller
                     'facilidad' => ['required'],
                     'profesor' => ['required'],
                     'adjunto.*' => ['mimes:pdf,jpg,jpeg,doc,docx'],
-                    'adjunto' => ['min:1','max:3']
+                    'adjunto' => ['required','max:3']
                 ],
                 $messages = [
                     'adjunto.min' => 'Debe adjuntar un archivo',
@@ -163,7 +163,8 @@ class SolicitudController extends Controller
                 $aux = 0;
                 if($request->adjunto){
                     foreach ($request->adjunto as $file) {
-                        $name = $findUser->rut.'-'.$file->getClientOriginalName();
+                        $name = $aux.time().'-'.$findUser->rut.'-'.$file->getClientOriginalName();
+                        $name = str_replace(' ', '_', $name);
                         $file->move(public_path('\storage\docs'), $name);
                         $datos[] = $name;
                         $aux++;
@@ -239,7 +240,7 @@ class SolicitudController extends Controller
             return back()->with('error','No pueden estar todos los campos vacíos, llene al menos uno');
         }
         if($request->filled('telefono')){
-            $request->validate(['telefono' => ['regex:/[0-9]*/','required']]);
+            $request->validate(['telefono' => ['required',new Telefono()]]);
             $user->solicitudes()->wherePivot('id', $id)->updateExistingPivot($array, [
                 'telefono' => $request['telefono']
             ]);
@@ -292,7 +293,8 @@ class SolicitudController extends Controller
                 if(!in_array($file->getClientOriginalExtension(), $extensiones)){
                     return back()->with('error','Los archivos deben estar en uno de estos formatos: pdf, jpg, jpeg, doc, docx, png');
                 }
-                $name = $user->rut.'-'.$file->getClientOriginalName();
+                $name = $aux.time().'-'.$user->rut.'-'.$file->getClientOriginalName();
+                $name = str_replace(' ', '_', $name);
                 $file->move(public_path('\storage\docs'), $name);
                 $datos[] = $name;
                 $aux++;

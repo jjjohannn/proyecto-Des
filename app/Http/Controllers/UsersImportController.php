@@ -36,7 +36,7 @@ class UsersImportController extends Controller
 
         $headings = (new HeadingRowImport)->toArray($file);
         $headings = ($headings[0])[0];
-        if(array_key_exists(0,$headings) && array_key_exists(1,$headings) && array_key_exists(2,$headings) && array_key_exists(3,$headings) && !(array_key_exists(4,$headings)))
+        if(array_key_exists(0,$headings) && array_key_exists(1,$headings) && array_key_exists(2,$headings) && array_key_exists(3,$headings))
         {
             if($headings[0]!='carrera' || $headings[1] != 'rut' || $headings[2] != 'nombre' || $headings[3] != 'correo')
             {

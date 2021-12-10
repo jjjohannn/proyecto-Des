@@ -99,8 +99,6 @@
                         </div>
                     </div>
 
-
-
                     <form id="formulario" method="POST" action="{{ route('resolverSolicitud.update', [$solicitud]) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

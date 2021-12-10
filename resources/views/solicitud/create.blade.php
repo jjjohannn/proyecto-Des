@@ -390,7 +390,7 @@
         title: '¿Quiéres generar esta solicitud?',
         icon: 'question',
         showDenyButton: true,
-        showCancelButton: true,
+        showCancelButton: false,
         confirmButtonText: 'Si',
         denyButtonText: 'No',
     }).then((result)=>{
