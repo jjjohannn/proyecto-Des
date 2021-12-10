@@ -7,6 +7,7 @@ use App\Models\User;
 use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Exists;
 
 class SolicitudController extends Controller
 {
@@ -360,9 +361,15 @@ class SolicitudController extends Controller
             $datos[] = $noEliminado;
         }
 
+        if(count($archivos)<=1){
+            return back()->with('error', 'Se necesita tener al menos un archivo, suba otro y luego elimine el que quiere');
+        }
+
+
         $user->solicitudes()->wherePivot('id', $id_sol)->updateExistingPivot(6, [
             'archivos' => $datos
         ]);
+
         $user->save();
         return back()->with('success', 'Se ha eliminado el archivo');
 
