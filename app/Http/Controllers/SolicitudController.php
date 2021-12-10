@@ -195,7 +195,7 @@ class SolicitudController extends Controller
      * @param  \App\Models\Solicitud  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function show(String $id)
+    public function show(Solicitud $solicitud)
     {
 
     }
@@ -231,7 +231,7 @@ class SolicitudController extends Controller
         $piezas = explode(",", $archivos_viejos[0]);
         $aux = 0;
         $extensiones = ['pdf','jpg','jpeg','doc','docx','png'];
-        $eliminar = ["[","]","\""," "];
+        $eliminar = [" ","[","]","\""];
         //dd($piezas);
         $array = [1,2,3,4,5,6];
 
@@ -371,9 +371,15 @@ class SolicitudController extends Controller
             $datos[] = $noEliminado;
         }
 
+        if(count($archivos)<=1){
+            return back()->with('error', 'Se necesita tener al menos un archivo, suba otro y luego elimine el que quiere');
+        }
+
+
         $user->solicitudes()->wherePivot('id', $id_sol)->updateExistingPivot(6, [
             'archivos' => $datos
         ]);
+
         $user->save();
         return back()->with('success', 'Se ha eliminado el archivo');
 
