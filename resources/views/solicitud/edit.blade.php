@@ -203,6 +203,31 @@
                             @enderror
                         </div>
 
+
+
+
+                        <table class="table" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%" scope="col">Archivos</th>
+                                    <th style="width: 15%" scope="col">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if ($solicitud->getOriginal()['pivot_archivos'])
+                                        @foreach (json_decode($solicitud->getOriginal()['pivot_archivos']) as $file)
+                                                <tr>
+                                                    <td><a href="/storage/docs/{{$file}}">{{$file}}</a> </td>
+                                                    <td><a id="eliminar" class="btn btn-secondary" href={{ route('solicitud.eliminar',['nombre'=>$file,'id'=>$solicitud->pivot->id])}} >Eliminar</a></td>
+                                                </tr>
+                                        @endforeach
+                                    @endif
+                                </tr>
+                            </tbody>
+                        </table>
+
+
                         <div class="form-group" id="groupAdjunto">
                             <label class="form-control-label">ADJUNTAR ARCHIVO</label>
                             <input id="adjunto" type="file" class="form-control @error('adjunto') is-invalid @enderror"
@@ -244,7 +269,7 @@
         title: '¿Quiéres editar esta solicitud?',
         icon: 'question',
         showDenyButton: true,
-        showCancelButton: true,
+        showCancelButton: false,
         confirmButtonText: 'Si',
         denyButtonText: 'No',
     }).then((result)=>{
