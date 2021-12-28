@@ -339,7 +339,7 @@ class SolicitudController extends Controller
         $id_user = Auth::user()->id;
         $array = [1,2,3,4,5,6];
         $user = User::where('id','=', $id_user)->first();
-        //dd($array);
+        dd($request);
         $user->solicitudes()->wherePivot('id', $request->id)->updateExistingPivot($array, [
             'estado' => 4
         ]);

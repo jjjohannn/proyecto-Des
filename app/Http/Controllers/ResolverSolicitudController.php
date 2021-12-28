@@ -106,7 +106,6 @@ class ResolverSolicitudController extends Controller
         $array = [1,2,3,4,5,6];
         $usuario = User::where('id', '=', $request['alumno'])->first();
         $solicitud = User::where('id', $request['alumno'])->firstOrFail()->getSolicitudId($request['solicitud'])->first();
-
         switch ($request->input('action')){
             case 'aceptar':
                 $resultado = "Aceptada";

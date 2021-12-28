@@ -115,7 +115,7 @@
 
                         <div hidden id="groupButtonAceptar" class="col-lg-12 py-3">
                             <div class="col-lg-12 text-center">
-                                <button name="action" type="submit" value="aceptar" class="btn btn-outline-primary">{{ __('Aceptar')}}</button>
+                                <button id="aceptar" name="action" type="submit" value="aceptar" class="btn btn-outline-primary">{{ __('Aceptar')}}</button>
                             </div>
                         </div>
 
@@ -159,7 +159,7 @@
 
                         <div hidden id="groupButtonRechazar" class="col-lg-12 py-3">
                             <div class="col-lg-12 text-center">
-                                <button name="action" type="submit"  value="rechazar" class="btn btn-outline-primary">{{ __('Rechazar')}}</button>
+                                <button id="rechazar" name="action" type="submit" value="rechazar" class="btn btn-outline-primary">{{ __('Rechazar')}}</button>
                             </div>
                         </div>
                     </form>
@@ -251,4 +251,80 @@
     })
 </script>
 
+
+<script>
+    const boton = document.getElementById('groupButtonAceptar');
+    const formulario = document.getElementById('formulario');
+    boton.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres generar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            $("<input />").attr("type", "hidden")
+          .attr("name", "action")
+          .attr("value", "aceptar")
+          .appendTo(formulario);
+            formulario.submit();
+        }else if(result.isDenied){
+            Swal.fire('No se ha generado la solicitud', '', 'info')
+        }
+    })
+})
+</script>
+<script>
+    const boton = document.getElementById('groupButtonObservacion');
+    const formulario = document.getElementById('formulario');
+    boton.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres generar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            $("<input />").attr("type", "hidden")
+          .attr("name", "action")
+          .attr("value", "observacion")
+          .appendTo(formulario);
+            formulario.submit();
+        }else if(result.isDenied){
+            Swal.fire('No se ha generado la solicitud', '', 'info')
+        }
+    })
+})
+</script>
+<script>
+    const boton = document.getElementById('groupButtonRechazar');
+    const formulario = document.getElementById('formulario');
+    boton.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres generar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            $("<input />").attr("type", "hidden")
+          .attr("name", "action")
+          .attr("value", "rechazar")
+          .appendTo(formulario);
+            formulario.submit();
+        }else if(result.isDenied){
+            Swal.fire('No se ha generado la solicitud', '', 'info')
+        }
+    })
+})
+</script>
 @endsection

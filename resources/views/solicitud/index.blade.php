@@ -90,7 +90,9 @@
                         @endswitch
                         @if ($solicitud->getOriginal()['pivot_estado'] === 0)
                             <td><a class="btn btn-info" data-toggle="tooltip" data-placement="top" title="editar" href={{route('solicitud.edit', [$solicitud->pivot->id]) }}><i class="far fa-edit"></i>Ir</a></td>
-                            <td><a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="anular" href={{ route('solicitud.anular', ['id' => $solicitud->pivot->id]) }}>Anular</a></td>
+                            <!--<td><a class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="anular" href={{ route('solicitud.anular', ['id' => $solicitud->pivot->id]) }}>Anular</a></td>-->
+                            <!--<td><button id="myInput" class="btn btn-warning" type="button" data-toggle="tooltip" data-placement="top" href={{ route('solicitud.anular', ['id' => $solicitud->pivot->id]) }} title="anular">Anular3</button></td>-->
+                            <td><input class="myInput" id="myInput" data-id="{{$solicitud->pivot->id}}" type="button" value="{{$solicitud->pivot->id}}" href="{{ route('solicitud.anular', ['id' => $solicitud->pivot->id]) }}" >An3</td>
                         @endif
                     </tr>
                     @empty
@@ -105,4 +107,97 @@
         </div>
     </div>
 </div>
+
+<script>
+    const boton = document.getElementById('myInput');
+
+    /*$('.myInput').on('click', 'button[data-id]', function (e) {
+    var requested_to = $(this).attr('data-id');
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres generar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            var id = $(this).val();
+            var base = '{!! route('solicitud.anular') !!}';
+            var url = base+'?id='+id ;
+            window.location.href=url;
+        }else if(result.isDenied){
+            Swal.fire('No se ha generado la solicitud', '', 'info')
+        }
+    })
+    // Do whatever else you need to do.
+    });*/
+
+    boton.addEventListener('click', function(e){
+        e.preventDefault();
+    Swal.fire({
+        title: '¿Quiéres generar esta solicitud?',
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Si',
+        denyButtonText: 'No',
+    }).then((result)=>{
+        if(result.isConfirmed){
+            /*function addRow(ele)
+            {
+                var id= $(ele).attr('data-id');
+                //console.log(id);
+            }*/
+            //var id=$e.attr('id');
+            /*console.log(this.val());
+            $('.myInput').click(function() {
+                //console.log(this.val())
+                var url = "{{route('solicitud.anular', '')}}"+"/"+this.val();
+            });*/
+            /*var url = '{{ route('solicitud.anular', ":id") }}';
+            url = url.replace(':id', this.val());
+            //$('.stocks_list').append('<li><a href="'+url+'">' + stock.symbol + ' </a></li>');
+            $('.myInput').append('<li><a href="'+url+'">' + this.val() + ' </a></li>');*/
+            /*Swal.fire({
+                title: '<a href={{ route('solicitud.anular', ['id' => $solicitud->pivot->id]) }}>a</a>',
+            });*/
+
+            /*var url = '{{ route("solicitud.anular", ":id") }}';
+
+            url = url.replace(':id', id);
+
+
+
+            window.location.href=url;*/
+
+            /*$('.myInput').click(function() {
+                var id = $(this).val();
+                //var id = $(this).attr('data-id');
+
+                var base = '{!! route('solicitud.anular') !!}';
+
+                var url = base+'?id='+id ;
+
+                window.location.href=url;
+            });*/
+
+            var id = $(this).val();
+            //var id = $(this).attr('data-id');
+
+            var base = '{!! route('solicitud.anular') !!}';
+
+            var url = base+'?id='+id ;
+
+            window.location.href=url;
+
+
+
+        }else if(result.isDenied){
+            Swal.fire('No se ha generado la solicitud', '', 'info')
+        }
+    })
+})
+</script>
 @endsection
