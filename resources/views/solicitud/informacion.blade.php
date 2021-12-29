@@ -137,7 +137,7 @@
 
                         <div hidden id="groupButtonObservacion" class="col-lg-12 py-3">
                             <div class="col-lg-12 text-center">
-                                <button name="action" type="submit" value="observacion" class="btn btn-outline-primary">{{ __('Aceptar con observación')}}</button>
+                                <button id="observacion" name="action" type="submit" value="observacion" class="btn btn-outline-primary">{{ __('Aceptar con observación')}}</button>
                             </div>
                         </div>
 
@@ -257,7 +257,7 @@
     boton.addEventListener('click', function(e){
         e.preventDefault();
     Swal.fire({
-        title: '¿Quiéres generar esta solicitud?',
+        title: '¿Quieres generar esta solicitud?',
         icon: 'question',
         showDenyButton: true,
         showCancelButton: false,
@@ -277,12 +277,13 @@
 })
 </script>
 <script>
-    const boton = document.getElementById('groupButtonObservacion');
-    const formulario = document.getElementById('formulario');
-    boton.addEventListener('click', function(e){
+    const boton2 = document.getElementById('groupButtonObservacion');
+    console.log(boton2);
+
+    boton2.addEventListener('click', function(e){
         e.preventDefault();
     Swal.fire({
-        title: '¿Quiéres generar esta solicitud?',
+        title: '¿Quieres generar esta solicitud?',
         icon: 'question',
         showDenyButton: true,
         showCancelButton: false,
@@ -302,12 +303,11 @@
 })
 </script>
 <script>
-    const boton = document.getElementById('groupButtonRechazar');
-    const formulario = document.getElementById('formulario');
-    boton.addEventListener('click', function(e){
+    const boton3 = document.getElementById('groupButtonRechazar');
+    boton3.addEventListener('click', function(e){
         e.preventDefault();
     Swal.fire({
-        title: '¿Quiéres generar esta solicitud?',
+        title: '¿Quieres generar esta solicitud?',
         icon: 'question',
         showDenyButton: true,
         showCancelButton: false,
