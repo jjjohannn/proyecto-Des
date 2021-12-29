@@ -251,7 +251,6 @@
     })
 </script>
 
-
 <script>
     const boton = document.getElementById('groupButtonAceptar');
     const formulario = document.getElementById('formulario');
